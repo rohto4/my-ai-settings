@@ -1,72 +1,76 @@
 ---
 name: agent-harness-construction
-description: Design and optimize AI agent action spaces, tool definitions, and observation formatting for higher completion rates.
+description: Design or improve an AI agent harness's action space, tool schemas, observations, recovery, context, approvals, and evidence loop. Use when repeated agent failures trace to tool or harness design rather than application code. Do not use for ordinary feature implementation, prompt wording alone, production deployment, or adding autonomous actions without fake-boundary tests and explicit approval.
 ---
 
 # Agent Harness Construction
 
-Use this skill when you are improving how an agent plans, calls tools, recovers from errors, and converges on completion.
+Build a bounded, observable harness that helps an agent complete tasks safely. Treat the project profile as intent, enforcement as runtime-specific, and evidence as a separate layer.
 
-## Core Model
+## Restore project truth and detect capabilities
 
-Agent output quality is constrained by:
-1. Action space quality
-2. Observation quality
-3. Recovery quality
-4. Context budget quality
+1. Read the target PJ's actual `AGENTS.md`, `PROJECT.md`, adopted harness profile, architecture, permission policy, test strategy, and current task state.
+2. After compaction, session transfer, or handoff, reread them from disk. Do not reconstruct constraints from conversation summaries alone.
+3. Inventory the tools, connectors, sandbox, approval surface, hooks, model/client metadata, tracing, and context controls actually available. Do not assume a vendor-specific task-management capability, fixed model name, subagent API, hidden hook, or automatic enforcement exists.
+4. Keep active design state separate from completed evidence according to PJ rules. Never call a written profile hard enforcement without a verified mechanism and negative test.
 
-## Action Space Design
+## Diagnose before adding tools
 
-1. Use stable, explicit tool names.
-2. Keep inputs schema-first and narrow.
-3. Return deterministic output shapes.
-4. Avoid catch-all tools unless isolation is impossible.
+Classify the observed failure as action-space ambiguity, weak schema, poor observation, unsafe authority, recovery loop, context overload, or missing evidence. Capture representative traces and a baseline completion metric before changing the harness. Prefer removing overlap or improving one contract over adding another catch-all tool.
 
-## Granularity Rules
+## Design the harness contract
 
-- Use micro-tools for high-risk operations (deploy, migration, permissions).
-- Use medium tools for common edit/read/search loops.
-- Use macro-tools only when round-trip overhead is the dominant cost.
+### Action space
 
-## Observation Design
+- Give each tool one stable purpose and distinguish read, local write, external write, destructive, and privileged effects.
+- Use narrow validated schemas, explicit defaults, bounded outputs, timeouts, idempotency, and predictable error forms.
+- Split high-risk actions into preview/apply or prepare/approve/execute stages. Do not encode broad authority in a macro-tool merely to reduce round trips.
 
-Every tool response should include:
-- `status`: success|warning|error
-- `summary`: one-line result
-- `next_actions`: actionable follow-ups
-- `artifacts`: file paths / IDs
+### Observation
 
-## Error Recovery Contract
+Return enough structured evidence for the next decision:
 
-For every error path, include:
-- root cause hint
-- safe retry instruction
-- explicit stop condition
+```text
+status: success | warning | error | blocked
+summary: bounded human-readable result
+evidence: artifact paths, IDs, counts, checks, or redacted trace references
+next_actions: safe, specific options
+retry: whether and under what changed condition
+```
 
-## Context Budgeting
+Do not expose raw secrets, unbounded logs, provider payloads, stack traces, private chain-of-thought, or hidden system instructions as observations.
 
-1. Keep system prompt minimal and invariant.
-2. Move large guidance into skills loaded on demand.
-3. Prefer references to files over inlining long documents.
-4. Compact at phase boundaries, not arbitrary token thresholds.
+### Recovery and completion
 
-## Architecture Pattern Guidance
+For each error path, define a root-cause hint, discriminating read-only check, safe retry budget, fallback, stop condition, handoff fields, and completion evidence. Avoid retry loops that repeat the same inputs and state.
 
-- ReAct: best for exploratory tasks with uncertain path.
-- Function-calling: best for structured deterministic flows.
-- Hybrid (recommended): ReAct planning + typed tool execution.
+## Fake-first implementation
 
-## Benchmarking
+- Build tool handlers against explicit ports and start with **fake HTTP** and **fake LLM** adapters. Fixtures must cover success, timeout, malformed response, rate limit, provider error, cancellation, retry, and duplicate request without network access or real tokens.
+- Use deterministic fake clocks, IDs, costs, and model outputs where possible. Keep model-dependent assertions semantic and bounded.
+- Run a dry-run showing intended tool calls, authority, artifacts, and approval points before wiring any live provider.
+- Default to read-only tools and synthetic data. A live API, external write, paid model call, deploy, permission change, or destructive action requires separate explicit approval for the exact target, effect, data class, budget, and rollback.
+- Never place API keys, tokens, Cookies, credentials, private prompts, production data, authenticated responses, or connection strings in schemas, fixtures, command lines, traces, or logs. Inject through the PJ's secret boundary and verify redaction with negative tests.
+- On Windows, use PowerShell, `-LiteralPath`, explicit drive-letter paths, and verified absolute targets. Do not assume Bash, Unix signals, or recursive cleanup safety.
 
-Track:
-- completion rate
-- retries per task
-- pass@1 and pass@3
-- cost per successful task
+## Context and parallelism
 
-## Anti-Patterns
+Keep invariant policy small, load skills and references on demand, summarize large outputs into artifact references, and hand off at PJ-defined phase or pressure boundaries. Do not claim exact context enforcement unless the runtime proves it.
 
-- Too many tools with overlapping semantics.
-- Opaque tool output with no recovery hints.
-- Error-only output without next steps.
-- Context overloading with irrelevant references.
+Do not spawn subagents by default. Use parallel agents only when the user or PJ instructions explicitly request them and tasks are independent. Give each a non-overlapping artifact or scenario and the same authority boundary. The main agent integrates results, removes duplicates, reconciles conflicts, and runs final validation; delegation never broadens write, secret, or approval authority.
+
+## Evaluation loop
+
+1. Freeze representative fixtures and baseline traces.
+2. Change one harness dimension at a time.
+3. Run fake HTTP/fake LLM unit and contract tests, then negative policy tests.
+4. Compare completion, pass@1, retries, unsafe-action blocks, latency, cost when measured, and evidence completeness.
+5. Reject changes that improve average completion by hiding failures, broadening authority, or weakening reproducibility.
+
+## Stop, handoff, and completion
+
+Stop when the failure is application logic rather than harness design, the authority model is undefined, enforcement cannot be evidenced, fake adapters do not reproduce the contract, a secret could enter observations, or a live/destructive test lacks approval.
+
+For context pressure or handoff, record PJ sources reread, baseline traces, diagnosed failure class, tool/schema changes, fake fixtures, test results, approvals, remaining risks, artifact paths, and next read-only step.
+
+Complete only when representative fake fixtures and negative tests pass, action and observation contracts are unambiguous, retry and stop paths are bounded, secret redaction is evidenced, approved live checks are distinguished from fake tests, parallel outputs are deduplicated by the main agent, and completion improves without broadening authority.

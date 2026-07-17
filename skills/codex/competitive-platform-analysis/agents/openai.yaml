@@ -1,0 +1,4 @@
+interface:
+  display_name: "Competitive Platform Analysis"
+  short_description: "Competitive Platform Analysis：判断材料を整理し、重要な見落としを減らす"
+  default_prompt: "$competitive-platform-analysis を使い、Competitive Platform Analysisに関する依頼を同梱domain guideに基づいて実施・検証してください。"

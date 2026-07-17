@@ -1,0 +1,4 @@
+interface:
+  display_name: "Literature Review"
+  short_description: "Literature Review：欠陥を早期発見し、成果物の品質を高める"
+  default_prompt: "$literature-review を使い、Literature Reviewに関する依頼を同梱domain guideに基づいて実施・検証してください。"

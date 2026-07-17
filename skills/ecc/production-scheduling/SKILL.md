@@ -228,3 +228,7 @@ Track per shift and trend weekly:
 
 - Pair this skill with your constraint hierarchy, frozen-window policy, and expedite-approval thresholds.
 - Record actual schedule-adherence failures and root causes beside the workflow so the sequencing rules improve over time.
+
+## Operational Safety, Recovery, And Completion
+
+- Keep diagnosis read-only and prefer local fixtures, fake services, and dry-runs. Treat real tokens, live APIs, deploys, sends, pushes, or remote writes as separate actions requiring explicit approval immediately before execution.

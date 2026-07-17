@@ -1,0 +1,686 @@
+[
+  {
+    "target_path": "skills/codex/accessibility/",
+    "status": "integrated",
+    "integration_summary": "accessibilityをCodex私用版へ適応し、上流固有の手順・例・resourceをdomain guideとして保持した。",
+    "verification": "SKILL.md / references/upstream-domain-guide.md / LICENSE.txt / agents/openai.yaml / lineage self-audit passed; Test-AgentSetはmainで実施"
+  },
+  {
+    "target_path": "skills/codex/agent-architecture-audit/",
+    "status": "integrated",
+    "integration_summary": "agent-architecture-auditをCodex私用版へ適応し、上流固有の手順・例・resourceをdomain guideとして保持した。",
+    "verification": "SKILL.md / references/upstream-domain-guide.md / LICENSE.txt / agents/openai.yaml / lineage self-audit passed; Test-AgentSetはmainで実施"
+  },
+  {
+    "target_path": "skills/codex/agent-self-evaluation/",
+    "status": "integrated",
+    "integration_summary": "agent-self-evaluationをCodex私用版へ適応し、上流固有の手順・例・resourceをdomain guideとして保持した。",
+    "verification": "SKILL.md / references/upstream-domain-guide.md / LICENSE.txt / agents/openai.yaml / lineage self-audit passed; Test-AgentSetはmainで実施"
+  },
+  {
+    "target_path": "skills/codex/agentic-os/",
+    "status": "integrated",
+    "integration_summary": "agentic-osをCodex私用版へ適応し、上流固有の手順・例・resourceをdomain guideとして保持した。",
+    "verification": "SKILL.md / references/upstream-domain-guide.md / LICENSE.txt / agents/openai.yaml / lineage self-audit passed; Test-AgentSetはmainで実施"
+  },
+  {
+    "target_path": "skills/codex/angular-developer/",
+    "status": "integrated",
+    "integration_summary": "angular-developerをCodex私用版へ適応し、上流固有の手順・例・resourceをdomain guideとして保持した。",
+    "verification": "SKILL.md / references/upstream-domain-guide.md / LICENSE.txt / agents/openai.yaml / lineage self-audit passed; Test-AgentSetはmainで実施"
+  },
+  {
+    "target_path": "skills/codex/benchmark-methodology/",
+    "status": "integrated",
+    "integration_summary": "benchmark-methodologyをCodex私用版へ適応し、上流固有の手順・例・resourceをdomain guideとして保持した。",
+    "verification": "SKILL.md / references/upstream-domain-guide.md / LICENSE.txt / agents/openai.yaml / lineage self-audit passed; Test-AgentSetはmainで実施"
+  },
+  {
+    "target_path": "skills/codex/benchmark-optimization-loop/",
+    "status": "integrated",
+    "integration_summary": "benchmark-optimization-loopをCodex私用版へ適応し、上流固有の手順・例・resourceをdomain guideとして保持した。",
+    "verification": "SKILL.md / references/upstream-domain-guide.md / LICENSE.txt / agents/openai.yaml / lineage self-audit passed; Test-AgentSetはmainで実施"
+  },
+  {
+    "target_path": "skills/codex/blender-motion-state-inspection/",
+    "status": "integrated",
+    "integration_summary": "blender-motion-state-inspectionをCodex私用版へ適応し、上流固有の手順・例・resourceをdomain guideとして保持した。",
+    "verification": "SKILL.md / references/upstream-domain-guide.md / LICENSE.txt / agents/openai.yaml / lineage self-audit passed; Test-AgentSetはmainで実施"
+  },
+  {
+    "target_path": "skills/codex/brand-discovery/",
+    "status": "integrated",
+    "integration_summary": "brand-discoveryをCodex私用版へ適応し、上流固有の手順・例・resourceをdomain guideとして保持した。",
+    "verification": "SKILL.md / references/upstream-domain-guide.md / LICENSE.txt / agents/openai.yaml / lineage self-audit passed; Test-AgentSetはmainで実施"
+  },
+  {
+    "target_path": "skills/codex/browser-testing-with-devtools/",
+    "status": "integrated",
+    "integration_summary": "browser-testing-with-devtoolsをCodex私用版へ適応し、上流固有の手順・例・resourceをdomain guideとして保持した。",
+    "verification": "SKILL.md / references/upstream-domain-guide.md / LICENSE.txt / agents/openai.yaml / lineage self-audit passed; Test-AgentSetはmainで実施"
+  },
+  {
+    "target_path": "skills/codex/ci-cd-and-automation/",
+    "status": "integrated",
+    "integration_summary": "ci-cd-and-automationをCodex私用版へ適応し、上流固有の手順・例・resourceをdomain guideとして保持した。",
+    "verification": "SKILL.md / references/upstream-domain-guide.md / LICENSE.txt / agents/openai.yaml / lineage self-audit passed; Test-AgentSetはmainで実施"
+  },
+  {
+    "target_path": "skills/codex/cisco-ios-patterns/",
+    "status": "integrated",
+    "integration_summary": "cisco-ios-patternsをCodex私用版へ適応し、上流固有の手順・例・resourceをdomain guideとして保持した。",
+    "verification": "SKILL.md / references/upstream-domain-guide.md / LICENSE.txt / agents/openai.yaml / lineage self-audit passed; Test-AgentSetはmainで実施"
+  },
+  {
+    "target_path": "skills/codex/code-review-and-quality/",
+    "status": "integrated",
+    "integration_summary": "code-review-and-qualityをCodex私用版へ適応し、上流固有の手順・例・resourceをdomain guideとして保持した。",
+    "verification": "SKILL.md / references/upstream-domain-guide.md / LICENSE.txt / agents/openai.yaml / lineage self-audit passed; Test-AgentSetはmainで実施"
+  },
+  {
+    "target_path": "skills/codex/code-simplification/",
+    "status": "integrated",
+    "integration_summary": "code-simplificationをCodex私用版へ適応し、上流固有の手順・例・resourceをdomain guideとして保持した。",
+    "verification": "SKILL.md / references/upstream-domain-guide.md / LICENSE.txt / agents/openai.yaml / lineage self-audit passed; Test-AgentSetはmainで実施"
+  },
+  {
+    "target_path": "skills/codex/codehealth-mcp/",
+    "status": "integrated",
+    "integration_summary": "codehealth-mcpをCodex私用版へ適応し、上流固有の手順・例・resourceをdomain guideとして保持した。",
+    "verification": "SKILL.md / references/upstream-domain-guide.md / LICENSE.txt / agents/openai.yaml / lineage self-audit passed; Test-AgentSetはmainで実施"
+  },
+  {
+    "target_path": "skills/codex/competitive-platform-analysis/",
+    "status": "integrated",
+    "integration_summary": "competitive-platform-analysisをCodex私用版へ適応し、上流固有の手順・例・resourceをdomain guideとして保持した。",
+    "verification": "SKILL.md / references/upstream-domain-guide.md / LICENSE.txt / agents/openai.yaml / lineage self-audit passed; Test-AgentSetはmainで実施"
+  },
+  {
+    "target_path": "skills/codex/competitive-report-structure/",
+    "status": "integrated",
+    "integration_summary": "competitive-report-structureをCodex私用版へ適応し、上流固有の手順・例・resourceをdomain guideとして保持した。",
+    "verification": "SKILL.md / references/upstream-domain-guide.md / LICENSE.txt / agents/openai.yaml / lineage self-audit passed; Test-AgentSetはmainで実施"
+  },
+  {
+    "target_path": "skills/codex/config-gc/",
+    "status": "integrated",
+    "integration_summary": "config-gcをCodex私用版へ適応し、上流固有の手順・例・resourceをdomain guideとして保持した。",
+    "verification": "SKILL.md / references/upstream-domain-guide.md / LICENSE.txt / agents/openai.yaml / lineage self-audit passed; Test-AgentSetはmainで実施"
+  },
+  {
+    "target_path": "skills/codex/cost-tracking/",
+    "status": "integrated",
+    "integration_summary": "cost-trackingをCodex私用版へ適応し、上流固有の手順・例・resourceをdomain guideとして保持した。",
+    "verification": "SKILL.md / references/upstream-domain-guide.md / LICENSE.txt / agents/openai.yaml / lineage self-audit passed; Test-AgentSetはmainで実施"
+  },
+  {
+    "target_path": "skills/codex/data-throughput-accelerator/",
+    "status": "integrated",
+    "integration_summary": "data-throughput-acceleratorをCodex私用版へ適応し、上流固有の手順・例・resourceをdomain guideとして保持した。",
+    "verification": "SKILL.md / references/upstream-domain-guide.md / LICENSE.txt / agents/openai.yaml / lineage self-audit passed; Test-AgentSetはmainで実施"
+  },
+  {
+    "target_path": "skills/codex/debugging-and-error-recovery/",
+    "status": "integrated",
+    "integration_summary": "debugging-and-error-recoveryをCodex私用版へ適応し、上流固有の手順・例・resourceをdomain guideとして保持した。",
+    "verification": "SKILL.md / references/upstream-domain-guide.md / LICENSE.txt / agents/openai.yaml / lineage self-audit passed; Test-AgentSetはmainで実施"
+  },
+  {
+    "target_path": "skills/codex/delivery-gate/",
+    "status": "integrated",
+    "integration_summary": "delivery-gateをCodex私用版へ適応し、上流固有の手順・例・resourceをdomain guideとして保持した。",
+    "verification": "SKILL.md / references/upstream-domain-guide.md / LICENSE.txt / agents/openai.yaml / lineage self-audit passed; Test-AgentSetはmainで実施"
+  },
+  {
+    "target_path": "skills/codex/deprecation-and-migration/",
+    "status": "integrated",
+    "integration_summary": "deprecation-and-migrationをCodex私用版へ適応し、上流固有の手順・例・resourceをdomain guideとして保持した。",
+    "verification": "SKILL.md / references/upstream-domain-guide.md / LICENSE.txt / agents/openai.yaml / lineage self-audit passed; Test-AgentSetはmainで実施"
+  },
+  {
+    "target_path": "skills/codex/django-celery/",
+    "status": "integrated",
+    "integration_summary": "django-celeryをCodex私用版へ適応し、上流固有の手順・例・resourceをdomain guideとして保持した。",
+    "verification": "SKILL.md / references/upstream-domain-guide.md / LICENSE.txt / agents/openai.yaml / lineage self-audit passed; Test-AgentSetはmainで実施"
+  },
+  {
+    "target_path": "skills/codex/doubt-driven-development/",
+    "status": "integrated",
+    "integration_summary": "doubt-driven-developmentをCodex私用版へ適応し、上流固有の手順・例・resourceをdomain guideとして保持した。",
+    "verification": "SKILL.md / references/upstream-domain-guide.md / LICENSE.txt / agents/openai.yaml / lineage self-audit passed; Test-AgentSetはmainで実施"
+  },
+  {
+    "target_path": "skills/codex/dynamic-workflow-mode/",
+    "status": "integrated",
+    "integration_summary": "dynamic-workflow-modeをCodex私用版へ適応し、上流固有の手順・例・resourceをdomain guideとして保持した。",
+    "verification": "SKILL.md / references/upstream-domain-guide.md / LICENSE.txt / agents/openai.yaml / lineage self-audit passed; Test-AgentSetはmainで実施"
+  },
+  {
+    "target_path": "skills/codex/ecc-guide/",
+    "status": "integrated",
+    "integration_summary": "ecc-guideをCodex私用版へ適応し、上流固有の手順・例・resourceをdomain guideとして保持した。",
+    "verification": "SKILL.md / references/upstream-domain-guide.md / LICENSE.txt / agents/openai.yaml / lineage self-audit passed; Test-AgentSetはmainで実施"
+  },
+  {
+    "target_path": "skills/codex/ecc-recipes/",
+    "status": "integrated",
+    "integration_summary": "ecc-recipesをCodex私用版へ適応し、上流固有の手順・例・resourceをdomain guideとして保持した。",
+    "verification": "SKILL.md / references/upstream-domain-guide.md / LICENSE.txt / agents/openai.yaml / lineage self-audit passed; Test-AgentSetはmainで実施"
+  },
+  {
+    "target_path": "skills/codex/error-handling/",
+    "status": "integrated",
+    "integration_summary": "error-handlingをCodex私用版へ適応し、上流固有の手順・例・resourceをdomain guideとして保持した。",
+    "verification": "SKILL.md / references/upstream-domain-guide.md / LICENSE.txt / agents/openai.yaml / lineage self-audit passed; Test-AgentSetはmainで実施"
+  },
+  {
+    "target_path": "skills/codex/fastapi-patterns/",
+    "status": "integrated",
+    "integration_summary": "fastapi-patternsをCodex私用版へ適応し、上流固有の手順・例・resourceをdomain guideとして保持した。",
+    "verification": "SKILL.md / references/upstream-domain-guide.md / LICENSE.txt / agents/openai.yaml / lineage self-audit passed; Test-AgentSetはmainで実施"
+  },
+  {
+    "target_path": "skills/codex/flox-environments/",
+    "status": "integrated",
+    "integration_summary": "flox-environmentsをCodex私用版へ適応し、上流固有の手順・例・resourceをdomain guideとして保持した。",
+    "verification": "SKILL.md / references/upstream-domain-guide.md / LICENSE.txt / agents/openai.yaml / lineage self-audit passed; Test-AgentSetはmainで実施"
+  },
+  {
+    "target_path": "skills/codex/frontend-a11y/",
+    "status": "integrated",
+    "integration_summary": "frontend-a11yをCodex私用版へ適応し、上流固有の手順・例・resourceをdomain guideとして保持した。",
+    "verification": "SKILL.md / references/upstream-domain-guide.md / LICENSE.txt / agents/openai.yaml / lineage self-audit passed; Test-AgentSetはmainで実施"
+  },
+  {
+    "target_path": "skills/codex/frontend-design-direction/",
+    "status": "integrated",
+    "integration_summary": "frontend-design-directionをCodex私用版へ適応し、上流固有の手順・例・resourceをdomain guideとして保持した。",
+    "verification": "SKILL.md / references/upstream-domain-guide.md / LICENSE.txt / agents/openai.yaml / lineage self-audit passed; Test-AgentSetはmainで実施"
+  },
+  {
+    "target_path": "skills/codex/frontend-ui-engineering/",
+    "status": "integrated",
+    "integration_summary": "frontend-ui-engineeringをCodex私用版へ適応し、上流固有の手順・例・resourceをdomain guideとして保持した。",
+    "verification": "SKILL.md / references/upstream-domain-guide.md / LICENSE.txt / agents/openai.yaml / lineage self-audit passed; Test-AgentSetはmainで実施"
+  },
+  {
+    "target_path": "skills/codex/fsharp-testing/",
+    "status": "integrated",
+    "integration_summary": "fsharp-testingをCodex私用版へ適応し、上流固有の手順・例・resourceをdomain guideとして保持した。",
+    "verification": "SKILL.md / references/upstream-domain-guide.md / LICENSE.txt / agents/openai.yaml / lineage self-audit passed; Test-AgentSetはmainで実施"
+  },
+  {
+    "target_path": "skills/codex/gateguard/",
+    "status": "integrated",
+    "integration_summary": "gateguardをCodex私用版へ適応し、上流固有の手順・例・resourceをdomain guideとして保持した。",
+    "verification": "SKILL.md / references/upstream-domain-guide.md / LICENSE.txt / agents/openai.yaml / lineage self-audit passed; Test-AgentSetはmainで実施"
+  },
+  {
+    "target_path": "skills/codex/generating-python-installer/",
+    "status": "integrated",
+    "integration_summary": "generating-python-installerをCodex私用版へ適応し、上流固有の手順・例・resourceをdomain guideとして保持した。",
+    "verification": "SKILL.md / references/upstream-domain-guide.md / LICENSE.txt / agents/openai.yaml / lineage self-audit passed; Test-AgentSetはmainで実施"
+  },
+  {
+    "target_path": "skills/codex/gget/",
+    "status": "integrated",
+    "integration_summary": "ggetをCodex私用版へ適応し、上流固有の手順・例・resourceをdomain guideとして保持した。",
+    "verification": "SKILL.md / references/upstream-domain-guide.md / LICENSE.txt / agents/openai.yaml / lineage self-audit passed; Test-AgentSetはmainで実施"
+  },
+  {
+    "target_path": "skills/codex/growth-log/",
+    "status": "integrated",
+    "integration_summary": "growth-logをCodex私用版へ適応し、上流固有の手順・例・resourceをdomain guideとして保持した。",
+    "verification": "SKILL.md / references/upstream-domain-guide.md / LICENSE.txt / agents/openai.yaml / lineage self-audit passed; Test-AgentSetはmainで実施"
+  },
+  {
+    "target_path": "skills/codex/hermes-imports/",
+    "status": "integrated",
+    "integration_summary": "hermes-importsをCodex私用版へ適応し、上流固有の手順・例・resourceをdomain guideとして保持した。",
+    "verification": "SKILL.md / references/upstream-domain-guide.md / LICENSE.txt / agents/openai.yaml / lineage self-audit passed; Test-AgentSetはmainで実施"
+  },
+  {
+    "target_path": "skills/codex/homelab-network-readiness/",
+    "status": "integrated",
+    "integration_summary": "homelab-network-readinessをCodex私用版へ適応し、上流固有の手順・例・resourceをdomain guideとして保持した。",
+    "verification": "SKILL.md / references/upstream-domain-guide.md / LICENSE.txt / agents/openai.yaml / lineage self-audit passed; Test-AgentSetはmainで実施"
+  },
+  {
+    "target_path": "skills/codex/homelab-network-setup/",
+    "status": "integrated",
+    "integration_summary": "homelab-network-setupをCodex私用版へ適応し、上流固有の手順・例・resourceをdomain guideとして保持した。",
+    "verification": "SKILL.md / references/upstream-domain-guide.md / LICENSE.txt / agents/openai.yaml / lineage self-audit passed; Test-AgentSetはmainで実施"
+  },
+  {
+    "target_path": "skills/codex/homelab-pihole-dns/",
+    "status": "integrated",
+    "integration_summary": "homelab-pihole-dnsをCodex私用版へ適応し、上流固有の手順・例・resourceをdomain guideとして保持した。",
+    "verification": "SKILL.md / references/upstream-domain-guide.md / LICENSE.txt / agents/openai.yaml / lineage self-audit passed; Test-AgentSetはmainで実施"
+  },
+  {
+    "target_path": "skills/codex/homelab-vlan-segmentation/",
+    "status": "integrated",
+    "integration_summary": "homelab-vlan-segmentationをCodex私用版へ適応し、上流固有の手順・例・resourceをdomain guideとして保持した。",
+    "verification": "SKILL.md / references/upstream-domain-guide.md / LICENSE.txt / agents/openai.yaml / lineage self-audit passed; Test-AgentSetはmainで実施"
+  },
+  {
+    "target_path": "skills/codex/homelab-wireguard-vpn/",
+    "status": "integrated",
+    "integration_summary": "homelab-wireguard-vpnをCodex私用版へ適応し、上流固有の手順・例・resourceをdomain guideとして保持した。",
+    "verification": "SKILL.md / references/upstream-domain-guide.md / LICENSE.txt / agents/openai.yaml / lineage self-audit passed; Test-AgentSetはmainで実施"
+  },
+  {
+    "target_path": "skills/codex/incremental-implementation/",
+    "status": "integrated",
+    "integration_summary": "incremental-implementationをCodex私用版へ適応し、上流固有の手順・例・resourceをdomain guideとして保持した。",
+    "verification": "SKILL.md / references/upstream-domain-guide.md / LICENSE.txt / agents/openai.yaml / lineage self-audit passed; Test-AgentSetはmainで実施"
+  },
+  {
+    "target_path": "skills/codex/inherit-legacy-style/",
+    "status": "integrated",
+    "integration_summary": "inherit-legacy-styleをCodex私用版へ適応し、上流固有の手順・例・resourceをdomain guideとして保持した。",
+    "verification": "SKILL.md / references/upstream-domain-guide.md / LICENSE.txt / agents/openai.yaml / lineage self-audit passed; Test-AgentSetはmainで実施"
+  },
+  {
+    "target_path": "skills/codex/intent-driven-development/",
+    "status": "integrated",
+    "integration_summary": "intent-driven-developmentをCodex私用版へ適応し、上流固有の手順・例・resourceをdomain guideとして保持した。",
+    "verification": "SKILL.md / references/upstream-domain-guide.md / LICENSE.txt / agents/openai.yaml / lineage self-audit passed; Test-AgentSetはmainで実施"
+  },
+  {
+    "target_path": "skills/codex/interview-me/",
+    "status": "integrated",
+    "integration_summary": "interview-meをCodex私用版へ適応し、上流固有の手順・例・resourceをdomain guideとして保持した。",
+    "verification": "SKILL.md / references/upstream-domain-guide.md / LICENSE.txt / agents/openai.yaml / lineage self-audit passed; Test-AgentSetはmainで実施"
+  },
+  {
+    "target_path": "skills/codex/ios-icon-gen/",
+    "status": "integrated",
+    "integration_summary": "ios-icon-genをCodex私用版へ適応し、上流固有の手順・例・resourceをdomain guideとして保持した。",
+    "verification": "SKILL.md / references/upstream-domain-guide.md / LICENSE.txt / agents/openai.yaml / lineage self-audit passed; Test-AgentSetはmainで実施"
+  },
+  {
+    "target_path": "skills/codex/ito-basket-compare/",
+    "status": "integrated",
+    "integration_summary": "ito-basket-compareをCodex私用版へ適応し、上流固有の手順・例・resourceをdomain guideとして保持した。",
+    "verification": "SKILL.md / references/upstream-domain-guide.md / LICENSE.txt / agents/openai.yaml / lineage self-audit passed; Test-AgentSetはmainで実施"
+  },
+  {
+    "target_path": "skills/codex/ito-data-atlas-agent/",
+    "status": "integrated",
+    "integration_summary": "ito-data-atlas-agentをCodex私用版へ適応し、上流固有の手順・例・resourceをdomain guideとして保持した。",
+    "verification": "SKILL.md / references/upstream-domain-guide.md / LICENSE.txt / agents/openai.yaml / lineage self-audit passed; Test-AgentSetはmainで実施"
+  },
+  {
+    "target_path": "skills/codex/ito-market-intelligence/",
+    "status": "integrated",
+    "integration_summary": "ito-market-intelligenceをCodex私用版へ適応し、上流固有の手順・例・resourceをdomain guideとして保持した。",
+    "verification": "SKILL.md / references/upstream-domain-guide.md / LICENSE.txt / agents/openai.yaml / lineage self-audit passed; Test-AgentSetはmainで実施"
+  },
+  {
+    "target_path": "skills/codex/ito-trade-planner/",
+    "status": "integrated",
+    "integration_summary": "ito-trade-plannerをCodex私用版へ適応し、上流固有の手順・例・resourceをdomain guideとして保持した。",
+    "verification": "SKILL.md / references/upstream-domain-guide.md / LICENSE.txt / agents/openai.yaml / lineage self-audit passed; Test-AgentSetはmainで実施"
+  },
+  {
+    "target_path": "skills/codex/kubernetes-patterns/",
+    "status": "integrated",
+    "integration_summary": "kubernetes-patternsをCodex私用版へ適応し、上流固有の手順・例・resourceをdomain guideとして保持した。",
+    "verification": "SKILL.md / references/upstream-domain-guide.md / LICENSE.txt / agents/openai.yaml / lineage self-audit passed; Test-AgentSetはmainで実施"
+  },
+  {
+    "target_path": "skills/codex/latency-critical-systems/",
+    "status": "integrated",
+    "integration_summary": "latency-critical-systemsをCodex私用版へ適応し、上流固有の手順・例・resourceをdomain guideとして保持した。",
+    "verification": "SKILL.md / references/upstream-domain-guide.md / LICENSE.txt / agents/openai.yaml / lineage self-audit passed; Test-AgentSetはmainで実施"
+  },
+  {
+    "target_path": "skills/codex/literature-review/",
+    "status": "integrated",
+    "integration_summary": "literature-reviewをCodex私用版へ適応し、上流固有の手順・例・resourceをdomain guideとして保持した。",
+    "verification": "SKILL.md / references/upstream-domain-guide.md / LICENSE.txt / agents/openai.yaml / lineage self-audit passed; Test-AgentSetはmainで実施"
+  },
+  {
+    "target_path": "skills/codex/loop-design-check/",
+    "status": "integrated",
+    "integration_summary": "loop-design-checkをCodex私用版へ適応し、上流固有の手順・例・resourceをdomain guideとして保持した。",
+    "verification": "SKILL.md / references/upstream-domain-guide.md / LICENSE.txt / agents/openai.yaml / lineage self-audit passed; Test-AgentSetはmainで実施"
+  },
+  {
+    "target_path": "skills/codex/mailtrap-email-integration/",
+    "status": "integrated",
+    "integration_summary": "mailtrap-email-integrationをCodex私用版へ適応し、上流固有の手順・例・resourceをdomain guideとして保持した。",
+    "verification": "SKILL.md / references/upstream-domain-guide.md / LICENSE.txt / agents/openai.yaml / lineage self-audit passed; Test-AgentSetはmainで実施"
+  },
+  {
+    "target_path": "skills/codex/make-interfaces-feel-better/",
+    "status": "integrated",
+    "integration_summary": "make-interfaces-feel-betterをCodex私用版へ適応し、上流固有の手順・例・resourceをdomain guideとして保持した。",
+    "verification": "SKILL.md / references/upstream-domain-guide.md / LICENSE.txt / agents/openai.yaml / lineage self-audit passed; Test-AgentSetはmainで実施"
+  },
+  {
+    "target_path": "skills/codex/marketing-campaign/",
+    "status": "integrated",
+    "integration_summary": "marketing-campaignをCodex私用版へ適応し、上流固有の手順・例・resourceをdomain guideとして保持した。",
+    "verification": "SKILL.md / references/upstream-domain-guide.md / LICENSE.txt / agents/openai.yaml / lineage self-audit passed; Test-AgentSetはmainで実施"
+  },
+  {
+    "target_path": "skills/codex/ml-adoption-playbook/",
+    "status": "integrated",
+    "integration_summary": "ml-adoption-playbookをCodex私用版へ適応し、上流固有の手順・例・resourceをdomain guideとして保持した。",
+    "verification": "SKILL.md / references/upstream-domain-guide.md / LICENSE.txt / agents/openai.yaml / lineage self-audit passed; Test-AgentSetはmainで実施"
+  },
+  {
+    "target_path": "skills/codex/mle-workflow/",
+    "status": "integrated",
+    "integration_summary": "mle-workflowをCodex私用版へ適応し、上流固有の手順・例・resourceをdomain guideとして保持した。",
+    "verification": "SKILL.md / references/upstream-domain-guide.md / LICENSE.txt / agents/openai.yaml / lineage self-audit passed; Test-AgentSetはmainで実施"
+  },
+  {
+    "target_path": "skills/codex/motion-advanced/",
+    "status": "integrated",
+    "integration_summary": "motion-advancedをCodex私用版へ適応し、上流固有の手順・例・resourceをdomain guideとして保持した。",
+    "verification": "SKILL.md / references/upstream-domain-guide.md / LICENSE.txt / agents/openai.yaml / lineage self-audit passed; Test-AgentSetはmainで実施"
+  },
+  {
+    "target_path": "skills/codex/motion-foundations/",
+    "status": "integrated",
+    "integration_summary": "motion-foundationsをCodex私用版へ適応し、上流固有の手順・例・resourceをdomain guideとして保持した。",
+    "verification": "SKILL.md / references/upstream-domain-guide.md / LICENSE.txt / agents/openai.yaml / lineage self-audit passed; Test-AgentSetはmainで実施"
+  },
+  {
+    "target_path": "skills/codex/motion-patterns/",
+    "status": "integrated",
+    "integration_summary": "motion-patternsをCodex私用版へ適応し、上流固有の手順・例・resourceをdomain guideとして保持した。",
+    "verification": "SKILL.md / references/upstream-domain-guide.md / LICENSE.txt / agents/openai.yaml / lineage self-audit passed; Test-AgentSetはmainで実施"
+  },
+  {
+    "target_path": "skills/codex/motion-ui/",
+    "status": "integrated",
+    "integration_summary": "motion-uiをCodex私用版へ適応し、上流固有の手順・例・resourceをdomain guideとして保持した。",
+    "verification": "SKILL.md / references/upstream-domain-guide.md / LICENSE.txt / agents/openai.yaml / lineage self-audit passed; Test-AgentSetはmainで実施"
+  },
+  {
+    "target_path": "skills/codex/mysql-patterns/",
+    "status": "integrated",
+    "integration_summary": "mysql-patternsをCodex私用版へ適応し、上流固有の手順・例・resourceをdomain guideとして保持した。",
+    "verification": "SKILL.md / references/upstream-domain-guide.md / LICENSE.txt / agents/openai.yaml / lineage self-audit passed; Test-AgentSetはmainで実施"
+  },
+  {
+    "target_path": "skills/codex/netmiko-ssh-automation/",
+    "status": "integrated",
+    "integration_summary": "netmiko-ssh-automationをCodex私用版へ適応し、上流固有の手順・例・resourceをdomain guideとして保持した。",
+    "verification": "SKILL.md / references/upstream-domain-guide.md / LICENSE.txt / agents/openai.yaml / lineage self-audit passed; Test-AgentSetはmainで実施"
+  },
+  {
+    "target_path": "skills/codex/network-bgp-diagnostics/",
+    "status": "integrated",
+    "integration_summary": "network-bgp-diagnosticsをCodex私用版へ適応し、上流固有の手順・例・resourceをdomain guideとして保持した。",
+    "verification": "SKILL.md / references/upstream-domain-guide.md / LICENSE.txt / agents/openai.yaml / lineage self-audit passed; Test-AgentSetはmainで実施"
+  },
+  {
+    "target_path": "skills/codex/network-config-validation/",
+    "status": "integrated",
+    "integration_summary": "network-config-validationをCodex私用版へ適応し、上流固有の手順・例・resourceをdomain guideとして保持した。",
+    "verification": "SKILL.md / references/upstream-domain-guide.md / LICENSE.txt / agents/openai.yaml / lineage self-audit passed; Test-AgentSetはmainで実施"
+  },
+  {
+    "target_path": "skills/codex/network-interface-health/",
+    "status": "integrated",
+    "integration_summary": "network-interface-healthをCodex私用版へ適応し、上流固有の手順・例・resourceをdomain guideとして保持した。",
+    "verification": "SKILL.md / references/upstream-domain-guide.md / LICENSE.txt / agents/openai.yaml / lineage self-audit passed; Test-AgentSetはmainで実施"
+  },
+  {
+    "target_path": "skills/codex/observability-and-instrumentation/",
+    "status": "integrated",
+    "integration_summary": "observability-and-instrumentationをCodex私用版へ適応し、上流固有の手順・例・resourceをdomain guideとして保持した。",
+    "verification": "SKILL.md / references/upstream-domain-guide.md / LICENSE.txt / agents/openai.yaml / lineage self-audit passed; Test-AgentSetはmainで実施"
+  },
+  {
+    "target_path": "skills/codex/orch-add-feature/",
+    "status": "integrated",
+    "integration_summary": "orch-add-featureをCodex私用版へ適応し、上流固有の手順・例・resourceをdomain guideとして保持した。",
+    "verification": "SKILL.md / references/upstream-domain-guide.md / LICENSE.txt / agents/openai.yaml / lineage self-audit passed; Test-AgentSetはmainで実施"
+  },
+  {
+    "target_path": "skills/codex/orch-build-mvp/",
+    "status": "integrated",
+    "integration_summary": "orch-build-mvpをCodex私用版へ適応し、上流固有の手順・例・resourceをdomain guideとして保持した。",
+    "verification": "SKILL.md / references/upstream-domain-guide.md / LICENSE.txt / agents/openai.yaml / lineage self-audit passed; Test-AgentSetはmainで実施"
+  },
+  {
+    "target_path": "skills/codex/orch-change-feature/",
+    "status": "integrated",
+    "integration_summary": "orch-change-featureをCodex私用版へ適応し、上流固有の手順・例・resourceをdomain guideとして保持した。",
+    "verification": "SKILL.md / references/upstream-domain-guide.md / LICENSE.txt / agents/openai.yaml / lineage self-audit passed; Test-AgentSetはmainで実施"
+  },
+  {
+    "target_path": "skills/codex/orch-fix-defect/",
+    "status": "integrated",
+    "integration_summary": "orch-fix-defectをCodex私用版へ適応し、上流固有の手順・例・resourceをdomain guideとして保持した。",
+    "verification": "SKILL.md / references/upstream-domain-guide.md / LICENSE.txt / agents/openai.yaml / lineage self-audit passed; Test-AgentSetはmainで実施"
+  },
+  {
+    "target_path": "skills/codex/orch-pipeline/",
+    "status": "integrated",
+    "integration_summary": "orch-pipelineをCodex私用版へ適応し、上流固有の手順・例・resourceをdomain guideとして保持した。",
+    "verification": "SKILL.md / references/upstream-domain-guide.md / LICENSE.txt / agents/openai.yaml / lineage self-audit passed; Test-AgentSetはmainで実施"
+  },
+  {
+    "target_path": "skills/codex/orch-refine-code/",
+    "status": "integrated",
+    "integration_summary": "orch-refine-codeをCodex私用版へ適応し、上流固有の手順・例・resourceをdomain guideとして保持した。",
+    "verification": "SKILL.md / references/upstream-domain-guide.md / LICENSE.txt / agents/openai.yaml / lineage self-audit passed; Test-AgentSetはmainで実施"
+  },
+  {
+    "target_path": "skills/codex/parallel-execution-optimizer/",
+    "status": "integrated",
+    "integration_summary": "parallel-execution-optimizerをCodex私用版へ適応し、上流固有の手順・例・resourceをdomain guideとして保持した。",
+    "verification": "SKILL.md / references/upstream-domain-guide.md / LICENSE.txt / agents/openai.yaml / lineage self-audit passed; Test-AgentSetはmainで実施"
+  },
+  {
+    "target_path": "skills/codex/performance-optimization/",
+    "status": "integrated",
+    "integration_summary": "performance-optimizationをCodex私用版へ適応し、上流固有の手順・例・resourceをdomain guideとして保持した。",
+    "verification": "SKILL.md / references/upstream-domain-guide.md / LICENSE.txt / agents/openai.yaml / lineage self-audit passed; Test-AgentSetはmainで実施"
+  },
+  {
+    "target_path": "skills/codex/plan-canvas/",
+    "status": "integrated",
+    "integration_summary": "plan-canvasをCodex私用版へ適応し、上流固有の手順・例・resourceをdomain guideとして保持した。",
+    "verification": "SKILL.md / references/upstream-domain-guide.md / LICENSE.txt / agents/openai.yaml / lineage self-audit passed; Test-AgentSetはmainで実施"
+  },
+  {
+    "target_path": "skills/codex/plan-orchestrate/",
+    "status": "integrated",
+    "integration_summary": "plan-orchestrateをCodex私用版へ適応し、上流固有の手順・例・resourceをdomain guideとして保持した。",
+    "verification": "SKILL.md / references/upstream-domain-guide.md / LICENSE.txt / agents/openai.yaml / lineage self-audit passed; Test-AgentSetはmainで実施"
+  },
+  {
+    "target_path": "skills/codex/prediction-market-oracle-research/",
+    "status": "integrated",
+    "integration_summary": "prediction-market-oracle-researchをCodex私用版へ適応し、上流固有の手順・例・resourceをdomain guideとして保持した。",
+    "verification": "SKILL.md / references/upstream-domain-guide.md / LICENSE.txt / agents/openai.yaml / lineage self-audit passed; Test-AgentSetはmainで実施"
+  },
+  {
+    "target_path": "skills/codex/prediction-market-risk-review/",
+    "status": "integrated",
+    "integration_summary": "prediction-market-risk-reviewをCodex私用版へ適応し、上流固有の手順・例・resourceをdomain guideとして保持した。",
+    "verification": "SKILL.md / references/upstream-domain-guide.md / LICENSE.txt / agents/openai.yaml / lineage self-audit passed; Test-AgentSetはmainで実施"
+  },
+  {
+    "target_path": "skills/codex/prisma-patterns/",
+    "status": "integrated",
+    "integration_summary": "prisma-patternsをCodex私用版へ適応し、上流固有の手順・例・resourceをdomain guideとして保持した。",
+    "verification": "SKILL.md / references/upstream-domain-guide.md / LICENSE.txt / agents/openai.yaml / lineage self-audit passed; Test-AgentSetはmainで実施"
+  },
+  {
+    "target_path": "skills/codex/production-audit/",
+    "status": "integrated",
+    "integration_summary": "production-auditをCodex私用版へ適応し、上流固有の手順・例・resourceをdomain guideとして保持した。",
+    "verification": "SKILL.md / references/upstream-domain-guide.md / LICENSE.txt / agents/openai.yaml / lineage self-audit passed; Test-AgentSetはmainで実施"
+  },
+  {
+    "target_path": "skills/codex/pubmed-database/",
+    "status": "integrated",
+    "integration_summary": "pubmed-databaseをCodex私用版へ適応し、上流固有の手順・例・resourceをdomain guideとして保持した。",
+    "verification": "SKILL.md / references/upstream-domain-guide.md / LICENSE.txt / agents/openai.yaml / lineage self-audit passed; Test-AgentSetはmainで実施"
+  },
+  {
+    "target_path": "skills/codex/quarkus-patterns/",
+    "status": "integrated",
+    "integration_summary": "quarkus-patternsをCodex私用版へ適応し、上流固有の手順・例・resourceをdomain guideとして保持した。",
+    "verification": "SKILL.md / references/upstream-domain-guide.md / LICENSE.txt / agents/openai.yaml / lineage self-audit passed; Test-AgentSetはmainで実施"
+  },
+  {
+    "target_path": "skills/codex/quarkus-security/",
+    "status": "integrated",
+    "integration_summary": "quarkus-securityをCodex私用版へ適応し、上流固有の手順・例・resourceをdomain guideとして保持した。",
+    "verification": "SKILL.md / references/upstream-domain-guide.md / LICENSE.txt / agents/openai.yaml / lineage self-audit passed; Test-AgentSetはmainで実施"
+  },
+  {
+    "target_path": "skills/codex/quarkus-tdd/",
+    "status": "integrated",
+    "integration_summary": "quarkus-tddをCodex私用版へ適応し、上流固有の手順・例・resourceをdomain guideとして保持した。",
+    "verification": "SKILL.md / references/upstream-domain-guide.md / LICENSE.txt / agents/openai.yaml / lineage self-audit passed; Test-AgentSetはmainで実施"
+  },
+  {
+    "target_path": "skills/codex/react-native-patterns/",
+    "status": "integrated",
+    "integration_summary": "react-native-patternsをCodex私用版へ適応し、上流固有の手順・例・resourceをdomain guideとして保持した。",
+    "verification": "SKILL.md / references/upstream-domain-guide.md / LICENSE.txt / agents/openai.yaml / lineage self-audit passed; Test-AgentSetはmainで実施"
+  },
+  {
+    "target_path": "skills/codex/react-patterns/",
+    "status": "integrated",
+    "integration_summary": "react-patternsをCodex私用版へ適応し、上流固有の手順・例・resourceをdomain guideとして保持した。",
+    "verification": "SKILL.md / references/upstream-domain-guide.md / LICENSE.txt / agents/openai.yaml / lineage self-audit passed; Test-AgentSetはmainで実施"
+  },
+  {
+    "target_path": "skills/codex/react-performance/",
+    "status": "integrated",
+    "integration_summary": "react-performanceをCodex私用版へ適応し、上流固有の手順・例・resourceをdomain guideとして保持した。",
+    "verification": "SKILL.md / references/upstream-domain-guide.md / LICENSE.txt / agents/openai.yaml / lineage self-audit passed; Test-AgentSetはmainで実施"
+  },
+  {
+    "target_path": "skills/codex/react-testing/",
+    "status": "integrated",
+    "integration_summary": "react-testingをCodex私用版へ適応し、上流固有の手順・例・resourceをdomain guideとして保持した。",
+    "verification": "SKILL.md / references/upstream-domain-guide.md / LICENSE.txt / agents/openai.yaml / lineage self-audit passed; Test-AgentSetはmainで実施"
+  },
+  {
+    "target_path": "skills/codex/recsys-pipeline-architect/",
+    "status": "integrated",
+    "integration_summary": "recsys-pipeline-architectをCodex私用版へ適応し、上流固有の手順・例・resourceをdomain guideとして保持した。",
+    "verification": "SKILL.md / references/upstream-domain-guide.md / LICENSE.txt / agents/openai.yaml / lineage self-audit passed; Test-AgentSetはmainで実施"
+  },
+  {
+    "target_path": "skills/codex/recursive-decision-ledger/",
+    "status": "integrated",
+    "integration_summary": "recursive-decision-ledgerをCodex私用版へ適応し、上流固有の手順・例・resourceをdomain guideとして保持した。",
+    "verification": "SKILL.md / references/upstream-domain-guide.md / LICENSE.txt / agents/openai.yaml / lineage self-audit passed; Test-AgentSetはmainで実施"
+  },
+  {
+    "target_path": "skills/codex/redis-patterns/",
+    "status": "integrated",
+    "integration_summary": "redis-patternsをCodex私用版へ適応し、上流固有の手順・例・resourceをdomain guideとして保持した。",
+    "verification": "SKILL.md / references/upstream-domain-guide.md / LICENSE.txt / agents/openai.yaml / lineage self-audit passed; Test-AgentSetはmainで実施"
+  },
+  {
+    "target_path": "skills/codex/scholar-evaluation/",
+    "status": "integrated",
+    "integration_summary": "scholar-evaluationをCodex私用版へ適応し、上流固有の手順・例・resourceをdomain guideとして保持した。",
+    "verification": "SKILL.md / references/upstream-domain-guide.md / LICENSE.txt / agents/openai.yaml / lineage self-audit passed; Test-AgentSetはmainで実施"
+  },
+  {
+    "target_path": "skills/codex/shipping-and-launch/",
+    "status": "integrated",
+    "integration_summary": "shipping-and-launchをCodex私用版へ適応し、上流固有の手順・例・resourceをdomain guideとして保持した。",
+    "verification": "SKILL.md / references/upstream-domain-guide.md / LICENSE.txt / agents/openai.yaml / lineage self-audit passed; Test-AgentSetはmainで実施"
+  },
+  {
+    "target_path": "skills/codex/skill-scout/",
+    "status": "integrated",
+    "integration_summary": "skill-scoutをCodex私用版へ適応し、上流固有の手順・例・resourceをdomain guideとして保持した。",
+    "verification": "SKILL.md / references/upstream-domain-guide.md / LICENSE.txt / agents/openai.yaml / lineage self-audit passed; Test-AgentSetはmainで実施"
+  },
+  {
+    "target_path": "skills/codex/social-publisher/",
+    "status": "integrated",
+    "integration_summary": "social-publisherをCodex私用版へ適応し、上流固有の手順・例・resourceをdomain guideとして保持した。",
+    "verification": "SKILL.md / references/upstream-domain-guide.md / LICENSE.txt / agents/openai.yaml / lineage self-audit passed; Test-AgentSetはmainで実施"
+  },
+  {
+    "target_path": "skills/codex/source-driven-development/",
+    "status": "integrated",
+    "integration_summary": "source-driven-developmentをCodex私用版へ適応し、上流固有の手順・例・resourceをdomain guideとして保持した。",
+    "verification": "SKILL.md / references/upstream-domain-guide.md / LICENSE.txt / agents/openai.yaml / lineage self-audit passed; Test-AgentSetはmainで実施"
+  },
+  {
+    "target_path": "skills/codex/spec-driven-development/",
+    "status": "integrated",
+    "integration_summary": "spec-driven-developmentをCodex私用版へ適応し、上流固有の手順・例・resourceをdomain guideとして保持した。",
+    "verification": "SKILL.md / references/upstream-domain-guide.md / LICENSE.txt / agents/openai.yaml / lineage self-audit passed; Test-AgentSetはmainで実施"
+  },
+  {
+    "target_path": "skills/codex/taste/",
+    "status": "integrated",
+    "integration_summary": "tasteをCodex私用版へ適応し、上流固有の手順・例・resourceをdomain guideとして保持した。",
+    "verification": "SKILL.md / references/upstream-domain-guide.md / LICENSE.txt / agents/openai.yaml / lineage self-audit passed; Test-AgentSetはmainで実施"
+  },
+  {
+    "target_path": "skills/codex/team-agent-orchestration/",
+    "status": "integrated",
+    "integration_summary": "team-agent-orchestrationをCodex私用版へ適応し、上流固有の手順・例・resourceをdomain guideとして保持した。",
+    "verification": "SKILL.md / references/upstream-domain-guide.md / LICENSE.txt / agents/openai.yaml / lineage self-audit passed; Test-AgentSetはmainで実施"
+  },
+  {
+    "target_path": "skills/codex/tinystruct-patterns/",
+    "status": "integrated",
+    "integration_summary": "tinystruct-patternsをCodex私用版へ適応し、上流固有の手順・例・resourceをdomain guideとして保持した。",
+    "verification": "SKILL.md / references/upstream-domain-guide.md / LICENSE.txt / agents/openai.yaml / lineage self-audit passed; Test-AgentSetはmainで実施"
+  },
+  {
+    "target_path": "skills/codex/ui-to-vue/",
+    "status": "integrated",
+    "integration_summary": "ui-to-vueをCodex私用版へ適応し、上流固有の手順・例・resourceをdomain guideとして保持した。",
+    "verification": "SKILL.md / references/upstream-domain-guide.md / LICENSE.txt / agents/openai.yaml / lineage self-audit passed; Test-AgentSetはmainで実施"
+  },
+  {
+    "target_path": "skills/codex/uncloud/",
+    "status": "integrated",
+    "integration_summary": "uncloudをCodex私用版へ適応し、上流固有の手順・例・resourceをdomain guideとして保持した。",
+    "verification": "SKILL.md / references/upstream-domain-guide.md / LICENSE.txt / agents/openai.yaml / lineage self-audit passed; Test-AgentSetはmainで実施"
+  },
+  {
+    "target_path": "skills/codex/using-agent-skills/",
+    "status": "integrated",
+    "integration_summary": "using-agent-skillsをCodex私用版へ適応し、上流固有の手順・例・resourceをdomain guideとして保持した。",
+    "verification": "SKILL.md / references/upstream-domain-guide.md / LICENSE.txt / agents/openai.yaml / lineage self-audit passed; Test-AgentSetはmainで実施"
+  },
+  {
+    "target_path": "skills/codex/uspto-database/",
+    "status": "integrated",
+    "integration_summary": "uspto-databaseをCodex私用版へ適応し、上流固有の手順・例・resourceをdomain guideとして保持した。",
+    "verification": "SKILL.md / references/upstream-domain-guide.md / LICENSE.txt / agents/openai.yaml / lineage self-audit passed; Test-AgentSetはmainで実施"
+  },
+  {
+    "target_path": "skills/codex/vite-patterns/",
+    "status": "integrated",
+    "integration_summary": "vite-patternsをCodex私用版へ適応し、上流固有の手順・例・resourceをdomain guideとして保持した。",
+    "verification": "SKILL.md / references/upstream-domain-guide.md / LICENSE.txt / agents/openai.yaml / lineage self-audit passed; Test-AgentSetはmainで実施"
+  },
+  {
+    "target_path": "skills/codex/vue-patterns/",
+    "status": "integrated",
+    "integration_summary": "vue-patternsをCodex私用版へ適応し、上流固有の手順・例・resourceをdomain guideとして保持した。",
+    "verification": "SKILL.md / references/upstream-domain-guide.md / LICENSE.txt / agents/openai.yaml / lineage self-audit passed; Test-AgentSetはmainで実施"
+  },
+  {
+    "target_path": "skills/codex/windows-desktop-e2e/",
+    "status": "integrated",
+    "integration_summary": "windows-desktop-e2eをCodex私用版へ適応し、上流固有の手順・例・resourceをdomain guideとして保持した。",
+    "verification": "SKILL.md / references/upstream-domain-guide.md / LICENSE.txt / agents/openai.yaml / lineage self-audit passed; Test-AgentSetはmainで実施"
+  }
+]

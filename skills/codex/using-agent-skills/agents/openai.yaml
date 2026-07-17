@@ -1,0 +1,4 @@
+interface:
+  display_name: "Using Agent Skills"
+  short_description: "Using Agent Skills：専門判断の精度を高め、調査の手戻りを減らす"
+  default_prompt: "$using-agent-skills を使い、Using Agent Skillsに関する依頼を同梱domain guideに基づいて実施・検証してください。"

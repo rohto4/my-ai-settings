@@ -1,0 +1,4 @@
+interface:
+  display_name: "GitHub Operations"
+  short_description: "Inspect and manage GitHub operations with explicit write gates."
+  default_prompt: "Use $github-ops to inspect the repository's GitHub state read-only, then gate any external write with evidence and authorization."

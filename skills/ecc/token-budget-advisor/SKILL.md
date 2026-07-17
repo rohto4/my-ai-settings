@@ -130,3 +130,4 @@ This skill uses heuristic estimation — no real tokenizer. Accuracy ~85-90%, va
 
 Standalone skill from [TBA — Token Budget Advisor for Claude Code](https://github.com/Xabilimon1/Token-Budget-Advisor-Claude-Code-).
 Original project also ships a Python estimator script, but this repository keeps the skill self-contained and heuristic-only.
+Apply the retained heuristics to the current Codex task and observed context evidence; the source product name is provenance, not an instruction to use Claude tooling.

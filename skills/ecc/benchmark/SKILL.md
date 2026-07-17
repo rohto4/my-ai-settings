@@ -90,3 +90,9 @@ Stores baselines in `.ecc/benchmarks/` as JSON. Git-tracked so the team shares b
 - CI: run `/benchmark compare` on every PR
 - Pair with `/canary-watch` for post-deploy monitoring
 - Pair with `/browser-qa` for full pre-ship checklist
+
+## Operating contract
+
+- Start external paths with a fixture, fake, sandbox, or dry-run. Put real tokens, live APIs, deployment, and production writes behind a separate gate.
+- Keep diagnosis read-only. Obtain explicit approval immediately before push, deploy, send, publish, remote update, destructive cleanup, or another external mutation.
+- Keep the benchmark environment, data, versions, warmup, sample count, and formula fixed before comparing results.

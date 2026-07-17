@@ -1,0 +1,4 @@
+interface:
+  display_name: "Benchmark Methodology"
+  short_description: "Benchmark Methodology：回帰や見落としを減らし、変更の信頼性を高める"
+  default_prompt: "$benchmark-methodology を使い、Benchmark Methodologyに関する依頼を同梱domain guideに基づいて実施・検証してください。"

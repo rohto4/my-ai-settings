@@ -9,6 +9,7 @@ description: Design PostgreSQL schemas, queries, indexes, transactions, pooling,
 
 - Use for a PostgreSQL-specific design or review of schema details, queries, indexes, transactions, pooling, RLS, plans, or diagnostics.
 - Hand schema, persisted-data, index rollout, compatibility, backfill, runner, and recovery lifecycle to `database-migrations` first. Do not create or revise that lifecycle here.
+- Do not use this skill for an engine-neutral data model, application-layer repository design, or a migration rollout. Route those to the project architecture, `backend-patterns`, or `database-migrations`, then return here only for PostgreSQL-specific decisions.
 - Read the target project's pinned PostgreSQL version, driver/proxy, deployment policy, and workload evidence. Check target-version behavior in the official PostgreSQL documentation; `current` is not evidence for an older target.
 - Do not execute SQL, change configuration, enable extensions, or expose credentials without explicit authorization.
 

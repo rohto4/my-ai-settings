@@ -1,0 +1,4 @@
+interface:
+  display_name: "Source Driven Development"
+  short_description: "Source Driven Development：実装の抜け漏れを減らし、作業効率を高める"
+  default_prompt: "$source-driven-development を使い、Source Driven Developmentに関する依頼を同梱domain guideに基づいて実施・検証してください。"

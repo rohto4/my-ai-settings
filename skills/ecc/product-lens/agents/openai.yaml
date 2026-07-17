@@ -1,0 +1,4 @@
+interface:
+  display_name: "Product Lens"
+  short_description: "Validate product direction before implementation planning."
+  default_prompt: "Use $product-lens to refine this product idea and decide the next product step."

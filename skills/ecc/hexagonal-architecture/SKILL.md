@@ -1,11 +1,20 @@
 ---
 name: hexagonal-architecture
-description: Design, implement, and refactor Ports & Adapters systems with clear domain boundaries, dependency inversion, and testable use-case orchestration across TypeScript, Java, Kotlin, and Go services.
+description: Design or incrementally refactor Ports and Adapters boundaries when domain rules are coupled to I/O, multiple adapters must serve one use case, or infrastructure churn blocks testing. Use for a bounded architectural slice with observable coupling pain. Do not use for simple CRUD, thin scripts, one-off integrations, stable small services, or projects whose adopted architecture solves the problem without added ports.
 ---
 
 # Hexagonal Architecture
 
 Hexagonal architecture (Ports and Adapters) keeps business logic independent from frameworks, transport, and persistence details. The core app depends on abstract ports, and adapters implement those ports at the edges.
+
+## Adoption gate and project truth
+
+1. Read the target PJ's actual `AGENTS.md`, `PROJECT.md`, architecture decisions, module boundaries, test strategy, and current task state before proposing a new layer or directory.
+2. After compaction, session transfer, or handoff, reread them from disk. Treat conversation summaries, this skill's example layout, and framework conventions as secondary to the PJ's adopted architecture.
+3. Require concrete evidence of value: repeated infrastructure churn, domain rules mixed with transport or persistence, multiple delivery mechanisms for one use case, or tests blocked by real I/O. If none exists, preserve the simpler design.
+4. Do not rename existing layers merely to match hexagonal vocabulary. Map current responsibilities first and introduce only the missing boundary.
+
+Do not apply this pattern to a simple CRUD endpoint, a thin SDK wrapper, a one-off automation, a small stable service, or a module with no meaningful domain behavior. Do not create one interface per class or wrap framework APIs without a use-case-owned capability boundary.
 
 ## When to Use
 
@@ -69,6 +78,10 @@ Instantiate adapters, then inject them into use cases. Keep this wiring centrali
 - Unit test use cases with fake ports.
 - Integration test adapters with real infra dependencies.
 - E2E test user-facing flows through inbound adapters.
+
+Start with a read-only dependency map and a dry-run change plan. During implementation, use in-memory fakes or fake transports for outbound effects. Do not call a live database, API, queue, payment service, or other external system merely to prove the architecture; any live write or destructive test requires a separate explicit approval for its target and effect.
+
+Never place tokens, Cookies, credentials, production payloads, or raw authenticated responses in ports, fixtures, logs, diagrams, or test output. On Windows, use the PJ's PowerShell and path conventions, `-LiteralPath`, and explicit drive-letter paths when inspecting or testing local modules.
 
 ## Architecture Diagram
 
@@ -273,3 +286,11 @@ Use the same boundary rules across ecosystems; only syntax and wiring style chan
 - Use cases are testable with simple in-memory fakes for ports.
 - Refactoring starts from one vertical slice with behavior-preserving tests.
 - Language/framework specifics stay in adapters, never in domain rules.
+
+## Stop, handoff, and completion
+
+Stop when the domain boundary is disputed, the current architecture decision forbids the proposed structure, behavior cannot be characterized, the slice or rollback path is not bounded, or a test would require an unapproved live side effect. Do not turn uncertainty into a big-bang rewrite.
+
+For context pressure or handoff, record the PJ source files reread, selected vertical slice, current dependency map, proposed ports and adapters, behavior tests, completed changes, rollback switch, unresolved boundary decisions, and next read-only step. Keep active refactoring state separate from completed evidence according to PJ rules.
+
+Complete only when the chosen slice preserves behavior, dependency direction is verified, fake-port unit tests and relevant adapter contract tests pass, composition remains explicit, live side effects were not used without approval, and the result is simpler to change or test than the prior design. If the adoption gate fails, a documented decision to retain the simpler architecture is a valid completion.

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Cost Tracking"
+  short_description: "Cost Tracking：成果物の品質と一貫性を高める"
+  default_prompt: "$cost-tracking を使い、Cost Trackingに関する依頼を同梱domain guideに基づいて実施・検証してください。"

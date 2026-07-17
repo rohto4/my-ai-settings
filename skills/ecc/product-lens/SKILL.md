@@ -1,6 +1,6 @@
 ---
 name: product-lens
-description: Use this skill to validate the "why" before building, run product diagnostics, and pressure-test product direction before the request becomes an implementation contract.
+description: Validate the product "why", refine a vague idea, or prioritize features before implementation planning. Use when the user needs product diagnosis or brainstorming; do not use for an already-approved implementation task.
 ---
 
 # Product Lens — Think Before You Build
@@ -8,6 +8,15 @@ description: Use this skill to validate the "why" before building, run product d
 This lane owns product diagnosis, not implementation-ready specification writing.
 
 If the user needs a durable PRD-to-SRS or capability-contract artifact, hand off to `product-capability`.
+
+## Boundaries
+
+- Use this for product direction, idea refinement, brainstorming, and feature prioritization.
+- Do not use it to reopen an approved design, implement code, or replace `product-capability`, `prp-create-plan`, or technical architecture review.
+- Start by reading user-supplied evidence and the target PJ's `AGENTS.md`, `PROJECT.md`, and relevant product/task documents. Do not infer current state from a conversation summary alone.
+- When an output document is authorized on Windows, use PowerShell and `-LiteralPath`, preserve the target repository's encoding and location rules, and verify the resolved drive-letter path before moving an existing artifact.
+- Stop and ask for a decision when the target user, problem, success signal, or explicit non-goal cannot be established without changing the product direction.
+- Hand off an accepted brief to `product-capability`; hand off an approved implementation contract to `prp-create-plan`.
 
 ## When to Use
 
@@ -42,7 +51,7 @@ If the result is "yes, build this," the next lane is `product-capability`, not m
 Reviews your current project through a founder lens:
 
 ```
-1. Read README, CLAUDE.md, package.json, recent commits
+1. Read README, AGENTS.md, PROJECT.md, relevant manifests, and recent commits
 2. Infer: what is this trying to be?
 3. Score: product-market fit signals (0-10)
    - Usage growth trajectory
@@ -58,7 +67,7 @@ Reviews your current project through a founder lens:
 Maps the actual user experience:
 
 ```
-1. Clone/install the product as a new user
+1. Inspect the existing product as a new user; clone or install only when the task authorizes it
 2. Document every friction point (confusing steps, errors, missing docs)
 3. Time each step
 4. Compare to competitor onboarding
@@ -81,6 +90,8 @@ When you have 10 ideas and need to pick 2:
 ## Output
 
 All modes output actionable docs, not essays. Every recommendation has a specific next step.
+
+Completion requires a named target user, problem, success signal, non-goal, recommendation, unresolved risks, and next owner. For long-running work, keep active state in the PJ's task file and move only finished evidence to its completion log.
 
 ## Integration
 

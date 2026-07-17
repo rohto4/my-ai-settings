@@ -1,0 +1,4 @@
+interface:
+  display_name: "Cost-Aware LLM Pipeline"
+  short_description: "Control LLM spend with quality and reliability gates."
+  default_prompt: "Use $cost-aware-llm-pipeline to measure and improve this LLM pipeline cost without violating quality or safety budgets."

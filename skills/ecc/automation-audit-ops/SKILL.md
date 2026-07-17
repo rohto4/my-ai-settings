@@ -139,3 +139,9 @@ NEXT ECC MOVE
 - important claims cite a live proof path
 - each surfaced automation is labeled with a clear live-state category
 - the final recommendation distinguishes keep / merge / cut / fix-next
+
+## Operating contract
+
+- Keep diagnosis read-only. Obtain explicit approval immediately before push, deploy, send, publish, remote update, destructive cleanup, or another external mutation.
+- For long work, reread AGENTS.md, PROJECT.md, and the current task artifact from disk; keep in-progress state separate from completion evidence. Stop on missing authority, ambiguous targets, unsafe live dependencies, or repeated non-progress. Hand off with evidence; complete only after the scoped checks pass.
+- Inventory and diagnose read-only first; do not rerun, disable, repair, or delete an automation during the audit without explicit approval.

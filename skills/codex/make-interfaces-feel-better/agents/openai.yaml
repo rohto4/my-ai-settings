@@ -1,0 +1,4 @@
+interface:
+  display_name: "Make Interfaces Feel Better"
+  short_description: "Make Interfaces Feel Better：成果物の品質と一貫性を高める"
+  default_prompt: "$make-interfaces-feel-better を使い、Make Interfaces Feel Betterに関する依頼を同梱domain guideに基づいて実施・検証してください。"

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Motion UI"
+  short_description: "Motion UI：該当技術の実装精度と検証効率を高める"
+  default_prompt: "$motion-ui を使い、Motion UIに関する依頼を同梱domain guideに基づいて実施・検証してください。"

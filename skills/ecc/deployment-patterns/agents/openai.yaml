@@ -1,0 +1,4 @@
+interface:
+  display_name: "Deployment Patterns"
+  short_description: "Design evidence-backed delivery and deployment gates."
+  default_prompt: "Use $deployment-patterns to inspect repository delivery truth, validate through safe boundaries, and gate every live deployment change with evidence and authorization."

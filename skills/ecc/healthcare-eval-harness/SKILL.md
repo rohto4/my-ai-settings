@@ -203,3 +203,10 @@ jq '{
 ### Coverage: 84% (target: 80%+)
 ### Verdict: SAFE TO DEPLOY
 ```
+
+## Operational Safety, Recovery, And Completion
+
+- On Windows, use the repository's PowerShell equivalents. Resolve paths with `Resolve-Path -LiteralPath` or `Get-Item -LiteralPath`, preserve drive letters and spaces, and keep discovery and any later mutation in the same shell.
+- Keep diagnosis read-only and prefer local fixtures, fake services, and dry-runs. Treat real tokens, live APIs, deploys, sends, pushes, or remote writes as separate actions requiring explicit approval immediately before execution.
+- Stop when authority, required data, credentials, or external impact is unclear. Hand off the exact scope, attempted checks, observed results, artifacts, blockers, and next decision. Claim completion only with recorded verification evidence and remaining unverified scope.
+- At start and after compaction, session transfer, or handoff, reread repository `AGENTS.md`, `PROJECT.md`, and the current `docs/imp` task from disk; do not resume from a conversation summary alone.

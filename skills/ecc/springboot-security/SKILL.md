@@ -269,3 +269,7 @@ public class RateLimitFilter extends OncePerRequestFilter {
 - [ ] Logs free of sensitive data
 
 **Remember**: Deny by default, validate inputs, least privilege, and secure-by-configuration first.
+
+## Operational Safety, Recovery, And Completion
+
+- Keep diagnosis read-only and prefer local fixtures, fake services, and dry-runs. Treat real tokens, live APIs, deploys, sends, pushes, or remote writes as separate actions requiring explicit approval immediately before execution.

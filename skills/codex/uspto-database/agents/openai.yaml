@@ -1,0 +1,4 @@
+interface:
+  display_name: "Uspto Database"
+  short_description: "Uspto Database：成果物の品質と一貫性を高める"
+  default_prompt: "$uspto-database を使い、Uspto Databaseに関する依頼を同梱domain guideに基づいて実施・検証してください。"

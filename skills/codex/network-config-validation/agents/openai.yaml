@@ -1,0 +1,4 @@
+interface:
+  display_name: "Network Config Validation"
+  short_description: "Network Config Validation：設定漏れを減らし、導入を再現しやすくする"
+  default_prompt: "$network-config-validation を使い、Network Config Validationに関する依頼を同梱domain guideに基づいて実施・検証してください。"

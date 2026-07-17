@@ -1,0 +1,386 @@
+[
+  {
+    "target_path": "plugin:airtable:candidate",
+    "status": "no_change_needed",
+    "integration_summary": "airtable plugin bundleを評価し、現行profileへは採用せず上流参照を維持する。",
+    "verification": "airtable 0.1.3 / MIT / openai/plugins@11c74d6ba24d / registry 3 source"
+  },
+  {
+    "target_path": "plugin:atlassian-rovo:deferred",
+    "status": "no_change_needed",
+    "integration_summary": "atlassian-rovo pluginは具体需要とconnector利用の明示依頼まで未導入とする。",
+    "verification": "atlassian-rovo 1.0.3 / MIT / openai/plugins@11c74d6ba24d / registry 5 source"
+  },
+  {
+    "target_path": "plugin:base44:candidate",
+    "status": "no_change_needed",
+    "integration_summary": "base44 plugin bundleを評価し、現行profileへは採用せず上流参照を維持する。",
+    "verification": "base44 1.0.3-beta.1 / MIT / openai/plugins@11c74d6ba24d / registry 3 source"
+  },
+  {
+    "target_path": "plugin:boltz-api-cli:candidate",
+    "status": "no_change_needed",
+    "integration_summary": "boltz-api-cli plugin bundleを評価し、現行profileへは採用せず上流参照を維持する。",
+    "verification": "boltz-api-cli 0.1.1 / MIT / openai/plugins@11c74d6ba24d / registry 8 source"
+  },
+  {
+    "target_path": "plugin:box:deferred",
+    "status": "no_change_needed",
+    "integration_summary": "box pluginは具体需要とconnector利用の明示依頼まで未導入とする。",
+    "verification": "box 0.0.3 / MIT / openai/plugins@11c74d6ba24d / registry 1 source"
+  },
+  {
+    "target_path": "plugin:brighthire:candidate",
+    "status": "no_change_needed",
+    "integration_summary": "brighthire plugin bundleを評価し、現行profileへは採用せず上流参照を維持する。",
+    "verification": "brighthire 0.1.1 / MIT / openai/plugins@11c74d6ba24d / registry 1 source"
+  },
+  {
+    "target_path": "plugin:build-ios-apps:candidate",
+    "status": "no_change_needed",
+    "integration_summary": "build-ios-apps plugin bundleを評価し、現行profileへは採用せず上流参照を維持する。",
+    "verification": "build-ios-apps 0.1.2 / MIT / openai/plugins@11c74d6ba24d / registry 9 source"
+  },
+  {
+    "target_path": "plugin:build-macos-apps:candidate",
+    "status": "no_change_needed",
+    "integration_summary": "build-macos-apps plugin bundleを評価し、現行profileへは採用せず上流参照を維持する。",
+    "verification": "build-macos-apps 0.1.4 / MIT / openai/plugins@11c74d6ba24d / registry 11 source"
+  },
+  {
+    "target_path": "plugin:build-web-apps:candidate",
+    "status": "no_change_needed",
+    "integration_summary": "build-web-apps plugin bundleを評価し、現行profileへは採用せず上流参照を維持する。",
+    "verification": "build-web-apps 0.1.2 / MIT / openai/plugins@11c74d6ba24d / registry 6 source"
+  },
+  {
+    "target_path": "plugin:build-web-data-visualization:candidate",
+    "status": "no_change_needed",
+    "integration_summary": "build-web-data-visualization plugin bundleを評価し、現行profileへは採用せず上流参照を維持する。",
+    "verification": "build-web-data-visualization 0.1.21 / MIT / openai/plugins@11c74d6ba24d / registry 18 source"
+  },
+  {
+    "target_path": "plugin:canva:candidate",
+    "status": "no_change_needed",
+    "integration_summary": "canva plugin bundleを評価し、現行profileへは採用せず上流参照を維持する。",
+    "verification": "canva 1.0.2 / MIT / openai/plugins@11c74d6ba24d / registry 3 source"
+  },
+  {
+    "target_path": "plugin:catalyst-by-zoho:candidate",
+    "status": "no_change_needed",
+    "integration_summary": "catalyst-by-zoho plugin bundleを評価し、現行profileへは採用せず上流参照を維持する。",
+    "verification": "catalyst-by-zoho 1.0.1 / MIT / openai/plugins@11c74d6ba24d / registry 1 source"
+  },
+  {
+    "target_path": "plugin:chronograph-gp:candidate",
+    "status": "no_change_needed",
+    "integration_summary": "chronograph-gp plugin bundleを評価し、現行profileへは採用せず上流参照を維持する。",
+    "verification": "chronograph-gp 1.0.0 / MIT / openai/plugins@11c74d6ba24d / registry 1 source"
+  },
+  {
+    "target_path": "plugin:chronograph-lp:candidate",
+    "status": "no_change_needed",
+    "integration_summary": "chronograph-lp plugin bundleを評価し、現行profileへは採用せず上流参照を維持する。",
+    "verification": "chronograph-lp 1.0.3 / MIT / openai/plugins@11c74d6ba24d / registry 3 source"
+  },
+  {
+    "target_path": "plugin:circleci:candidate",
+    "status": "no_change_needed",
+    "integration_summary": "circleci plugin bundleを評価し、現行profileへは採用せず上流参照を維持する。",
+    "verification": "circleci 1.0.4 / MIT / openai/plugins@11c74d6ba24d / registry 4 source"
+  },
+  {
+    "target_path": "plugin:cloudflare:installed",
+    "status": "integrated",
+    "integration_summary": "導入済みcloudflare pluginを正本として9 sourceを利用し、本文は複製しない。",
+    "verification": "cloudflare 0.1.2 / MIT / openai/plugins@11c74d6ba24d / registry 9 source"
+  },
+  {
+    "target_path": "plugin:coderabbit:candidate",
+    "status": "no_change_needed",
+    "integration_summary": "coderabbit plugin bundleを評価し、現行profileへは採用せず上流参照を維持する。",
+    "verification": "coderabbit 1.1.4 / MIT / openai/plugins@11c74d6ba24d / registry 1 source"
+  },
+  {
+    "target_path": "plugin:daloopa:candidate",
+    "status": "no_change_needed",
+    "integration_summary": "daloopa plugin bundleを評価し、現行profileへは採用せず上流参照を維持する。",
+    "verification": "daloopa 1.0.3 / Apache-2.0 / openai/plugins@11c74d6ba24d / registry 21 source"
+  },
+  {
+    "target_path": "plugin:datasite:candidate",
+    "status": "no_change_needed",
+    "integration_summary": "datasite plugin bundleを評価し、現行profileへは採用せず上流参照を維持する。",
+    "verification": "datasite 1.0.3 / MIT / openai/plugins@11c74d6ba24d / registry 8 source"
+  },
+  {
+    "target_path": "plugin:deepnote:candidate",
+    "status": "no_change_needed",
+    "integration_summary": "deepnote plugin bundleを評価し、現行profileへは採用せず上流参照を維持する。",
+    "verification": "deepnote 0.1.5 / Apache-2.0 / openai/plugins@11c74d6ba24d / registry 5 source"
+  },
+  {
+    "target_path": "plugin:dnb-finance-analytics:candidate",
+    "status": "no_change_needed",
+    "integration_summary": "dnb-finance-analytics plugin bundleを評価し、現行profileへは採用せず上流参照を維持する。",
+    "verification": "dnb-finance-analytics 1.0.2 / MIT / openai/plugins@11c74d6ba24d / registry 1 source"
+  },
+  {
+    "target_path": "plugin:expo:candidate",
+    "status": "no_change_needed",
+    "integration_summary": "expo plugin bundleを評価し、現行profileへは採用せず上流参照を維持する。",
+    "verification": "expo 1.0.2 / MIT / openai/plugins@11c74d6ba24d / registry 13 source"
+  },
+  {
+    "target_path": "plugin:game-studio:candidate",
+    "status": "no_change_needed",
+    "integration_summary": "game-studio plugin bundleを評価し、現行profileへは採用せず上流参照を維持する。",
+    "verification": "game-studio 0.1.2 / MIT / openai/plugins@11c74d6ba24d / registry 9 source"
+  },
+  {
+    "target_path": "plugin:github:installed",
+    "status": "integrated",
+    "integration_summary": "導入済みgithub pluginを正本として4 sourceを利用し、本文は複製しない。",
+    "verification": "github 0.1.8-2841cf9749ae / MIT / openai/plugins@11c74d6ba24d / registry 4 source"
+  },
+  {
+    "target_path": "plugin:gmail:installed",
+    "status": "integrated",
+    "integration_summary": "導入済みgmail pluginを正本として2 sourceを利用し、本文は複製しない。",
+    "verification": "gmail 0.1.5 / MIT / openai/plugins@11c74d6ba24d / registry 2 source"
+  },
+  {
+    "target_path": "plugin:google-calendar:installed",
+    "status": "integrated",
+    "integration_summary": "導入済みgoogle-calendar pluginを正本として5 sourceを利用し、本文は複製しない。",
+    "verification": "google-calendar 1.2.4 / MIT / openai/plugins@11c74d6ba24d / registry 5 source"
+  },
+  {
+    "target_path": "plugin:google-drive:installed",
+    "status": "integrated",
+    "integration_summary": "導入済みgoogle-drive pluginを正本として5 sourceを利用し、本文は複製しない。",
+    "verification": "google-drive 0.1.8 / MIT / openai/plugins@11c74d6ba24d / registry 5 source"
+  },
+  {
+    "target_path": "plugin:heygen:candidate",
+    "status": "no_change_needed",
+    "integration_summary": "heygen plugin bundleを評価し、現行profileへは採用せず上流参照を維持する。",
+    "verification": "heygen 2.2.4 / MIT / openai/plugins@11c74d6ba24d / registry 2 source"
+  },
+  {
+    "target_path": "plugin:hubspot:candidate",
+    "status": "no_change_needed",
+    "integration_summary": "hubspot plugin bundleを評価し、現行profileへは採用せず上流参照を維持する。",
+    "verification": "hubspot 2.0.3 / MIT / openai/plugins@11c74d6ba24d / registry 4 source"
+  },
+  {
+    "target_path": "plugin:hugging-face:candidate",
+    "status": "no_change_needed",
+    "integration_summary": "hugging-face plugin bundleを評価し、現行profileへは採用せず上流参照を維持する。",
+    "verification": "hugging-face 1.0.3 / MIT / openai/plugins@11c74d6ba24d / registry 11 source"
+  },
+  {
+    "target_path": "plugin:hyperframes:candidate",
+    "status": "no_change_needed",
+    "integration_summary": "hyperframes plugin bundleを評価し、現行profileへは採用せず上流参照を維持する。",
+    "verification": "hyperframes 0.1.2 / Apache-2.0 / openai/plugins@11c74d6ba24d / registry 5 source"
+  },
+  {
+    "target_path": "plugin:linear:candidate",
+    "status": "no_change_needed",
+    "integration_summary": "linear plugin bundleを評価し、現行profileへは採用せず上流参照を維持する。",
+    "verification": "linear 0.0.3 / MIT / openai/plugins@11c74d6ba24d / registry 1 source"
+  },
+  {
+    "target_path": "plugin:midpage:candidate",
+    "status": "no_change_needed",
+    "integration_summary": "midpage plugin bundleを評価し、現行profileへは採用せず上流参照を維持する。",
+    "verification": "midpage 1.0.3 / MIT / openai/plugins@11c74d6ba24d / registry 4 source"
+  },
+  {
+    "target_path": "plugin:mixpanel-headless:candidate",
+    "status": "no_change_needed",
+    "integration_summary": "mixpanel-headless plugin bundleを評価し、現行profileへは採用せず上流参照を維持する。",
+    "verification": "mixpanel-headless 0.1.2 / MIT / openai/plugins@11c74d6ba24d / registry 4 source"
+  },
+  {
+    "target_path": "plugin:moody-s:candidate",
+    "status": "no_change_needed",
+    "integration_summary": "moody-s plugin bundleを評価し、現行profileへは採用せず上流参照を維持する。",
+    "verification": "moody-s 1.0.2 / MIT / openai/plugins@11c74d6ba24d / registry 9 source"
+  },
+  {
+    "target_path": "plugin:morningstar:candidate",
+    "status": "no_change_needed",
+    "integration_summary": "morningstar plugin bundleを評価し、現行profileへは採用せず上流参照を維持する。",
+    "verification": "morningstar 1.0.3 / MIT / openai/plugins@11c74d6ba24d / registry 3 source"
+  },
+  {
+    "target_path": "plugin:neon-postgres:candidate",
+    "status": "no_change_needed",
+    "integration_summary": "neon-postgres plugin bundleを評価し、現行profileへは採用せず上流参照を維持する。",
+    "verification": "neon-postgres 1.0.3 / Apache-2.0 / openai/plugins@11c74d6ba24d / registry 2 source"
+  },
+  {
+    "target_path": "plugin:netlify:candidate",
+    "status": "no_change_needed",
+    "integration_summary": "netlify plugin bundleを評価し、現行profileへは採用せず上流参照を維持する。",
+    "verification": "netlify 1.1.2 / MIT / openai/plugins@11c74d6ba24d / registry 12 source"
+  },
+  {
+    "target_path": "plugin:ngs-analysis:candidate",
+    "status": "no_change_needed",
+    "integration_summary": "ngs-analysis plugin bundleを評価し、現行profileへは採用せず上流参照を維持する。",
+    "verification": "ngs-analysis 1.0.3 / MIT / openai/plugins@11c74d6ba24d / registry 18 source"
+  },
+  {
+    "target_path": "plugin:notion:installed",
+    "status": "integrated",
+    "integration_summary": "導入済みnotion pluginを正本として4 sourceを利用し、本文は複製しない。",
+    "verification": "notion 0.1.7+1 / MIT / openai/plugins@11c74d6ba24d / registry 4 source / generic fallback 4"
+  },
+  {
+    "target_path": "plugin:nvidia:candidate",
+    "status": "no_change_needed",
+    "integration_summary": "nvidia plugin bundleを評価し、現行profileへは採用せず上流参照を維持する。",
+    "verification": "nvidia 1.0.2 / Apache-2.0 AND CC-BY-4.0 / openai/plugins@11c74d6ba24d / registry 11 source"
+  },
+  {
+    "target_path": "plugin:outlook-calendar:deferred",
+    "status": "no_change_needed",
+    "integration_summary": "outlook-calendar pluginは具体需要とconnector利用の明示依頼まで未導入とする。",
+    "verification": "outlook-calendar 0.1.3 / MIT / openai/plugins@11c74d6ba24d / registry 6 source"
+  },
+  {
+    "target_path": "plugin:outlook-email:deferred",
+    "status": "no_change_needed",
+    "integration_summary": "outlook-email pluginは具体需要とconnector利用の明示依頼まで未導入とする。",
+    "verification": "outlook-email 0.1.3 / MIT / openai/plugins@11c74d6ba24d / registry 6 source"
+  },
+  {
+    "target_path": "plugin:plugin-eval:candidate",
+    "status": "no_change_needed",
+    "integration_summary": "plugin-eval plugin bundleを評価し、現行profileへは採用せず上流参照を維持する。",
+    "verification": "plugin-eval 0.1.2 / MIT / openai/plugins@11c74d6ba24d / registry 5 source"
+  },
+  {
+    "target_path": "plugin:posthog:candidate",
+    "status": "no_change_needed",
+    "integration_summary": "posthog plugin bundleを評価し、現行profileへは採用せず上流参照を維持する。",
+    "verification": "posthog 0.1.2 / MIT / openai/plugins@11c74d6ba24d / registry 1 source"
+  },
+  {
+    "target_path": "plugin:remotion:candidate",
+    "status": "no_change_needed",
+    "integration_summary": "remotion plugin bundleを評価し、現行profileへは採用せず上流参照を維持する。",
+    "verification": "remotion 1.0.3 / MIT / openai/plugins@11c74d6ba24d / registry 1 source"
+  },
+  {
+    "target_path": "plugin:render:candidate",
+    "status": "no_change_needed",
+    "integration_summary": "render plugin bundleを評価し、現行profileへは採用せず上流参照を維持する。",
+    "verification": "render 0.1.3 / MIT / openai/plugins@11c74d6ba24d / registry 21 source"
+  },
+  {
+    "target_path": "plugin:replayio:candidate",
+    "status": "no_change_needed",
+    "integration_summary": "replayio plugin bundleを評価し、現行profileへは採用せず上流参照を維持する。",
+    "verification": "replayio 0.1.0 / MIT / openai/plugins@11c74d6ba24d / registry 2 source"
+  },
+  {
+    "target_path": "plugin:sentry:candidate",
+    "status": "no_change_needed",
+    "integration_summary": "sentry plugin bundleを評価し、現行profileへは採用せず上流参照を維持する。",
+    "verification": "sentry 0.1.2 / MIT / openai/plugins@11c74d6ba24d / registry 1 source"
+  },
+  {
+    "target_path": "plugin:sharepoint:deferred",
+    "status": "no_change_needed",
+    "integration_summary": "sharepoint pluginは具体需要とconnector利用の明示依頼まで未導入とする。",
+    "verification": "sharepoint 0.1.3 / MIT / openai/plugins@11c74d6ba24d / registry 7 source"
+  },
+  {
+    "target_path": "plugin:shopify:candidate",
+    "status": "no_change_needed",
+    "integration_summary": "shopify plugin bundleを評価し、現行profileへは採用せず上流参照を維持する。",
+    "verification": "shopify 1.3.3 / MIT / openai/plugins@11c74d6ba24d / registry 20 source"
+  },
+  {
+    "target_path": "plugin:slack:installed",
+    "status": "integrated",
+    "integration_summary": "導入済みslack pluginを正本として6 sourceを利用し、本文は複製しない。",
+    "verification": "slack 0.1.4 / MIT / openai/plugins@11c74d6ba24d / registry 6 source"
+  },
+  {
+    "target_path": "plugin:stripe:candidate",
+    "status": "no_change_needed",
+    "integration_summary": "stripe plugin bundleを評価し、現行profileへは採用せず上流参照を維持する。",
+    "verification": "stripe 1.0.2 / MIT / openai/plugins@11c74d6ba24d / registry 2 source"
+  },
+  {
+    "target_path": "plugin:supabase:candidate",
+    "status": "no_change_needed",
+    "integration_summary": "supabase plugin bundleを評価し、現行profileへは採用せず上流参照を維持する。",
+    "verification": "supabase 0.1.10 / MIT / openai/plugins@11c74d6ba24d / registry 2 source"
+  },
+  {
+    "target_path": "plugin:superhuman:candidate",
+    "status": "no_change_needed",
+    "integration_summary": "superhuman plugin bundleを評価し、現行profileへは採用せず上流参照を維持する。",
+    "verification": "superhuman 0.1.2 / MIT / openai/plugins@11c74d6ba24d / registry 6 source"
+  },
+  {
+    "target_path": "plugin:superpowers:candidate",
+    "status": "no_change_needed",
+    "integration_summary": "superpowers plugin bundleを評価し、現行profileへは採用せず上流参照を維持する。",
+    "verification": "superpowers 5.1.3 / MIT / openai/plugins@11c74d6ba24d / registry 14 source"
+  },
+  {
+    "target_path": "plugin:teams:deferred",
+    "status": "no_change_needed",
+    "integration_summary": "teams pluginは具体需要とconnector利用の明示依頼まで未導入とする。",
+    "verification": "teams 0.1.3 / MIT / openai/plugins@11c74d6ba24d / registry 7 source"
+  },
+  {
+    "target_path": "plugin:temporal:candidate",
+    "status": "no_change_needed",
+    "integration_summary": "temporal plugin bundleを評価し、現行profileへは採用せず上流参照を維持する。",
+    "verification": "temporal 0.2.2 / MIT / openai/plugins@11c74d6ba24d / registry 1 source"
+  },
+  {
+    "target_path": "plugin:test-android-apps:candidate",
+    "status": "no_change_needed",
+    "integration_summary": "test-android-apps plugin bundleを評価し、現行profileへは採用せず上流参照を維持する。",
+    "verification": "test-android-apps 0.1.2 / MIT / openai/plugins@11c74d6ba24d / registry 2 source"
+  },
+  {
+    "target_path": "plugin:twilio-developer-kit:candidate",
+    "status": "no_change_needed",
+    "integration_summary": "twilio-developer-kit plugin bundleを評価し、現行profileへは採用せず上流参照を維持する。",
+    "verification": "twilio-developer-kit 0.2.2 / MIT / openai/plugins@11c74d6ba24d / registry 55 source"
+  },
+  {
+    "target_path": "plugin:vercel:candidate",
+    "status": "no_change_needed",
+    "integration_summary": "vercel plugin bundleを評価し、現行profileへは採用せず上流参照を維持する。",
+    "verification": "vercel 0.21.3 / Apache-2.0 / openai/plugins@11c74d6ba24d / registry 47 source"
+  },
+  {
+    "target_path": "plugin:wix:candidate",
+    "status": "no_change_needed",
+    "integration_summary": "wix plugin bundleを評価し、現行profileへは採用せず上流参照を維持する。",
+    "verification": "wix 1.1.2 / MIT / openai/plugins@11c74d6ba24d / registry 4 source"
+  },
+  {
+    "target_path": "plugin:zoom:candidate",
+    "status": "no_change_needed",
+    "integration_summary": "zoom plugin bundleを評価し、現行profileへは採用せず上流参照を維持する。",
+    "verification": "zoom 1.0.2 / MIT / openai/plugins@11c74d6ba24d / registry 53 source"
+  },
+  {
+    "target_path": "plugin:zotero:candidate",
+    "status": "no_change_needed",
+    "integration_summary": "zotero plugin bundleを評価し、現行profileへは採用せず上流参照を維持する。",
+    "verification": "zotero 0.1.2 / MIT / openai/plugins@11c74d6ba24d / registry 1 source"
+  }
+]

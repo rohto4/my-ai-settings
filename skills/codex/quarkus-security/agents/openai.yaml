@@ -1,0 +1,4 @@
+interface:
+  display_name: "Quarkus Security"
+  short_description: "Quarkus Security：脆弱性と情報漏えいのリスクを下げる"
+  default_prompt: "$quarkus-security を使い、Quarkus Securityに関する依頼を同梱domain guideに基づいて実施・検証してください。"

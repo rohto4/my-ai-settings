@@ -1,0 +1,4 @@
+interface:
+  display_name: "Deprecation And Migration"
+  short_description: "Deprecation And Migration：互換性リスクと移行時の手戻りを減らす"
+  default_prompt: "$deprecation-and-migration を使い、Deprecation And Migrationに関する依頼を同梱domain guideに基づいて実施・検証してください。"

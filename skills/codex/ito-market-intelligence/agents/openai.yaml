@@ -1,0 +1,4 @@
+interface:
+  display_name: "Ito Market Intelligence"
+  short_description: "Ito Market Intelligence：成果物の品質と一貫性を高める"
+  default_prompt: "$ito-market-intelligence を使い、Ito Market Intelligenceに関する依頼を同梱domain guideに基づいて実施・検証してください。"

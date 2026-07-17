@@ -76,3 +76,9 @@ Before delivering:
 - the voice matches the supplied examples or the agreed `VOICE PROFILE`
 - every section adds something new
 - formatting matches the intended medium
+
+## Operating contract
+
+- Start external paths with a fixture, fake, sandbox, or dry-run. Put real tokens, live APIs, deployment, and production writes behind a separate gate.
+- Keep diagnosis read-only. Obtain explicit approval immediately before push, deploy, send, publish, remote update, destructive cleanup, or another external mutation.
+- Draft locally from supplied sources. Treat CMS publication, newsletter delivery, social posting, and analytics updates as separate external writes.

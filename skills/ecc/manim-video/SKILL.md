@@ -86,3 +86,7 @@ Return:
 - `video-editing` for final polish
 - `remotion-video-creation` for motion-heavy post-processing or compositing
 - `content-engine` when the animation is part of a broader launch
+
+## Operational Safety, Recovery, And Completion
+
+- On Windows, use the repository's PowerShell equivalents. Resolve paths with `Resolve-Path -LiteralPath` or `Get-Item -LiteralPath`, preserve drive letters and spaces, and keep discovery and any later mutation in the same shell.

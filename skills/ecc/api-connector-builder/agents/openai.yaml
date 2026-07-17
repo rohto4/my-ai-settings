@@ -1,0 +1,4 @@
+interface:
+  display_name: "API Connector Builder"
+  short_description: "Add a connector that matches the host repository pattern."
+  default_prompt: "Use $api-connector-builder to implement this integration in the repository's existing connector pattern."

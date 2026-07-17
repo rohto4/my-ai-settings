@@ -1,0 +1,4 @@
+interface:
+  display_name: "Agentic Engineering"
+  short_description: "Structure substantial AI engineering work around evals."
+  default_prompt: "Use $agentic-engineering to decompose and verify this multi-phase engineering task."

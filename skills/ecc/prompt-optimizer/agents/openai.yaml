@@ -1,0 +1,4 @@
+interface:
+  display_name: "Prompt Optimizer"
+  short_description: "Rewrite prompts with clear scope and safe completion gates."
+  default_prompt: "Use $prompt-optimizer to turn this draft into a safe, ready-to-paste prompt."

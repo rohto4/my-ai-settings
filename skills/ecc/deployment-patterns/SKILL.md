@@ -1,24 +1,46 @@
 ---
 name: deployment-patterns
-description: Deployment workflows, CI/CD pipeline patterns, Docker containerization, health checks, rollback strategies, and production readiness checklists for web applications.
+description: Design or review a repository-owned delivery workflow, deployment strategy, health contract, rollback plan, or production-readiness gate. Use for a concrete release target and environment; do not use for local-only container work, generic application debugging, or live deployment without explicit authority.
 ---
 
 # Deployment Patterns
 
-Production deployment workflows and CI/CD best practices.
+Production deployment workflows and CI/CD patterns. Repository policy and the selected provider's current contract always override the examples in this skill.
 
-## When to Activate
+## Activation And Non-Activation
 
-- Setting up CI/CD pipelines
-- Dockerizing an application
-- Planning deployment strategy (blue-green, canary, rolling)
-- Implementing health checks and readiness probes
-- Preparing for a production release
-- Configuring environment-specific settings
+Activate for a concrete task that sets up or reviews a CI/CD flow, selects a rolling/blue-green/canary strategy, defines readiness or rollback, prepares a release gate, or changes environment-specific delivery configuration.
+
+Do not activate for local-only Dockerfile or Compose work (`$docker-patterns`), a GitHub-only issue/PR/check operation (`$github-ops`), generic application debugging with no delivery boundary, or provider administration unrelated to a repository release. Hand those tasks to the owning skill while preserving relevant build, artifact, and health evidence.
+
+## Project Truth And Compaction Recovery
+
+1. Read repository-local `AGENTS.md`, `PROJECT.md`, stack/version sources, deployment/runbook docs, pipeline definitions, infrastructure-as-code, environment inventory, migration policy, and release/rollback ownership before designing a flow.
+2. Confirm the target environment, provider/runtime, artifact identity, base/ref, required approvals, health/SLO contract, data migration impact, and rollback owner. Generic `main`, production, CI vendor, registry, or command assumptions are not policy.
+3. After compaction, session transfer, or handoff, reread the repository-required initialization files and current task record from disk before another deployment-related action. Treat conversation summaries as pointers only.
+4. For version-dependent provider, runtime, CI, or action behavior, use the repository's pinned version and current official documentation. Stop if the active version or authority cannot be established.
+
+## Safe Delivery Procedure
+
+1. **Inspect read-only.** Inventory the scoped diff, current ref, pipeline/IaC files, artifact/version source, required checks, environment state, migration compatibility, health signals, and last known-good artifact without exposing environment values or credentials.
+2. **Validate without live impact.** Prefer schema/config validation, template rendering, policy checks, unit/integration tests, fake provider boundaries, disposable local environments, and supported plan/dry-run modes. A provider-hosted preview may still be an external write; classify it before use.
+3. **Present the deployment packet.** State target, immutable artifact digest/version, intended changes, traffic/data effects, health thresholds, abort conditions, rollback or forward-fix path, evidence, and commands/API calls proposed.
+4. **Gate live changes.** Obtain explicit authorization immediately before registry push, hosted preview creation, deployment, traffic shift, scaling, migration, secret/config rotation, rollback, release publication, or any provider/API write not already authorized for that exact scope.
+5. **Read back and verify.** After an authorized action, confirm the provider-reported revision/artifact, health and smoke checks, traffic state, migration state, and alert window. Do not call a successful command successful delivery.
+
+Treat deletion/replacement of infrastructure, data stores, volumes, environments, artifacts needed for rollback, force operations, and irreversible migrations as destructive. Require a separately stated impact, backup/recovery evidence, and explicit approval; never test these paths on live data.
+
+Keep tokens, cookies, connection strings, private registry credentials, signing keys, secret values, and raw environment dumps out of repository files, command arguments, generated reports, and logs. Use the repository-approved secret mechanism, pass only variable names in examples, and redact evidence.
+
+On Windows, keep host-side inspection and path validation in PowerShell. Use `Resolve-Path -LiteralPath` or `Get-Item -LiteralPath` for local manifests, templates, artifacts, and credential-file references; preserve drive letters/spaces and do not construct cleanup or deployment targets by enumerating paths in another shell. Container-internal Unix commands are implementation details, not host-shell instructions.
+
+Stop and hand off when the environment or tenant is ambiguous, authorization is missing, required checks are incomplete, secrets appear in output, migration reversibility is unproven, health thresholds or rollback ownership are absent, the observed state diverges from the plan, or the requested provider is outside the available tools. Report what was inspected, exact state changes and identifiers, redacted evidence, verification results, remaining risk, abort/rollback status, and approvals still required.
 
 ## Deployment Strategies
 
-### Rolling Deployment (Default)
+Select a strategy from repository policy, compatibility constraints, observability, capacity, and recovery needs. None of the following is a universal default.
+
+### Rolling Deployment
 
 Replace instances gradually — old and new versions run simultaneously during rollout.
 
@@ -36,7 +58,7 @@ Instance 2: v2
 Instance 3: v1 → v2  (update last)
 ```
 
-**Pros:** Zero downtime, gradual rollout
+**Pros:** Can avoid downtime when capacity, compatibility, and health gating are correct; gradual rollout
 **Cons:** Two versions run simultaneously — requires backward-compatible changes
 **Use when:** Standard deployments, backward-compatible changes
 
@@ -53,7 +75,7 @@ Blue  (v1)   idle (becomes standby)
 Green (v2) ← traffic
 ```
 
-**Pros:** Instant rollback (switch back to blue), clean cutover
+**Pros:** Fast traffic rollback when the standby remains compatible and verified; clean cutover
 **Cons:** Requires 2x infrastructure during deployment
 **Use when:** Critical services, zero-tolerance for issues
 
@@ -77,7 +99,9 @@ v2: 100% of traffic
 **Cons:** Requires traffic splitting infrastructure, monitoring
 **Use when:** High-traffic services, risky changes, feature flags
 
-## Docker
+## Docker Adapter Examples
+
+These Dockerfiles illustrate build-shape concerns only. Use repository-pinned base images and `$docker-patterns` for concrete Docker/Compose implementation or runtime diagnosis.
 
 ### Multi-Stage Dockerfile (Node.js)
 
@@ -174,7 +198,7 @@ CMD ["gunicorn", "config.wsgi:application", "--bind", "0.0.0.0:8000", "--workers
 - Copy dependency files first (layer caching)
 - Use .dockerignore to exclude node_modules, .git, tests
 - Add HEALTHCHECK instruction
-- Set resource limits in docker-compose or k8s
+- Set resource limits in the selected runtime/orchestrator
 
 # BAD practices
 - Running as root
@@ -186,79 +210,38 @@ CMD ["gunicorn", "config.wsgi:application", "--bind", "0.0.0.0:8000", "--workers
 
 ## CI/CD Pipeline
 
-### GitHub Actions (Standard Pipeline)
+### Provider-Neutral Delivery Contract
 
-```yaml
-name: CI/CD
+Map these responsibilities to the repository's selected CI and deployment provider instead of copying a fixed workflow:
 
-on:
-  push:
-    branches: [main]
-  pull_request:
-    branches: [main]
+| Stage | Required evidence | Write boundary |
+| --- | --- | --- |
+| Validate | repository-prescribed lint, type, test, policy, and manifest checks | normally local/CI read and ephemeral output |
+| Build | reproducible artifact tied to source ref, dependency lock, and build provenance | artifact creation; registry upload is external |
+| Verify artifact | signature/SBOM/scans when required, digest and version consistency | read-only until metadata is published |
+| Non-production exercise | fake/disposable test or policy-approved environment, migration rehearsal, smoke tests | hosted preview/staging can be external |
+| Production approval | target, artifact digest, approver, health/abort thresholds, rollback owner | approval gate; no implicit deploy on branch name |
+| Roll out and observe | strategy-specific increments, health evidence, traffic/data state | live external write |
+| Close or recover | provider readback, evidence retention, rollback/forward-fix result | may include additional live writes |
 
-jobs:
-  test:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 22
-          cache: npm
-      - run: npm ci
-      - run: npm run lint
-      - run: npm run typecheck
-      - run: npm test -- --coverage
-      - uses: actions/upload-artifact@v4
-        if: always()
-        with:
-          name: coverage
-          path: coverage/
+Use immutable action/plugin references where the provider supports them, least-privilege credentials, protected environments, concurrency controls, and separate build from deployment authority. Do not assume a particular branch, operating system runner, registry, preview environment, or automatic production trigger.
 
-  build:
-    needs: test
-    runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main'
-    steps:
-      - uses: actions/checkout@v4
-      - uses: docker/setup-buildx-action@v3
-      - uses: docker/login-action@v3
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-      - uses: docker/build-push-action@v5
-        with:
-          push: true
-          tags: ghcr.io/${{ github.repository }}:${{ github.sha }}
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
+An illustrative flow is:
 
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main'
-    environment: production
-    steps:
-      - name: Deploy to production
-        run: |
-          # Platform-specific deployment command
-          # Railway: railway up
-          # Vercel: vercel --prod
-          # K8s: kubectl set image deployment/app app=ghcr.io/${{ github.repository }}:${{ github.sha }}
-          echo "Deploying ${{ github.sha }}"
+```text
+change proposed
+  -> validate and test
+  -> build one immutable artifact
+  -> verify that artifact
+  -> exercise it through fake/disposable or approved non-production boundaries
+  -> present production deployment packet
+  -> obtain explicit live-write approval
+  -> deploy the same artifact incrementally
+  -> read back health, traffic, and data state
+  -> complete or execute the approved recovery plan
 ```
 
-### Pipeline Stages
-
-```
-PR opened:
-  lint → typecheck → unit tests → integration tests → preview deploy
-
-Merged to main:
-  lint → typecheck → unit tests → integration tests → build image → deploy staging → smoke tests → deploy production
-```
+Provider-specific YAML belongs in the repository or a provider adapter after its version, permissions, secret handling, and write gates are verified. A pull request or merge does not by itself authorize preview creation, registry push, or production deployment.
 
 ## Health Checks
 
@@ -299,7 +282,9 @@ async function checkDatabase(): Promise<HealthCheck> {
 }
 ```
 
-### Kubernetes Probes
+### Probe Adapter Example
+
+This Kubernetes-shaped example is an adapter, not a default. Map liveness, readiness, and startup semantics to the selected runtime and tune thresholds from measured startup and failure behavior.
 
 ```yaml
 livenessProbe:
@@ -331,17 +316,14 @@ startupProbe:
 
 ### Twelve-Factor App Pattern
 
-```bash
-# All config via environment variables — never in code
-DATABASE_URL=postgres://user:pass@host:5432/db
-REDIS_URL=redis://host:6379/0
-API_KEY=${API_KEY}           # injected by secrets manager
-LOG_LEVEL=info
-PORT=3000
-
-# Environment-specific behavior
-NODE_ENV=production          # or staging, development
-APP_ENV=production           # explicit app environment
+```text
+# Names and non-secret defaults only; values come from the approved environment/secret source.
+DATABASE_URL=<injected secret reference>
+REDIS_URL=<injected configuration reference>
+API_KEY=<injected secret reference>
+LOG_LEVEL=<validated non-secret value>
+PORT=<validated non-secret value>
+APP_ENV=<explicit environment identity>
 ```
 
 ### Configuration Validation
@@ -364,21 +346,15 @@ export const env = envSchema.parse(process.env);
 
 ## Rollback Strategy
 
-### Instant Rollback
+### Recovery Is A Planned Live Change
 
-```bash
-# Docker/Kubernetes: point to previous image
-kubectl rollout undo deployment/app
+Do not publish a universal rollback command. Select the repository/provider runbook only after confirming the failed revision, last known-good immutable artifact, current traffic and data state, compatibility window, and rollback owner.
 
-# Vercel: promote previous deployment
-vercel rollback
-
-# Railway: redeploy previous commit
-railway up --commit <previous-sha>
-
-# Database: rollback migration (if reversible)
-npx prisma migrate resolve --rolled-back <migration-name>
-```
+- **Application artifact:** redeploy or promote the verified last known-good artifact using the provider-approved, separately authorized command.
+- **Traffic:** switch or reduce traffic only within the approved strategy and verify both old and new targets.
+- **Configuration/secret:** restore a known-good version only when rotation and dependent-service effects are understood.
+- **Database:** prefer backward-compatible changes and a forward fix. Run a down migration only when the exact migration is proven reversible against representative data and the destructive gate is approved.
+- **Infrastructure:** use the reviewed IaC plan/state recovery path; do not improvise deletion or replacement commands during diagnosis.
 
 ### Rollback Checklist
 
@@ -390,10 +366,10 @@ npx prisma migrate resolve --rolled-back <migration-name>
 
 ## Production Readiness Checklist
 
-Before any production deployment:
+Before requesting approval for a production deployment, apply the repository's own checklist. The following items are prompts, not proof by themselves:
 
 ### Application
-- [ ] All tests pass (unit, integration, E2E)
+- [ ] Repository-required tests and checks pass, with results tied to the proposed artifact
 - [ ] No hardcoded secrets in code or config files
 - [ ] Error handling covers all edge cases
 - [ ] Logging is structured (JSON) and does not contain PII
@@ -408,7 +384,7 @@ Before any production deployment:
 
 ### Monitoring
 - [ ] Application metrics exported (request rate, latency, errors)
-- [ ] Alerts configured for error rate > threshold
+- [ ] Alerts and abort thresholds are defined from the service's operating objectives
 - [ ] Log aggregation set up (structured logs, searchable)
 - [ ] Uptime monitoring on health endpoint
 
@@ -423,4 +399,4 @@ Before any production deployment:
 - [ ] Rollback plan documented and tested
 - [ ] Database migration tested against production-sized data
 - [ ] Runbook for common failure scenarios
-- [ ] On-call rotation and escalation path defined
+- [ ] Deployment, incident, and rollback owners are identified for the approved window

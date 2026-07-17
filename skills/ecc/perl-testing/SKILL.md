@@ -472,3 +472,8 @@ Mock the *dependency*, not the code under test. If your test only verifies that 
 Use `my` variables inside subtests — never `our` — to prevent state leaking between tests.
 
 **Remember**: Tests are your safety net. Keep them fast, focused, and independent. Use Test2::V0 for new projects, prove for running, and Devel::Cover for accountability.
+
+## Operational Safety, Recovery, And Completion
+
+- On Windows, use the repository's PowerShell equivalents. Resolve paths with `Resolve-Path -LiteralPath` or `Get-Item -LiteralPath`, preserve drive letters and spaces, and keep discovery and any later mutation in the same shell.
+- Keep diagnosis read-only and prefer local fixtures, fake services, and dry-runs. Treat real tokens, live APIs, deploys, sends, pushes, or remote writes as separate actions requiring explicit approval immediately before execution.

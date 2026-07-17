@@ -13,6 +13,7 @@ Design for explicit ownership and failure semantics before choosing frameworks o
 - Read the target PJ's `AGENTS.md`, architecture and product documents, and pinned stack before recommending a library or integration. Those files are authoritative over this skill.
 - Confirm version-dependent behavior against the exact installed or pinned version and current official documentation. Do not treat a reference example as a current implementation contract.
 - Keep external writes, migrations, deployments, and configuration changes out of scope until the user explicitly requests them.
+- For an authorized integration spike, default to fake HTTP, fake dependencies, a sandbox, or dry-run. Keep real credentials, live API writes, migrations, deployment, and timer enablement behind separate explicit gates.
 - Escalate authentication, authorization, privacy, compliance, or abuse-prevention requirements to the target PJ's security policy and dedicated security review.
 - When a change also alters a public API, use this skill first to surface ownership, consistency, transaction, and asynchronous constraints. Then let `api-design` own the authoritative contract change; treat the accepted contract as input when returning to backend implementation planning.
 

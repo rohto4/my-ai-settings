@@ -1,11 +1,13 @@
 ---
 name: nextjs-turbopack
-description: Next.js 16+ and Turbopack — incremental bundling, FS caching, dev speed, and when to use Turbopack vs webpack.
+description: Diagnose or configure Turbopack behavior in a pinned Next.js project. Use for dev startup, HMR, cache, webpack-compatibility, or bundle investigation; do not use for general Next.js UI architecture.
 ---
 
 # Next.js and Turbopack
 
 Next.js 16+ uses Turbopack by default for local development: an incremental bundler written in Rust that significantly speeds up dev startup and hot updates.
+
+Treat version statements and flags below as orientation, not the target project's contract. Read the installed Next.js version, package scripts, config, lockfile, and current official documentation before recommending a command or mode.
 
 ## When to Use
 
@@ -41,3 +43,7 @@ Run `next dev` for local development with Turbopack. Use the Bundle Analyzer (se
 - Stay on a recent Next.js 16.x for stable Turbopack and caching behavior.
 - If dev is slow, ensure you're on Turbopack (default) and that the cache isn't being cleared unnecessarily.
 - For production bundle size issues, use the official Next.js bundle analysis tooling for your version.
+
+Do not delete `.next`, change bundler mode, install analysis tooling, rewrite config, or alter deployment settings during diagnosis unless the task authorizes the mutation. On Windows, use PowerShell and `-LiteralPath` for cache/config paths and verify the resolved drive-letter target before recursive deletion.
+
+Use `frontend-patterns` for server/client ownership and UI state, and `performance-optimization` for a measured end-to-end bottleneck. Complete only when the exact pinned-version command reproduces the issue, the smallest change is verified, and build/dev behavior is rechecked.

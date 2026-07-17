@@ -25,7 +25,7 @@ This is the same dynamic as GANs (Generative Adversarial Networks): the Generato
 
 ## When NOT to Use
 
-- Quick single-file fixes (use standard `claude -p`)
+- Quick single-file fixes (use a bounded single-agent workflow)
 - Tasks with tight budget constraints (<$10)
 - Simple refactoring (use de-sloppify pattern instead)
 - Tasks that are already well-specified with tests (use TDD workflow)
@@ -172,7 +172,7 @@ GAN_EVAL_CRITERIA="functionality,performance,security" \
 ./scripts/gan-harness.sh "Build a REST API for task management"
 ```
 
-### Via Claude Code (Manual)
+### Via Codex (Manual)
 
 ```bash
 # Step 1: Plan
@@ -274,3 +274,10 @@ Based on Anthropic's published results:
 - [Epsilla: The GAN-Style Agent Loop](https://www.epsilla.com/blogs/anthropic-harness-engineering-multi-agent-gan-architecture) — Architecture deconstruction
 - [Martin Fowler: Harness Engineering](https://martinfowler.com/articles/exploring-gen-ai/harness-engineering.html) — Broader industry context
 - [OpenAI: Harness Engineering](https://openai.com/index/harness-engineering/) — OpenAI's parallel work
+
+## Operating contract
+
+- On Windows, use PowerShell equivalents, LiteralPath, explicit drive-letter checks, and one shell for filesystem operations.
+- Separate generator and evaluator evidence, set iteration and spend budgets, and stop when improvement stalls or acceptance criteria pass.
+- Keep generation and evaluation local or sandboxed; obtain explicit approval before paid live calls, push, merge, deploy, or publication.
+- Hand off with produced artifacts, evaluator findings, remaining failures, and the exact checks run.

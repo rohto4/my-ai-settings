@@ -1,0 +1,4 @@
+interface:
+  display_name: "Loop Design Check"
+  short_description: "Loop Design Check：境界と方針を明確にし、変更時の混乱を減らす"
+  default_prompt: "$loop-design-check を使い、Loop Design Checkに関する依頼を同梱domain guideに基づいて実施・検証してください。"

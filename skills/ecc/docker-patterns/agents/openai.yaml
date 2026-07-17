@@ -1,0 +1,4 @@
+interface:
+  display_name: "Docker Patterns"
+  short_description: "Design and diagnose safe repository-owned Docker workflows."
+  default_prompt: "Use $docker-patterns to inspect the repository's container truth and choose a safe, evidence-backed Docker workflow."

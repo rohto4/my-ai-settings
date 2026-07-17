@@ -156,3 +156,7 @@ echidna-test . --contract YourAMM --config echidna.yaml
 
 forge test --fuzz-runs 10000
 ```
+
+## Operating contract
+
+- On Windows, use repository PowerShell equivalents, LiteralPath for filesystem targets, explicit drive-letter checks, and one shell for a filesystem operation.

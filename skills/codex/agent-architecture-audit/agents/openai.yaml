@@ -1,0 +1,4 @@
+interface:
+  display_name: "Agent Architecture Audit"
+  short_description: "Agent Architecture Audit：判断材料を整理し、重要な見落としを減らす"
+  default_prompt: "$agent-architecture-audit を使い、Agent Architecture Auditに関する依頼を同梱domain guideに基づいて実施・検証してください。"

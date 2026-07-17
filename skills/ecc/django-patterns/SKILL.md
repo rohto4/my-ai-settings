@@ -731,3 +731,9 @@ Product.objects.filter(stock=0).delete()
 | Middleware | Request/response processing |
 
 Remember: Django provides many shortcuts, but for production applications, structure and organization matter more than concise code. Build for maintainability.
+
+## Operating contract
+
+- Start external integrations with fixtures, fakes, sandbox settings, or dry-run behavior.
+- Keep migrations, deployment, emails, webhooks, and production writes behind explicit approval.
+- Load secrets from environment or a secret store and never print, commit, or copy their values into examples.

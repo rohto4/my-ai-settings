@@ -1,4 +1,4 @@
 interface:
   display_name: "PostgreSQL Patterns"
-  short_description: "Review PostgreSQL SQL, runtime boundaries, and performance evidence."
+  short_description: "Review PostgreSQL SQL, boundaries, and performance evidence."
   default_prompt: "Use $postgres-patterns to design or review PostgreSQL queries, indexes, transactions, pooling, RLS, or diagnostics after database-migrations has established any schema or data lifecycle."

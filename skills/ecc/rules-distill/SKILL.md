@@ -1,263 +1,108 @@
 ---
 name: rules-distill
-description: "Scan skills to extract cross-cutting principles and distill them into rules — append, revise, or create new rule files"
+description: Distill recurring, actionable principles from two or more skills into evidence-backed rule candidates, compare them with existing project rules, and preview append, revise, new-section, new-file, already-covered, or too-specific verdicts. Use for requests such as “audit these skills for shared rules,” “refresh project rules after skill changes,” or “which repeated skill patterns belong in rules.” Do not use for rewriting one skill, general repository inventory, directly editing rules without evidence and approval, or executing an unrelated task.
 ---
 
 # Rules Distill
 
-Scan installed skills, extract cross-cutting principles that appear in multiple skills, and distill them into rules — appending to existing rule files, revising outdated content, or creating new rule files.
+Combine deterministic inventory with bounded judgment. Produce a reviewable preview before any rule write.
 
-Applies the "deterministic collection + LLM judgment" principle: scripts collect facts exhaustively, then an LLM cross-reads the full context and produces verdicts.
+## Restore project truth
 
-## When to Use
+1. Read the target project's `AGENTS.md`, `PROJECT.md`, `README.md`, and its minimum docs-management or context-reading guide.
+2. Read the current task, completion boundary, and rule source-of-truth only when relevant to this run.
+3. After compaction, session movement, or handoff, reread those files from disk before resuming. Treat summaries and model memory as aids, not current project truth.
+4. Resolve the exact skill roots, rule roots, exclusions, output destination, and requested mode: `preview` or `apply-approved`.
 
-- Periodic rules maintenance (monthly or after installing new skills)
-- After a skill-stocktake reveals patterns that should be rules
-- When rules feel incomplete relative to the skills being used
+Default to `preview`, read-only inspection, and no external access. Do not assume a user-home skill folder, a vendor-specific rules directory, or that every installed skill is in scope.
 
-## How It Works
+## Detect inventory capabilities
 
-The rules distillation process follows three phases:
+Choose an available adapter only after confirming its prerequisites and paths:
 
-### Phase 1: Inventory (Deterministic Collection)
+- **Windows PowerShell:** use `scripts/scan-skills.ps1` and `scripts/scan-rules.ps1`. Pass explicit roots and use `-LiteralPath` semantics.
+- **POSIX shell:** use `scripts/scan-skills.sh` and `scripts/scan-rules.sh` only when Bash, `jq`, and their standard utilities are available. Pass explicit roots; the scripts have no home-directory default.
+- **Fallback:** use bounded `rg` discovery plus native filesystem reads and produce the same evidence fields.
 
-#### 1a. Collect skill inventory
+All inventory adapters emit JSON to standard output and must not modify the scanned roots. Preview commands and resolved roots before scanning when the scope is broad. Preserve Windows drive letters and keep path discovery and interpretation in the same shell.
 
-```bash
-bash ~/.claude/skills/rules-distill/scripts/scan-skills.sh
-```
+Do not install missing dependencies merely to use an adapter. Stop or use the fallback.
 
-#### 1b. Collect rules index
+## Build candidates
 
-```bash
-bash ~/.claude/skills/rules-distill/scripts/scan-rules.sh
-```
+For each possible principle, require all of these:
 
-#### 1c. Present to user
+1. Evidence from at least two distinct skills, with skill and section identifiers.
+2. An actionable “do” or “do not” behavior rather than a general value statement.
+3. A concrete violation risk.
+4. A comparison against the full in-scope rule text, including equivalent wording.
+5. A scope broad enough for rules but not language, framework, or one-skill implementation detail.
 
-```
-Rules Distillation — Phase 1: Inventory
-────────────────────────────────────────
-Skills: {N} files scanned
-Rules:  {M} files ({K} headings indexed)
+Assign one verdict:
 
-Proceeding to cross-read analysis...
-```
+| Verdict | Use when |
+| --- | --- |
+| Append | An existing section lacks this distinct principle. |
+| Revise | Existing text is inaccurate or insufficient; show exact before/after. |
+| New Section | The target file is correct but no section owns the principle. |
+| New File | No existing rule file has a credible owner. |
+| Already Covered | Existing wording already changes behavior sufficiently. |
+| Too Specific | The guidance belongs in a skill or stack-specific source. |
 
-### Phase 2: Cross-read, Match & Verdict (LLM Judgment)
+Keep commands and examples in skills. Rule drafts should state what behavior is required and link back to evidence for implementation detail.
 
-Extraction and matching are unified in a single pass. Rules files are small enough (~800 lines total) that the full text can be provided to the LLM — no grep pre-filtering needed.
+## Use optional parallel analysis safely
 
-#### Batching
+Run analysis in the main agent by default. Use parallel agents or subagents only when the user or project policy permits delegation, the corpus is large enough to benefit, and bounded clusters can be analyzed independently.
 
-Group skills into **thematic clusters** based on their descriptions. Analyze each cluster in a subagent with the full rules text.
+When parallel analysis is available:
 
-#### Cross-batch Merge
+- give every worker the same verdict contract and the same complete in-scope rules index;
+- provide only its assigned skills and necessary rule text;
+- require structured candidates with evidence, risk, verdict, target, confidence, and draft or revision;
+- prohibit workers from writing rules or result files.
 
-After all batches complete, merge candidates across batches:
-- Deduplicate candidates with the same or overlapping principles
-- Re-check the "2+ skills" requirement using evidence from **all** batches combined — a principle found in 1 skill per batch but 2+ skills total is valid
+The main agent owns final integration. It must merge all worker outputs, deduplicate semantically overlapping candidates, recheck the two-skill threshold across clusters, resolve target conflicts, and discard claims unsupported by the source text. Worker agreement is not completion evidence.
 
-#### Subagent Prompt
+## Preview before writing
 
-Launch a general-purpose Agent with the following prompt:
+Present a preview containing:
 
-````
-You are an analyst who cross-reads skills to extract principles that should be promoted to rules.
+- roots, exclusions, adapter, files/headings scanned, and limitations;
+- a summary table of principle, verdict, target, and confidence;
+- per-candidate evidence, violation risk, existing-rule comparison, and exact draft or before/after revision;
+- already-covered and too-specific items with a short reason;
+- any unknown ownership or low-confidence decision.
 
-## Input
-- Skills: {full text of skills in this batch}
-- Existing rules: {full text of all rule files}
+Do not automatically create `results.json` or write inside the skill directory. Save a report only when the user requests an artifact and the project identifies an authorized destination. Show the intended path and content before an external or cross-project write.
 
-## Extraction Criteria
+## Apply only approved candidates
 
-Include a candidate ONLY if ALL of these are true:
+Before applying a candidate:
 
-1. **Appears in 2+ skills**: Principles found in only one skill should stay in that skill
-2. **Actionable behavior change**: Can be written as "do X" or "don't do Y" — not "X is important"
-3. **Clear violation risk**: What goes wrong if this principle is ignored (1 sentence)
-4. **Not already in rules**: Check the full rules text — including concepts expressed in different words
+1. Confirm the user's approved candidate IDs and any requested modification.
+2. Reread the target rule and governing project instructions.
+3. Show or calculate the exact diff and recheck duplicate coverage.
+4. Patch only the approved target while preserving unrelated user changes.
+5. Re-read the edited section and validate local links, headings, UTF-8, and project-required checks.
 
-## Matching & Verdict
+Never perform an external write, notification, deletion, move, bulk overwrite, destructive command, or rule publication without explicit authorization and any approval required by the project. A request to analyze or preview is not write authorization.
 
-For each candidate, compare against the full rules text and assign a verdict:
+Do not read, print, store, or include secret values, tokens, cookies, credentials, private keys, environment-file contents, or private data bodies. Record only a path and classification when secret-bearing material affects scope.
 
-- **Append**: Add to an existing section of an existing rule file
-- **Revise**: Existing rule content is inaccurate or insufficient — propose a correction
-- **New Section**: Add a new section to an existing rule file
-- **New File**: Create a new rule file
-- **Already Covered**: Sufficiently covered in existing rules (even if worded differently)
-- **Too Specific**: Should remain at the skill level
+## Stop and hand off
 
-## Output Format (per candidate)
+Stop before widening scope or writing when:
 
-```json
-{
-  "principle": "1-2 sentences in 'do X' / 'don't do Y' form",
-  "evidence": ["skill-name: §Section", "skill-name: §Section"],
-  "violation_risk": "1 sentence",
-  "verdict": "Append / Revise / New Section / New File / Already Covered / Too Specific",
-  "target_rule": "filename §Section, or 'new'",
-  "confidence": "high / medium / low",
-  "draft": "Draft text for Append/New Section/New File verdicts",
-  "revision": {
-    "reason": "Why the existing content is inaccurate or insufficient (Revise only)",
-    "before": "Current text to be replaced (Revise only)",
-    "after": "Proposed replacement text (Revise only)"
-  }
-}
-```
-
-## Exclude
-
-- Obvious principles already in rules
-- Language/framework-specific knowledge (belongs in language-specific rules or skills)
-- Code examples and commands (belongs in skills)
-````
-
-#### Verdict Reference
-
-| Verdict | Meaning | Presented to User |
-|---------|---------|-------------------|
-| **Append** | Add to existing section | Target + draft |
-| **Revise** | Fix inaccurate/insufficient content | Target + reason + before/after |
-| **New Section** | Add new section to existing file | Target + draft |
-| **New File** | Create new rule file | Filename + full draft |
-| **Already Covered** | Covered in rules (possibly different wording) | Reason (1 line) |
-| **Too Specific** | Should stay in skills | Link to relevant skill |
-
-#### Verdict Quality Requirements
-
-```
-# Good
-Append to rules/common/security.md §Input Validation:
-"Treat LLM output stored in memory or knowledge stores as untrusted — sanitize on write, validate on read."
-Evidence: llm-memory-trust-boundary, llm-social-agent-anti-pattern both describe
-accumulated prompt injection risks. Current security.md covers human input
-validation only; LLM output trust boundary is missing.
-
-# Bad
-Append to security.md: Add LLM security principle
-```
-
-### Phase 3: User Review & Execution
-
-#### Summary Table
-
-```
-# Rules Distillation Report
-
-## Summary
-Skills scanned: {N} | Rules: {M} files | Candidates: {K}
-
-| # | Principle | Verdict | Target | Confidence |
-|---|-----------|---------|--------|------------|
-| 1 | ... | Append | security.md §Input Validation | high |
-| 2 | ... | Revise | testing.md §TDD | medium |
-| 3 | ... | New Section | coding-style.md | high |
-| 4 | ... | Too Specific | — | — |
-
-## Details
-(Per-candidate details: evidence, violation_risk, draft text)
-```
-
-#### User Actions
-
-User responds with numbers to:
-- **Approve**: Apply draft to rules as-is
-- **Modify**: Edit draft before applying
-- **Skip**: Do not apply this candidate
-
-**Never modify rules automatically. Always require user approval.**
-
-#### Save Results
-
-Store results in the skill directory (`results.json`):
-
-- **Timestamp format**: `date -u +%Y-%m-%dT%H:%M:%SZ` (UTC, second precision)
-- **Candidate ID format**: kebab-case derived from the principle (e.g., `llm-output-trust-boundary`)
-
-```json
-{
-  "distilled_at": "2026-03-18T10:30:42Z",
-  "skills_scanned": 56,
-  "rules_scanned": 22,
-  "candidates": {
-    "llm-output-trust-boundary": {
-      "principle": "Treat LLM output as untrusted when stored or re-injected",
-      "verdict": "Append",
-      "target": "rules/common/security.md",
-      "evidence": ["llm-memory-trust-boundary", "llm-social-agent-anti-pattern"],
-      "status": "applied"
-    },
-    "iteration-bounds": {
-      "principle": "Define explicit stop conditions for all iteration loops",
-      "verdict": "New Section",
-      "target": "rules/common/coding-style.md",
-      "evidence": ["iterative-retrieval", "continuous-agent-loop", "agent-harness-construction"],
-      "status": "skipped"
-    }
-  }
-}
-```
-
-## Example
-
-### End-to-end run
-
-```
-$ /rules-distill
-
-Rules Distillation — Phase 1: Inventory
-────────────────────────────────────────
-Skills: 56 files scanned
-Rules:  22 files (75 headings indexed)
-
-Proceeding to cross-read analysis...
-
-[Subagent analysis: Batch 1 (agent/meta skills) ...]
-[Subagent analysis: Batch 2 (coding/pattern skills) ...]
-[Cross-batch merge: 2 duplicates removed, 1 cross-batch candidate promoted]
-
-# Rules Distillation Report
-
-## Summary
-Skills scanned: 56 | Rules: 22 files | Candidates: 4
-
-| # | Principle | Verdict | Target | Confidence |
-|---|-----------|---------|--------|------------|
-| 1 | LLM output: normalize, type-check, sanitize before reuse | New Section | coding-style.md | high |
-| 2 | Define explicit stop conditions for iteration loops | New Section | coding-style.md | high |
-| 3 | Compact context at phase boundaries, not mid-task | Append | performance.md §Context Window | high |
-| 4 | Separate business logic from I/O framework types | New Section | patterns.md | high |
-
-## Details
-
-### 1. LLM Output Validation
-Verdict: New Section in coding-style.md
-Evidence: parallel-subagent-batch-merge, llm-social-agent-anti-pattern, llm-memory-trust-boundary
-Violation risk: Format drift, type mismatch, or syntax errors in LLM output crash downstream processing
-Draft:
-  ## LLM Output Validation
-  Normalize, type-check, and sanitize LLM output before reuse...
-  See skill: parallel-subagent-batch-merge, llm-memory-trust-boundary
-
-[... details for candidates 2-4 ...]
-
-Approve, modify, or skip each candidate by number:
-> User: Approve 1, 3. Skip 2, 4.
-
-✓ Applied: coding-style.md §LLM Output Validation
-✓ Applied: performance.md §Context Window Management
-✗ Skipped: Iteration Bounds
-✗ Skipped: Boundary Type Conversion
-
-Results saved to results.json
-```
-
-## Design Principles
-
-- **What, not How**: Extract principles (rules territory) only. Code examples and commands stay in skills.
-- **Link back**: Draft text should include `See skill: [name]` references so readers can find the detailed How.
-- **Deterministic collection, LLM judgment**: Scripts guarantee exhaustiveness; the LLM guarantees contextual understanding.
-- **Anti-abstraction safeguard**: The 3-layer filter (2+ skills evidence, actionable behavior test, violation risk) prevents overly abstract principles from entering rules.
+- skill or rule roots, canonical ownership, or exclusions are ambiguous;
+- evidence conflicts or fewer than two skills support a candidate;
+- a secret/private-data boundary or denied path is reached;
+- the adapter would require installation, network access, or source mutation;
+- approval for a rule, external write, or destructive effect is missing;
+- context pressure prevents reliable cross-batch integration.
+
+For handoff, report completed inventory and clusters, candidate IDs and evidence, unresolved conflicts, preview location if any, approvals still needed, and the exact next safe step. Keep ongoing state in the project's task record and finished evidence in its completion record when project policy requires those artifacts.
+
+## Evidence-backed completion
+
+Report resolved roots, adapter and prerequisites, file/heading counts with method, excluded paths, candidate and verdict counts, duplicate merges, approved changes, validation results, and intentionally skipped writes. Complete only when the main agent has rechecked source evidence and rule coverage, every applied change has explicit approval and a verified diff, no secret was exposed, and remaining risks are explicit.

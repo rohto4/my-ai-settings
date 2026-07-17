@@ -42,3 +42,8 @@ Recommended production stack:
 - run `/harness-audit`
 - reduce scope to failing unit
 - replay with explicit acceptance criteria
+
+## Operating contract
+
+- For long work, reread AGENTS.md, PROJECT.md, and the current task artifact from disk; keep in-progress state separate from completion evidence. Stop on missing authority, ambiguous targets, unsafe live dependencies, or repeated non-progress. Hand off with evidence; complete only after the scoped checks pass.
+- Bound every loop by an objective, iteration budget, observable progress signal, and explicit stop condition.

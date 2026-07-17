@@ -181,3 +181,7 @@ Use these maxima unless the user explicitly asks for denser slides and readabili
 - animation is meaningful, not noisy
 - reduced motion is respected
 - file paths and customization points are explained at handoff
+
+## Operating contract
+
+- Build and preview locally with fixture assets first; keep real tokens, live APIs, remote asset upload, hosting, and publication behind separate gates.

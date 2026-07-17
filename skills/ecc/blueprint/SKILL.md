@@ -1,104 +1,101 @@
 ---
 name: blueprint
-description: >-
-  Turn a one-line objective into a step-by-step construction plan for
-  multi-session, multi-agent engineering projects. Each step has a
-  self-contained context brief so a fresh agent can execute it cold.
-  Includes adversarial review gate, dependency graph, parallel step
-  detection, anti-pattern catalog, and plan mutation protocol.
-  TRIGGER when: user requests a plan, blueprint, or roadmap for a
-  complex multi-PR task, or describes work that needs multiple sessions.
-  DO NOT TRIGGER when: task is completable in a single PR or fewer
-  than 3 tool calls, or user says "just do it".
+description: Turn a broad multi-session engineering objective into a dependency-ordered construction plan with cold-start context, authority gates, and verification per unit. Use for work spanning several phases or handoffs; do not use for a bounded single-session implementation or when the user says to execute an existing plan.
 ---
 
-# Blueprint — Construction Plan Generator
+# Blueprint
 
-Turn a one-line objective into a step-by-step construction plan that any coding agent can execute cold.
+Create a durable execution blueprint that a fresh Codex task can resume from repository files without relying on conversation history.
 
-## When to Use
+## Start and Boundaries
 
-- Breaking a large feature into multiple PRs with clear dependency order
-- Planning a refactor or migration that spans multiple sessions
-- Coordinating parallel workstreams across sub-agents
-- Any task where context loss between sessions would cause rework
+1. Read the target PJ's `AGENTS.md`, `PROJECT.md`, current task, architecture, pinned stack, and relevant implementation/completion records.
+2. Confirm the objective, source of truth, scope, non-goals, approval boundary, and final acceptance.
+3. This skill plans only. It does not edit product code, install dependencies, create branches, commit, push, deploy, update memory, or start agents.
+4. Use `prp-create-plan` for a normal implementation plan and `plan-orchestrate` when an approved plan only needs execution routing.
+5. Do not create parallel-agent work by default. Mark safe parallel candidates only when the user or target PJ explicitly permits delegation.
 
-**Do not use** for tasks completable in a single PR, fewer than 3 tool calls, or when the user says "just do it."
+Stop when architecture ownership, destructive migration policy, external authority, or the required end state is unresolved.
 
-## How It Works
+## Construction Workflow
 
-Blueprint runs a 5-phase pipeline:
+### 1. Map current state
 
-1. **Research** — Pre-flight checks (git, gh auth, remote, default branch), then reads project structure, existing plans, and memory files to gather context.
-2. **Design** — Breaks the objective into one-PR-sized steps (3–12 typical). Assigns dependency edges, parallel/serial ordering, model tier (strongest vs default), and rollback strategy per step.
-3. **Draft** — Writes a self-contained Markdown plan file to `plans/`. Every step includes a context brief, task list, verification commands, and exit criteria — so a fresh agent can execute any step without reading prior steps.
-4. **Review** — Delegates adversarial review to a strongest-model sub-agent (e.g., Opus) against a checklist and anti-pattern catalog. Fixes all critical findings before finalizing.
-5. **Register** — Saves the plan, updates memory index, and presents the step count and parallelism summary to the user.
+Record the exact repository path, branch/worktree state when relevant, canonical docs, existing implementation, tests, and unfinished task state. Separate observed facts from assumptions.
 
-Blueprint detects git/gh availability automatically. With git + GitHub CLI, it generates full branch/PR/CI workflow plans. Without them, it switches to direct mode (edit-in-place, no branches).
+### 2. Define invariants and gates
 
-## Examples
+Name what must remain true across all phases:
 
-### Basic usage
+- public contracts and compatibility;
+- data ownership, migration, and rollback;
+- authorization, secrets, and external-write boundaries;
+- test, observability, and operational requirements;
+- user decisions that block execution.
 
-```
-/blueprint myapp "migrate database to PostgreSQL"
-```
+### 3. Create bounded units
 
-Produces `plans/myapp-migrate-database-to-postgresql.md` with steps like:
-- Step 1: Add PostgreSQL driver and connection config
-- Step 2: Create migration scripts for each table
-- Step 3: Update repository layer to use new driver
-- Step 4: Add integration tests against PostgreSQL
-- Step 5: Remove old database code and config
+Each unit should have one dominant risk and be independently verifiable. Include:
 
-### Multi-agent project
+- stable ID and outcome;
+- cold-start context: authoritative files and current assumptions;
+- inputs and dependencies;
+- exact in-scope and out-of-scope surfaces;
+- intended files/components without inventing files not yet verified;
+- authority required;
+- implementation outline;
+- direct proving commands or observations;
+- rollback/recovery and handoff;
+- done condition.
 
-```
-/blueprint chatbot "extract LLM providers into a plugin system"
-```
+Split units that mix architecture, migration, implementation, and deployment without a verification boundary.
 
-Produces a plan with parallel steps where possible (e.g., "implement Anthropic plugin" and "implement OpenAI plugin" run in parallel after the plugin interface step is done), model tier assignments (strongest for the interface design step, default for implementation), and invariants verified after every step (e.g., "all existing tests pass", "no provider imports in core").
+### 4. Order by evidence and dependency
 
-## Key Features
+Use a dependency graph or table only when it clarifies order. Put contract and safety decisions before dependent implementation. Place migrations, external writes, deployment, and timer enablement behind explicit gates. Identify parallel candidates only when their mutable surfaces and outputs are disjoint.
 
-- **Cold-start execution** — Every step includes a self-contained context brief. No prior context needed.
-- **Adversarial review gate** — Every plan is reviewed by a strongest-model sub-agent against a checklist covering completeness, dependency correctness, and anti-pattern detection.
-- **Branch/PR/CI workflow** — Built into every step. Degrades gracefully to direct mode when git/gh is absent.
-- **Parallel step detection** — Dependency graph identifies steps with no shared files or output dependencies.
-- **Plan mutation protocol** — Steps can be split, inserted, skipped, reordered, or abandoned with formal protocols and audit trail.
-- **Zero runtime risk** — Pure Markdown skill. The entire repository contains only `.md` files — no hooks, no shell scripts, no executable code, no `package.json`, no build step. Nothing runs on install or invocation beyond Claude Code's native Markdown skill loader.
+### 5. Review adversarially
 
-## Installation
+Check:
 
-This skill ships with Everything Claude Code. No separate installation is needed when ECC is installed.
+- every unit traces to the objective;
+- dependencies are acyclic and justified;
+- a fresh task can locate all source files;
+- each done condition has direct evidence;
+- no unit silently broadens authority;
+- rollback and partial-failure behavior are present where needed;
+- progress and completion records are not mixed.
 
-### Full ECC install
+Use a subagent review only if delegation is explicitly authorized; otherwise perform the checklist locally.
 
-If you are working from the ECC repository checkout, verify the skill is present with:
+### 6. Persist in the target PJ
 
-```bash
-test -f skills/blueprint/SKILL.md
-```
+Write the blueprint only to an authorized project location. Register the active work in the PJ task file. Keep accepted architecture in canonical design/decision docs and move finished evidence to the completion log as work closes.
 
-To update later, review the ECC diff before updating:
+On Windows, use PowerShell and `-LiteralPath` for file operations. Verify resolved drive-letter targets before recursive move/delete and keep discovery and mutation in the same shell.
 
-```bash
-cd /path/to/everything-claude-code
-git fetch origin main
-git log --oneline HEAD..origin/main       # review new commits before updating
-git checkout <reviewed-full-sha>          # pin to a specific reviewed commit
-```
+## Mutation Protocol
 
-### Vendored standalone install
+When evidence changes:
 
-If you are vendoring only this skill outside the full ECC install, copy the reviewed file from the ECC repository into `~/.claude/skills/blueprint/SKILL.md`. Vendored copies do not have a git remote, so update them by re-copying the file from a reviewed ECC commit rather than running `git pull`.
+1. mark the affected unit and downstream units;
+2. record the new fact and source;
+3. revise dependencies, scope, and verification;
+4. preserve the reason for superseding the old path;
+5. do not silently rewrite completed evidence.
 
-## Requirements
+After compaction or handoff, reread the blueprint, PJ instructions, and current task from disk before continuing.
 
-- Claude Code (for `/blueprint` slash command)
-- Git + GitHub CLI (optional — enables full branch/PR/CI workflow; Blueprint detects absence and auto-switches to direct mode)
+## Output
 
-## Source
+Lead with:
 
-Inspired by antbotlab/blueprint — upstream project and reference design.
+- objective, non-goals, invariants, and final acceptance;
+- unit table with dependencies, authority, outputs, and verification;
+- critical path and explicitly safe parallel candidates;
+- approval gates and unresolved decisions;
+- first executable unit after approval.
+
+## Completion
+
+The blueprint is complete when every objective maps to bounded units, each unit has cold-start context and a proving check, dependencies are acyclic, authority gates are visible, and task/decision/completion destinations are named. It is not evidence that implementation is complete.

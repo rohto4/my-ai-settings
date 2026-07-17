@@ -1,0 +1,4 @@
+interface:
+  display_name: "Config GC"
+  short_description: "Config GC：設定漏れを減らし、導入を再現しやすくする"
+  default_prompt: "$config-gc を使い、Config GCに関する依頼を同梱domain guideに基づいて実施・検証してください。"

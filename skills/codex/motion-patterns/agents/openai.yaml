@@ -1,0 +1,4 @@
+interface:
+  display_name: "Motion Patterns"
+  short_description: "Motion Patterns：該当技術の実装精度と検証効率を高める"
+  default_prompt: "$motion-patterns を使い、Motion Patternsに関する依頼を同梱domain guideに基づいて実施・検証してください。"

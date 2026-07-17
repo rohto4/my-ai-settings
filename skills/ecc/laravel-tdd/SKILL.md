@@ -47,6 +47,8 @@ Use `RefreshDatabase` as the default for tests that touch the database: for data
 - Default to **Pest** for new tests when available.
 - Use **PHPUnit** only if the project already standardizes on it or requires PHPUnit-specific tooling.
 
+Read [detailed-testing-patterns.md](references/detailed-testing-patterns.md) when the task needs expanded setup, factory, API, fake, Artisan, authorization, coverage, or best-practice examples. Load only the relevant sections.
+
 ## Examples
 
 ### PHPUnit Example
@@ -280,3 +282,8 @@ final class DashboardInertiaTest extends TestCase
 ```
 
 Prefer `assertInertia` over raw JSON assertions to keep tests aligned with Inertia responses.
+
+## Operational Safety, Recovery, And Completion
+
+- On Windows, use the repository's PowerShell equivalents. Resolve paths with `Resolve-Path -LiteralPath` or `Get-Item -LiteralPath`, preserve drive letters and spaces, and keep discovery and any later mutation in the same shell.
+- Keep diagnosis read-only and prefer local fixtures, fake services, and dry-runs. Treat real tokens, live APIs, deploys, sends, pushes, or remote writes as separate actions requiring explicit approval immediately before execution.

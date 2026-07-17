@@ -1,0 +1,4 @@
+interface:
+  display_name: "Homelab Network Readiness"
+  short_description: "Homelab Network Readiness：専門判断の精度を高め、調査の手戻りを減らす"
+  default_prompt: "$homelab-network-readiness を使い、Homelab Network Readinessに関する依頼を同梱domain guideに基づいて実施・検証してください。"

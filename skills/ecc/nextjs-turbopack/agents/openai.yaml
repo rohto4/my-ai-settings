@@ -1,0 +1,4 @@
+interface:
+  display_name: "Next.js Turbopack"
+  short_description: "Diagnose Turbopack behavior for a pinned Next.js version."
+  default_prompt: "Use $nextjs-turbopack to diagnose this Turbopack issue against the repository's installed Next.js version."

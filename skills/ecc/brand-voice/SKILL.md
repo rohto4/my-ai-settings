@@ -94,3 +94,11 @@ Use this skill before or inside:
 - cold or warm outbound across X, LinkedIn, and email
 
 If another skill already has a partial voice capture section, this skill is the canonical source of truth.
+
+## Operating contract
+
+- Start external paths with a fixture, fake, sandbox, or dry-run. Put real tokens, live APIs, deployment, and production writes behind a separate gate.
+- Keep diagnosis read-only. Obtain explicit approval immediately before push, deploy, send, publish, remote update, destructive cleanup, or another external mutation.
+- State completion criteria, checks run, observed results, and any unverified surface.
+- For long work, reread AGENTS.md, PROJECT.md, and the current task artifact from disk; keep in-progress state separate from completion evidence. Stop on missing authority, ambiguous targets, unsafe live dependencies, or repeated non-progress. Hand off with evidence; complete only after the scoped checks pass.
+- Keep source gathering read-only and draft locally; publishing or updating a live brand profile is a separate approved write.

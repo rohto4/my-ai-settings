@@ -1,6 +1,6 @@
 ---
 name: santa-method
-description: "Multi-agent adversarial verification with convergence loop. Two independent review agents must both pass before output ships."
+description: Run adversarial dual-review verification with an evidence rubric and convergence cap. Use for high-stakes output when the user or repository explicitly authorizes subagents or when two genuinely isolated reviews are available; do not use for deterministic checks, ordinary drafts, or unauthorized agent dispatch.
 ---
 
 # Santa Method
@@ -114,7 +114,7 @@ Be rigorous. Your job is to find problems, not to approve.
 ```
 
 ```python
-# Spawn reviewers in parallel (Claude Code subagents)
+# Spawn reviewers only when the user or repository explicitly authorizes Codex subagents
 review_b = Agent(prompt=REVIEWER_PROMPT.format(...), description="Santa Reviewer B")
 review_c = Agent(prompt=REVIEWER_PROMPT.format(...), description="Santa Reviewer C")
 
@@ -203,13 +203,13 @@ Critical: each review round uses **fresh agents**. Reviewers must not carry memo
 
 ## Implementation Patterns
 
-### Pattern A: Claude Code Subagents (Recommended)
+### Pattern A: Authorized Codex Subagents
 
-Subagents provide true context isolation. Each reviewer is a separate process with no shared state.
+Use subagents only when the user or applicable repository instructions explicitly authorize them and the current Codex environment exposes collaboration tools. Each reviewer must receive the raw specification, output, and rubric without the other review or the expected answer.
 
-```bash
-# In a Claude Code session, use the Agent tool to spawn reviewers
-# Both agents run in parallel for speed
+```text
+# Use the current Codex collaboration tool; do not invent an Agent command.
+# Dispatch in parallel only when the subtasks are independent and explicitly authorized.
 ```
 
 ```python
@@ -235,7 +235,7 @@ When subagents aren't available, simulate isolation with explicit context resets
 5. New context: "You are Reviewer 2. Evaluate ONLY against this rubric. Find problems."
 6. Compare both reviews, fix, repeat
 
-The subagent pattern is strictly superior — inline simulation risks context bleed between reviewers.
+Sequential inline review is the required fallback when subagents are unavailable or not authorized. Report that independence is limited rather than claiming isolated review.
 
 ### Pattern C: Batch Sampling
 
@@ -303,3 +303,8 @@ Cost of NOT Santa = (reputation damage) + (correction effort) + (trust erosion)
 ```
 
 For batch operations, the sampling pattern reduces cost to ~15-20% of full verification while catching >90% of systematic issues.
+
+## Operational Safety, Recovery, And Completion
+
+- Stop when authority, required data, credentials, or external impact is unclear. Hand off the exact scope, attempted checks, observed results, artifacts, blockers, and next decision. Claim completion only with recorded verification evidence and remaining unverified scope.
+- At start and after compaction, session transfer, or handoff, reread repository `AGENTS.md`, `PROJECT.md`, and the current `docs/imp` task from disk; do not resume from a conversation summary alone.

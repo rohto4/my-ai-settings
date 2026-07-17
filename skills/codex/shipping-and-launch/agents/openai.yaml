@@ -1,0 +1,4 @@
+interface:
+  display_name: "Shipping And Launch"
+  short_description: "Shipping And Launch：公開時の操作漏れを減らし、配備を安定させる"
+  default_prompt: "$shipping-and-launch を使い、Shipping And Launchに関する依頼を同梱domain guideに基づいて実施・検証してください。"

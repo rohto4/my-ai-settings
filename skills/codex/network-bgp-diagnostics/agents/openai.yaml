@@ -1,0 +1,4 @@
+interface:
+  display_name: "Network BGP Diagnostics"
+  short_description: "Network BGP Diagnostics：専門判断の精度を高め、調査の手戻りを減らす"
+  default_prompt: "$network-bgp-diagnostics を使い、Network BGP Diagnosticsに関する依頼を同梱domain guideに基づいて実施・検証してください。"

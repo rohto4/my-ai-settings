@@ -128,3 +128,9 @@ Before delivering:
 - `brand-voice` for source-derived voice profiles
 - `crosspost` for platform-specific distribution
 - `x-api` for sourcing recent posts and publishing approved X output
+
+## Operating contract
+
+- Start external paths with a fixture, fake, sandbox, or dry-run. Put real tokens, live APIs, deployment, and production writes behind a separate gate.
+- Keep diagnosis read-only. Obtain explicit approval immediately before push, deploy, send, publish, remote update, destructive cleanup, or another external mutation.
+- Draft and validate content locally; treat publishing, sending, scheduling, and remote asset changes as separate approved writes.

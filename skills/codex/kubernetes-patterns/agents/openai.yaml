@@ -1,0 +1,4 @@
+interface:
+  display_name: "Kubernetes Patterns"
+  short_description: "Kubernetes Patterns：成果物の品質と一貫性を高める"
+  default_prompt: "$kubernetes-patterns を使い、Kubernetes Patternsに関する依頼を同梱domain guideに基づいて実施・検証してください。"

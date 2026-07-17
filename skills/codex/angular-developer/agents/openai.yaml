@@ -1,0 +1,4 @@
+interface:
+  display_name: "Angular Developer"
+  short_description: "Angular Developer：実装の抜け漏れを減らし、作業効率を高める"
+  default_prompt: "$angular-developer を使い、Angular Developerに関する依頼を同梱domain guideに基づいて実施・検証してください。"

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Homelab Pihole Dns"
+  short_description: "Homelab Pihole Dns：手順の抜け漏れを減らし、作業を再現しやすくする"
+  default_prompt: "$homelab-pihole-dns を使い、Homelab Pihole Dnsに関する依頼を同梱domain guideに基づいて実施・検証してください。"

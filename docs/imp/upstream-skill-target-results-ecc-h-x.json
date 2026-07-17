@@ -1,0 +1,578 @@
+[
+    {
+        "target_path":  "skills/ecc/healthcare-cdss-patterns/",
+        "status":  "integrated",
+        "integration_summary":  "expected source 1件の引継ぎ要素を重複排除して正本へ反映: 開始・停止・handoff・完了条件を明文化し、会話要約だけで再開しない / 長期作業はAGENTS.md/PROJECT.mdとdocs/impを実体再読し、進行中と完了証拠を分離",
+        "verification":  "scoped frontmatter・name・500行上限・resource link・openai.yaml・source mapping・handoff coverage検査pass。全体Test-AgentSetは全担当完了後にmainで実行。"
+    },
+    {
+        "target_path":  "skills/ecc/healthcare-emr-patterns/",
+        "status":  "integrated",
+        "integration_summary":  "expected source 1件の引継ぎ要素を重複排除して正本へ反映: 開始・停止・handoff・完了条件を明文化し、会話要約だけで再開しない / 長期作業はAGENTS.md/PROJECT.mdとdocs/impを実体再読し、進行中と完了証拠を分離",
+        "verification":  "scoped frontmatter・name・500行上限・resource link・openai.yaml・source mapping・handoff coverage検査pass。全体Test-AgentSetは全担当完了後にmainで実行。"
+    },
+    {
+        "target_path":  "skills/ecc/healthcare-eval-harness/",
+        "status":  "integrated",
+        "integration_summary":  "expected source 1件の引継ぎ要素を重複排除して正本へ反映: push・deploy・送信・外部更新はread-only/dry-run既定、実行直前に明示承認 / Windows/PowerShell同等手順とLiteralPath・drive-letter・同一shell内の安全確認 / 開始・停止・handoff・完了条件を明文化し、会話要約だけで再開しない",
+        "verification":  "scoped frontmatter・name・500行上限・resource link・openai.yaml・source mapping・handoff coverage検査pass。全体Test-AgentSetは全担当完了後にmainで実行。"
+    },
+    {
+        "target_path":  "skills/ecc/healthcare-phi-compliance/",
+        "status":  "integrated",
+        "integration_summary":  "expected source 1件の引継ぎ要素を重複排除して正本へ反映: 外部変更経路をfake/dry-run既定にし、実token・live API・deployを別gate化 / push・deploy・送信・外部更新はread-only/dry-run既定、実行直前に明示承認",
+        "verification":  "scoped frontmatter・name・500行上限・resource link・openai.yaml・source mapping・handoff coverage検査pass。全体Test-AgentSetは全担当完了後にmainで実行。"
+    },
+    {
+        "target_path":  "skills/ecc/hexagonal-architecture/",
+        "status":  "no_change_needed",
+        "integration_summary":  "既存正本がexpected source 1件の引継ぎ要素を充足: 開始・停止・handoff・完了条件を明文化し、会話要約だけで再開しない / 長期作業はAGENTS.md/PROJECT.mdとdocs/impを実体再読し、進行中と完了証拠を分離",
+        "verification":  "scoped frontmatter・name・500行上限・resource link・openai.yaml・source mapping・handoff coverage検査pass。全体Test-AgentSetは全担当完了後にmainで実行。"
+    },
+    {
+        "target_path":  "skills/ecc/hipaa-compliance/",
+        "status":  "integrated",
+        "integration_summary":  "expected source 1件の引継ぎ要素を重複排除して正本へ反映: 外部変更経路をfake/dry-run既定にし、実token・live API・deployを別gate化 / push・deploy・送信・外部更新はread-only/dry-run既定、実行直前に明示承認 / 開始・停止・handoff・完了条件を明文化し、会話要約だけで再開しない",
+        "verification":  "scoped frontmatter・name・500行上限・resource link・openai.yaml・source mapping・handoff coverage検査pass。全体Test-AgentSetは全担当完了後にmainで実行。"
+    },
+    {
+        "target_path":  "skills/ecc/hookify-rules/",
+        "status":  "integrated",
+        "integration_summary":  "expected source 1件の引継ぎ要素を重複排除して正本へ反映: 削除・resetは対象絶対path確認と明示承認を必須にし、既定はread-only診断 / Claude Codeのtool名・hook・.claude pathをCodexのtool/approval/commentary契約へ置換し、必要ならlegacy referenceへ分離する / token・Cookie・credentialは環境変数またはsecret storeから注入し、ログでmask / Windows/PowerShell同等手順とLiteralPath・drive-letter・同一shell内の安全確認",
+        "verification":  "scoped frontmatter・name・500行上限・resource link・openai.yaml・source mapping・handoff coverage検査pass。全体Test-AgentSetは全担当完了後にmainで実行。"
+    },
+    {
+        "target_path":  "skills/ecc/inventory-demand-planning/",
+        "status":  "integrated",
+        "integration_summary":  "expected source 1件の引継ぎ要素を重複排除して正本へ反映: 開始・停止・handoff・完了条件を明文化し、会話要約だけで再開しない / 長期作業はAGENTS.md/PROJECT.mdとdocs/impを実体再読し、進行中と完了証拠を分離",
+        "verification":  "scoped frontmatter・name・500行上限・resource link・openai.yaml・source mapping・handoff coverage検査pass。全体Test-AgentSetは全担当完了後にmainで実行。"
+    },
+    {
+        "target_path":  "skills/ecc/investor-materials/",
+        "status":  "integrated",
+        "integration_summary":  "expected source 1件の引継ぎ要素を重複排除して正本へ反映: 開始・停止・handoff・完了条件を明文化し、会話要約だけで再開しない",
+        "verification":  "scoped frontmatter・name・500行上限・resource link・openai.yaml・source mapping・handoff coverage検査pass。全体Test-AgentSetは全担当完了後にmainで実行。"
+    },
+    {
+        "target_path":  "skills/ecc/investor-outreach/",
+        "status":  "integrated",
+        "integration_summary":  "expected source 1件の引継ぎ要素を重複排除して正本へ反映: 外部変更経路をfake/dry-run既定にし、実token・live API・deployを別gate化 / push・deploy・送信・外部更新はread-only/dry-run既定、実行直前に明示承認",
+        "verification":  "scoped frontmatter・name・500行上限・resource link・openai.yaml・source mapping・handoff coverage検査pass。全体Test-AgentSetは全担当完了後にmainで実行。"
+    },
+    {
+        "target_path":  "skills/ecc/iterative-retrieval/",
+        "status":  "integrated",
+        "integration_summary":  "expected source 1件の引継ぎ要素を重複排除して正本へ反映: subagentやparallel agentを既定起動せず、ユーザーまたはPJ方針が明示した場合だけ使うgateを追加する / 開始・停止・handoff・完了条件を明文化し、会話要約だけで再開しない / 長期作業はAGENTS.md/PROJECT.mdとdocs/impを実体再読し、進行中と完了証拠を分離",
+        "verification":  "scoped frontmatter・name・500行上限・resource link・openai.yaml・source mapping・handoff coverage検査pass。全体Test-AgentSetは全担当完了後にmainで実行。"
+    },
+    {
+        "target_path":  "skills/ecc/java-coding-standards/",
+        "status":  "integrated",
+        "integration_summary":  "expected source 1件の引継ぎ要素を重複排除して正本へ反映: 開始・停止・handoff・完了条件を明文化し、会話要約だけで再開しない / 長期作業はAGENTS.md/PROJECT.mdとdocs/impを実体再読し、進行中と完了証拠を分離",
+        "verification":  "scoped frontmatter・name・500行上限・resource link・openai.yaml・source mapping・handoff coverage検査pass。全体Test-AgentSetは全担当完了後にmainで実行。"
+    },
+    {
+        "target_path":  "skills/ecc/jira-integration/",
+        "status":  "integrated",
+        "integration_summary":  "expected source 1件の引継ぎ要素を重複排除して正本へ反映: Claude Codeのtool名・hook・.claude pathをCodexのtool/approval/commentary契約へ置換し、必要ならlegacy referenceへ分離する / Windows/PowerShell同等手順とLiteralPath・drive-letter・同一shell内の安全確認",
+        "verification":  "scoped frontmatter・name・500行上限・resource link・openai.yaml・source mapping・handoff coverage検査pass。全体Test-AgentSetは全担当完了後にmainで実行。"
+    },
+    {
+        "target_path":  "skills/ecc/jpa-patterns/",
+        "status":  "integrated",
+        "integration_summary":  "expected source 1件の引継ぎ要素を重複排除して正本へ反映: 発火境界を明記",
+        "verification":  "scoped frontmatter・name・500行上限・resource link・openai.yaml・source mapping・handoff coverage検査pass。全体Test-AgentSetは全担当完了後にmainで実行。"
+    },
+    {
+        "target_path":  "skills/ecc/knowledge-ops/",
+        "status":  "no_change_needed",
+        "integration_summary":  "既存正本がexpected source 1件の引継ぎ要素を充足: PJ正本優先、候補抽出read-only、転記承認、重複防止、完了証拠を追加",
+        "verification":  "scoped frontmatter・name・500行上限・resource link・openai.yaml・source mapping・handoff coverage検査pass。全体Test-AgentSetは全担当完了後にmainで実行。"
+    },
+    {
+        "target_path":  "skills/ecc/kotlin-coroutines-flows/",
+        "status":  "integrated",
+        "integration_summary":  "expected source 1件の引継ぎ要素を重複排除して正本へ反映: 外部変更経路をfake/dry-run既定にし、実token・live API・deployを別gate化 / push・deploy・送信・外部更新はread-only/dry-run既定、実行直前に明示承認",
+        "verification":  "scoped frontmatter・name・500行上限・resource link・openai.yaml・source mapping・handoff coverage検査pass。全体Test-AgentSetは全担当完了後にmainで実行。"
+    },
+    {
+        "target_path":  "skills/ecc/kotlin-exposed-patterns/",
+        "status":  "integrated",
+        "integration_summary":  "expected source 1件の引継ぎ要素を重複排除して正本へ反映: 外部変更経路をfake/dry-run既定にし、実token・live API・deployを別gate化 / push・deploy・送信・外部更新はread-only/dry-run既定、実行直前に明示承認 / 開始・停止・handoff・完了条件を明文化し、会話要約だけで再開しない",
+        "verification":  "scoped frontmatter・name・500行上限・resource link・openai.yaml・source mapping・handoff coverage検査pass。全体Test-AgentSetは全担当完了後にmainで実行。"
+    },
+    {
+        "target_path":  "skills/ecc/kotlin-ktor-patterns/",
+        "status":  "integrated",
+        "integration_summary":  "expected source 1件の引継ぎ要素を重複排除して正本へ反映: push・deploy・送信・外部更新はread-only/dry-run既定、実行直前に明示承認 / 691行の本文を入口、判断表、referencesへ分割し、最初に読む文脈量を抑える",
+        "verification":  "scoped frontmatter・name・500行上限・resource link・openai.yaml・source mapping・handoff coverage検査pass。全体Test-AgentSetは全担当完了後にmainで実行。"
+    },
+    {
+        "target_path":  "skills/ecc/kotlin-patterns/",
+        "status":  "integrated",
+        "integration_summary":  "expected source 1件の引継ぎ要素を重複排除して正本へ反映: 713行の本文を入口、判断表、referencesへ分割し、最初に読む文脈量を抑える",
+        "verification":  "scoped frontmatter・name・500行上限・resource link・openai.yaml・source mapping・handoff coverage検査pass。全体Test-AgentSetは全担当完了後にmainで実行。"
+    },
+    {
+        "target_path":  "skills/ecc/kotlin-testing/",
+        "status":  "integrated",
+        "integration_summary":  "expected source 1件の引継ぎ要素を重複排除して正本へ反映: token・Cookie・credentialは環境変数またはsecret storeから注入し、ログでmask / 826行の本文を入口、判断表、referencesへ分割し、最初に読む文脈量を抑える",
+        "verification":  "scoped frontmatter・name・500行上限・resource link・openai.yaml・source mapping・handoff coverage検査pass。全体Test-AgentSetは全担当完了後にmainで実行。"
+    },
+    {
+        "target_path":  "skills/ecc/laravel-patterns/",
+        "status":  "no_change_needed",
+        "integration_summary":  "既存正本がexpected source 1件の引継ぎ要素を充足: token・Cookie・credentialは環境変数またはsecret storeから注入し、ログでmask",
+        "verification":  "scoped frontmatter・name・500行上限・resource link・openai.yaml・source mapping・handoff coverage検査pass。全体Test-AgentSetは全担当完了後にmainで実行。"
+    },
+    {
+        "target_path":  "skills/ecc/laravel-plugin-discovery/",
+        "status":  "integrated",
+        "integration_summary":  "expected source 1件の引継ぎ要素を重複排除して正本へ反映: Claude Codeのtool名・hook・.claude pathをCodexのtool/approval/commentary契約へ置換し、必要ならlegacy referenceへ分離する / token・Cookie・credentialは環境変数またはsecret storeから注入し、ログでmask / Windows/PowerShell同等手順とLiteralPath・drive-letter・同一shell内の安全確認",
+        "verification":  "scoped frontmatter・name・500行上限・resource link・openai.yaml・source mapping・handoff coverage検査pass。全体Test-AgentSetは全担当完了後にmainで実行。"
+    },
+    {
+        "target_path":  "skills/ecc/laravel-security/",
+        "status":  "integrated",
+        "integration_summary":  "expected source 1件の引継ぎ要素を重複排除して正本へ反映: 外部変更経路をfake/dry-run既定にし、実token・live API・deployを別gate化 / push・deploy・送信・外部更新はread-only/dry-run既定、実行直前に明示承認 / Windows/PowerShell同等手順とLiteralPath・drive-letter・同一shell内の安全確認",
+        "verification":  "scoped frontmatter・name・500行上限・resource link・openai.yaml・source mapping・handoff coverage検査pass。全体Test-AgentSetは全担当完了後にmainで実行。"
+    },
+    {
+        "target_path":  "skills/ecc/laravel-tdd/",
+        "status":  "integrated",
+        "integration_summary":  "expected source 1件の引継ぎ要素を重複排除して正本へ反映: push・deploy・送信・外部更新はread-only/dry-run既定、実行直前に明示承認 / Windows/PowerShell同等手順とLiteralPath・drive-letter・同一shell内の安全確認 / 676行の本文を入口、判断表、referencesへ分割し、最初に読む文脈量を抑える",
+        "verification":  "scoped frontmatter・name・500行上限・resource link・openai.yaml・source mapping・handoff coverage検査pass。全体Test-AgentSetは全担当完了後にmainで実行。"
+    },
+    {
+        "target_path":  "skills/ecc/laravel-verification/",
+        "status":  "integrated",
+        "integration_summary":  "expected source 1件の引継ぎ要素を重複排除して正本へ反映: 外部変更経路をfake/dry-run既定にし、実token・live API・deployを別gate化 / push・deploy・送信・外部更新はread-only/dry-run既定、実行直前に明示承認 / Windows/PowerShell同等手順とLiteralPath・drive-letter・同一shell内の安全確認 / 開始・停止・handoff・完了条件を明文化し、会話要約だけで再開しない",
+        "verification":  "scoped frontmatter・name・500行上限・resource link・openai.yaml・source mapping・handoff coverage検査pass。全体Test-AgentSetは全担当完了後にmainで実行。"
+    },
+    {
+        "target_path":  "skills/ecc/lead-intelligence/",
+        "status":  "integrated",
+        "integration_summary":  "expected source 1件の引継ぎ要素を重複排除して正本へ反映: Windows/PowerShell同等手順とLiteralPath・drive-letter・同一shell内の安全確認 / 開始・停止・handoff・完了条件を明文化し、会話要約だけで再開しない / 長期作業はAGENTS.md/PROJECT.mdとdocs/impを実体再読し、進行中と完了証拠を分離",
+        "verification":  "scoped frontmatter・name・500行上限・resource link・openai.yaml・source mapping・handoff coverage検査pass。全体Test-AgentSetは全担当完了後にmainで実行。"
+    },
+    {
+        "target_path":  "skills/ecc/liquid-glass-design/",
+        "status":  "integrated",
+        "integration_summary":  "expected source 1件の引継ぎ要素を重複排除して正本へ反映: 発火境界を明記",
+        "verification":  "scoped frontmatter・name・500行上限・resource link・openai.yaml・source mapping・handoff coverage検査pass。全体Test-AgentSetは全担当完了後にmainで実行。"
+    },
+    {
+        "target_path":  "skills/ecc/llm-trading-agent-security/",
+        "status":  "integrated",
+        "integration_summary":  "expected source 1件の引継ぎ要素を重複排除して正本へ反映: 外部変更経路をfake/dry-run既定にし、実token・live API・deployを別gate化 / push・deploy・送信・外部更新はread-only/dry-run既定、実行直前に明示承認 / token・Cookie・credentialは環境変数またはsecret storeから注入し、ログでmask / 開始・停止・handoff・完了条件を明文化し、会話要約だけで再開しない",
+        "verification":  "scoped frontmatter・name・500行上限・resource link・openai.yaml・source mapping・handoff coverage検査pass。全体Test-AgentSetは全担当完了後にmainで実行。"
+    },
+    {
+        "target_path":  "skills/ecc/logistics-exception-management/",
+        "status":  "integrated",
+        "integration_summary":  "expected source 1件の引継ぎ要素を重複排除して正本へ反映: 発火境界を明記",
+        "verification":  "scoped frontmatter・name・500行上限・resource link・openai.yaml・source mapping・handoff coverage検査pass。全体Test-AgentSetは全担当完了後にmainで実行。"
+    },
+    {
+        "target_path":  "skills/ecc/manim-video/",
+        "status":  "integrated",
+        "integration_summary":  "expected source 1件の引継ぎ要素を重複排除して正本へ反映: Windows/PowerShell同等手順とLiteralPath・drive-letter・同一shell内の安全確認",
+        "verification":  "scoped frontmatter・name・500行上限・resource link・openai.yaml・source mapping・handoff coverage検査pass。全体Test-AgentSetは全担当完了後にmainで実行。"
+    },
+    {
+        "target_path":  "skills/ecc/market-research/",
+        "status":  "no_change_needed",
+        "integration_summary":  "既存正本がexpected source 1件の引継ぎ要素を充足: 定義差、反証、TAM/SAM/SOM、推定根拠、source間重複排除を強化",
+        "verification":  "scoped frontmatter・name・500行上限・resource link・openai.yaml・source mapping・handoff coverage検査pass。全体Test-AgentSetは全担当完了後にmainで実行。"
+    },
+    {
+        "target_path":  "skills/ecc/mcp-server-patterns/",
+        "status":  "no_change_needed",
+        "integration_summary":  "既存正本がexpected source 1件の引継ぎ要素を充足: Windows/PowerShell同等手順とLiteralPath・drive-letter・同一shell内の安全確認",
+        "verification":  "scoped frontmatter・name・500行上限・resource link・openai.yaml・source mapping・handoff coverage検査pass。全体Test-AgentSetは全担当完了後にmainで実行。"
+    },
+    {
+        "target_path":  "skills/ecc/messages-ops/",
+        "status":  "integrated",
+        "integration_summary":  "expected source 1件の引継ぎ要素を重複排除して正本へ反映: 開始・停止・handoff・完了条件を明文化し、会話要約だけで再開しない / 長期作業はAGENTS.md/PROJECT.mdとdocs/impを実体再読し、進行中と完了証拠を分離",
+        "verification":  "scoped frontmatter・name・500行上限・resource link・openai.yaml・source mapping・handoff coverage検査pass。全体Test-AgentSetは全担当完了後にmainで実行。"
+    },
+    {
+        "target_path":  "skills/ecc/nanoclaw-repl/",
+        "status":  "integrated",
+        "integration_summary":  "expected source 1件の引継ぎ要素を重複排除して正本へ反映: 発火境界を明記",
+        "verification":  "scoped frontmatter・name・500行上限・resource link・openai.yaml・source mapping・handoff coverage検査pass。全体Test-AgentSetは全担当完了後にmainで実行。"
+    },
+    {
+        "target_path":  "skills/ecc/nestjs-patterns/",
+        "status":  "integrated",
+        "integration_summary":  "expected source 1件の引継ぎ要素を重複排除して正本へ反映: 発火境界を明記",
+        "verification":  "scoped frontmatter・name・500行上限・resource link・openai.yaml・source mapping・handoff coverage検査pass。全体Test-AgentSetは全担当完了後にmainで実行。"
+    },
+    {
+        "target_path":  "skills/ecc/nextjs-turbopack/",
+        "status":  "no_change_needed",
+        "integration_summary":  "既存正本がexpected source 1件の引継ぎ要素を充足: pinned version/current docs、非trigger/handoff、read-only診断、PowerShell、完了条件を追加",
+        "verification":  "scoped frontmatter・name・500行上限・resource link・openai.yaml・source mapping・handoff coverage検査pass。全体Test-AgentSetは全担当完了後にmainで実行。"
+    },
+    {
+        "target_path":  "skills/ecc/nodejs-keccak256/",
+        "status":  "integrated",
+        "integration_summary":  "expected source 1件の引継ぎ要素を重複排除して正本へ反映: Windows/PowerShell同等手順とLiteralPath・drive-letter・同一shell内の安全確認",
+        "verification":  "scoped frontmatter・name・500行上限・resource link・openai.yaml・source mapping・handoff coverage検査pass。全体Test-AgentSetは全担当完了後にmainで実行。"
+    },
+    {
+        "target_path":  "skills/ecc/nutrient-document-processing/",
+        "status":  "integrated",
+        "integration_summary":  "expected source 1件の引継ぎ要素を重複排除して正本へ反映: Windows/PowerShell同等手順とLiteralPath・drive-letter・同一shell内の安全確認",
+        "verification":  "scoped frontmatter・name・500行上限・resource link・openai.yaml・source mapping・handoff coverage検査pass。全体Test-AgentSetは全担当完了後にmainで実行。"
+    },
+    {
+        "target_path":  "skills/ecc/nuxt4-patterns/",
+        "status":  "integrated",
+        "integration_summary":  "expected source 1件の引継ぎ要素を重複排除して正本へ反映: 発火境界を明記",
+        "verification":  "scoped frontmatter・name・500行上限・resource link・openai.yaml・source mapping・handoff coverage検査pass。全体Test-AgentSetは全担当完了後にmainで実行。"
+    },
+    {
+        "target_path":  "skills/ecc/openclaw-persona-forge/",
+        "status":  "integrated",
+        "integration_summary":  "expected source 1件の引継ぎ要素を重複排除して正本へ反映: Claude Codeのtool名・hook・.claude pathをCodexのtool/approval/commentary契約へ置換し、必要ならlegacy referenceへ分離する / Windows/PowerShell同等手順とLiteralPath・drive-letter・同一shell内の安全確認 / 開始・停止・handoff・完了条件を明文化し、会話要約だけで再開しない",
+        "verification":  "scoped frontmatter・name・500行上限・resource link・openai.yaml・source mapping・handoff coverage検査pass。全体Test-AgentSetは全担当完了後にmainで実行。"
+    },
+    {
+        "target_path":  "skills/ecc/opensource-pipeline/",
+        "status":  "integrated",
+        "integration_summary":  "expected source 1件の引継ぎ要素を重複排除して正本へ反映: 外部変更経路をfake/dry-run既定にし、実token・live API・deployを別gate化 / token・Cookie・credentialは環境変数またはsecret storeから注入し、ログでmask / Windows/PowerShell同等手順とLiteralPath・drive-letter・同一shell内の安全確認",
+        "verification":  "scoped frontmatter・name・500行上限・resource link・openai.yaml・source mapping・handoff coverage検査pass。全体Test-AgentSetは全担当完了後にmainで実行。"
+    },
+    {
+        "target_path":  "skills/ecc/perl-patterns/",
+        "status":  "integrated",
+        "integration_summary":  "expected source 1件の引継ぎ要素を重複排除して正本へ反映: push・deploy・送信・外部更新はread-only/dry-run既定、実行直前に明示承認 / Windows/PowerShell同等手順とLiteralPath・drive-letter・同一shell内の安全確認 / 506行の本文を入口、判断表、referencesへ分割し、最初に読む文脈量を抑える",
+        "verification":  "scoped frontmatter・name・500行上限・resource link・openai.yaml・source mapping・handoff coverage検査pass。全体Test-AgentSetは全担当完了後にmainで実行。"
+    },
+    {
+        "target_path":  "skills/ecc/perl-security/",
+        "status":  "integrated",
+        "integration_summary":  "expected source 1件の引継ぎ要素を重複排除して正本へ反映: 削除・resetは対象絶対path確認と明示承認を必須にし、既定はread-only診断 / 外部変更経路をfake/dry-run既定にし、実token・live API・deployを別gate化 / push・deploy・送信・外部更新はread-only/dry-run既定、実行直前に明示承認 / token・Cookie・credentialは環境変数またはsecret storeから注入し、ログでmask / Windows/PowerShell同等手順とLiteralPath・drive-letter・同一shell内の安全確認",
+        "verification":  "scoped frontmatter・name・500行上限・resource link・openai.yaml・source mapping・handoff coverage検査pass。全体Test-AgentSetは全担当完了後にmainで実行。"
+    },
+    {
+        "target_path":  "skills/ecc/perl-testing/",
+        "status":  "integrated",
+        "integration_summary":  "expected source 1件の引継ぎ要素を重複排除して正本へ反映: push・deploy・送信・外部更新はread-only/dry-run既定、実行直前に明示承認 / Windows/PowerShell同等手順とLiteralPath・drive-letter・同一shell内の安全確認",
+        "verification":  "scoped frontmatter・name・500行上限・resource link・openai.yaml・source mapping・handoff coverage検査pass。全体Test-AgentSetは全担当完了後にmainで実行。"
+    },
+    {
+        "target_path":  "skills/ecc/plankton-code-quality/",
+        "status":  "integrated",
+        "integration_summary":  "expected source 1件の引継ぎ要素を重複排除して正本へ反映: Claude Codeのtool名・hook・.claude pathをCodexのtool/approval/commentary契約へ置換し、必要ならlegacy referenceへ分離する / 外部変更経路をfake/dry-run既定にし、実token・live API・deployを別gate化 / push・deploy・送信・外部更新はread-only/dry-run既定、実行直前に明示承認 / Windows/PowerShell同等手順とLiteralPath・drive-letter・同一shell内の安全確認",
+        "verification":  "scoped frontmatter・name・500行上限・resource link・openai.yaml・source mapping・handoff coverage検査pass。全体Test-AgentSetは全担当完了後にmainで実行。"
+    },
+    {
+        "target_path":  "skills/ecc/postgres-patterns/",
+        "status":  "integrated",
+        "integration_summary":  "expected source 1件の引継ぎ要素を重複排除して正本へ反映: engine-neutral設計、repository設計、migration rolloutを対象外としてroutingを明記 / agents/openai.yamlのshort_description長を現行制約へ補正",
+        "verification":  "scoped frontmatter・name・500行上限・resource link・openai.yaml・source mapping・handoff coverage検査pass。全体Test-AgentSetは全担当完了後にmainで実行。"
+    },
+    {
+        "target_path":  "skills/ecc/product-capability/",
+        "status":  "integrated",
+        "integration_summary":  "expected source 1件の引継ぎ要素を重複排除して正本へ反映: Claude前提なし、PRD/planとの非trigger、user decision/task routing、artifact write境界を既存正本が充足",
+        "verification":  "scoped frontmatter・name・500行上限・resource link・openai.yaml・source mapping・handoff coverage検査pass。全体Test-AgentSetは全担当完了後にmainで実行。"
+    },
+    {
+        "target_path":  "skills/ecc/production-scheduling/",
+        "status":  "integrated",
+        "integration_summary":  "expected source 1件の引継ぎ要素を重複排除して正本へ反映: 外部変更経路をfake/dry-run既定にし、実token・live API・deployを別gate化 / push・deploy・送信・外部更新はread-only/dry-run既定、実行直前に明示承認",
+        "verification":  "scoped frontmatter・name・500行上限・resource link・openai.yaml・source mapping・handoff coverage検査pass。全体Test-AgentSetは全担当完了後にmainで実行。"
+    },
+    {
+        "target_path":  "skills/ecc/product-lens/",
+        "status":  "no_change_needed",
+        "integration_summary":  "既存正本がexpected source 3件の引継ぎ要素を充足: idea refinement/brainstormingを発火対象に含め、実装・仕様化との非triggerを明記 / 実体再読、長期task状態、Windows path、停止・handoff・完了条件を追加 / 具体的trigger/nontrigger、停止、product-capabilityへのhandoff、完了判定を明文化",
+        "verification":  "scoped frontmatter・name・500行上限・resource link・openai.yaml・source mapping・handoff coverage検査pass。全体Test-AgentSetは全担当完了後にmainで実行。"
+    },
+    {
+        "target_path":  "skills/ecc/project-flow-ops/",
+        "status":  "no_change_needed",
+        "integration_summary":  "既存正本がexpected source 1件の引継ぎ要素を充足: Linear等の固定前提を除き、PJ正本、外部write承認、重複排除、完了証拠を追加",
+        "verification":  "scoped frontmatter・name・500行上限・resource link・openai.yaml・source mapping・handoff coverage検査pass。全体Test-AgentSetは全担当完了後にmainで実行。"
+    },
+    {
+        "target_path":  "skills/ecc/prompt-optimizer/",
+        "status":  "no_change_needed",
+        "integration_summary":  "既存正本がexpected source 1件の引継ぎ要素を充足: 固定Claude・command・model前提を除き、67行の入口と条件付きchecklistへ分離",
+        "verification":  "scoped frontmatter・name・500行上限・resource link・openai.yaml・source mapping・handoff coverage検査pass。全体Test-AgentSetは全担当完了後にmainで実行。"
+    },
+    {
+        "target_path":  "skills/ecc/prp-create-plan/",
+        "status":  "integrated",
+        "integration_summary":  "expected source 2件の引継ぎ要素を重複排除して正本へ反映: trigger/nontrigger、PowerShell、task/completion分離、subagent/commit非強制を追加 / trigger/nontrigger、task/completion分離、compaction後の実体再読を明記",
+        "verification":  "scoped frontmatter・name・500行上限・resource link・openai.yaml・source mapping・handoff coverage検査pass。全体Test-AgentSetは全担当完了後にmainで実行。"
+    },
+    {
+        "target_path":  "skills/ecc/python-patterns/",
+        "status":  "integrated",
+        "integration_summary":  "expected source 1件の引継ぎ要素を重複排除して正本へ反映: Windows/PowerShell同等手順とLiteralPath・drive-letter・同一shell内の安全確認 / 752行の本文を入口、判断表、referencesへ分割し、最初に読む文脈量を抑える",
+        "verification":  "scoped frontmatter・name・500行上限・resource link・openai.yaml・source mapping・handoff coverage検査pass。全体Test-AgentSetは全担当完了後にmainで実行。"
+    },
+    {
+        "target_path":  "skills/ecc/python-testing/",
+        "status":  "integrated",
+        "integration_summary":  "expected source 1件の引継ぎ要素を重複排除して正本へ反映: push・deploy・送信・外部更新はread-only/dry-run既定、実行直前に明示承認 / token・Cookie・credentialは環境変数またはsecret storeから注入し、ログでmask / Windows/PowerShell同等手順とLiteralPath・drive-letter・同一shell内の安全確認 / 818行の本文を入口、判断表、referencesへ分割し、最初に読む文脈量を抑える",
+        "verification":  "scoped frontmatter・name・500行上限・resource link・openai.yaml・source mapping・handoff coverage検査pass。全体Test-AgentSetは全担当完了後にmainで実行。"
+    },
+    {
+        "target_path":  "skills/ecc/pytorch-patterns/",
+        "status":  "integrated",
+        "integration_summary":  "expected source 1件の引継ぎ要素を重複排除して正本へ反映: 発火境界を明記",
+        "verification":  "scoped frontmatter・name・500行上限・resource link・openai.yaml・source mapping・handoff coverage検査pass。全体Test-AgentSetは全担当完了後にmainで実行。"
+    },
+    {
+        "target_path":  "skills/ecc/quality-nonconformance/",
+        "status":  "no_change_needed",
+        "integration_summary":  "expected source 1件はhandoff上no_unique_elementsであり、既存正本の編集不要。",
+        "verification":  "scoped frontmatter・name・500行上限・resource link・openai.yaml・source mapping・handoff coverage検査pass。全体Test-AgentSetは全担当完了後にmainで実行。"
+    },
+    {
+        "target_path":  "skills/ecc/ralphinho-rfc-pipeline/",
+        "status":  "integrated",
+        "integration_summary":  "expected source 1件の引継ぎ要素を重複排除して正本へ反映: 開始・停止・handoff・完了条件を明文化し、会話要約だけで再開しない / 長期作業はAGENTS.md/PROJECT.mdとdocs/impを実体再読し、進行中と完了証拠を分離",
+        "verification":  "scoped frontmatter・name・500行上限・resource link・openai.yaml・source mapping・handoff coverage検査pass。全体Test-AgentSetは全担当完了後にmainで実行。"
+    },
+    {
+        "target_path":  "skills/ecc/regex-vs-llm-structured-text/",
+        "status":  "integrated",
+        "integration_summary":  "expected source 1件の引継ぎ要素を重複排除して正本へ反映: 発火境界を明記",
+        "verification":  "scoped frontmatter・name・500行上限・resource link・openai.yaml・source mapping・handoff coverage検査pass。全体Test-AgentSetは全担当完了後にmainで実行。"
+    },
+    {
+        "target_path":  "skills/ecc/remotion-video-creation/",
+        "status":  "integrated",
+        "integration_summary":  "expected source 1件の引継ぎ要素を重複排除して正本へ反映: 発火境界を明記 / rules/charts.mdの実在asset参照を補正",
+        "verification":  "scoped frontmatter・name・500行上限・resource link・openai.yaml・source mapping・handoff coverage検査pass。全体Test-AgentSetは全担当完了後にmainで実行。"
+    },
+    {
+        "target_path":  "skills/ecc/repo-scan/",
+        "status":  "no_change_needed",
+        "integration_summary":  "既存正本がexpected source 1件の引継ぎ要素を充足: scope拡大停止、drive/worktree境界、read-only探索、handoffと完了証拠を追加",
+        "verification":  "scoped frontmatter・name・500行上限・resource link・openai.yaml・source mapping・handoff coverage検査pass。全体Test-AgentSetは全担当完了後にmainで実行。"
+    },
+    {
+        "target_path":  "skills/ecc/research-ops/",
+        "status":  "no_change_needed",
+        "integration_summary":  "既存正本がexpected source 1件の引継ぎ要素を充足: 実体再読、read-only既定、停止・handoff・完了判定、task/完了記録分離を追加",
+        "verification":  "scoped frontmatter・name・500行上限・resource link・openai.yaml・source mapping・handoff coverage検査pass。全体Test-AgentSetは全担当完了後にmainで実行。"
+    },
+    {
+        "target_path":  "skills/ecc/returns-reverse-logistics/",
+        "status":  "integrated",
+        "integration_summary":  "expected source 1件の引継ぎ要素を重複排除して正本へ反映: 発火境界を明記",
+        "verification":  "scoped frontmatter・name・500行上限・resource link・openai.yaml・source mapping・handoff coverage検査pass。全体Test-AgentSetは全担当完了後にmainで実行。"
+    },
+    {
+        "target_path":  "skills/ecc/rules-distill/",
+        "status":  "no_change_needed",
+        "integration_summary":  "既存正本がexpected source 1件の引継ぎ要素を充足: 明示root、preview承認、PowerShell adapter、任意並列化、主agent統合責任を追加",
+        "verification":  "scoped frontmatter・name・500行上限・resource link・openai.yaml・source mapping・handoff coverage検査pass。全体Test-AgentSetは全担当完了後にmainで実行。"
+    },
+    {
+        "target_path":  "skills/ecc/rust-patterns/",
+        "status":  "integrated",
+        "integration_summary":  "expected source 1件の引継ぎ要素を重複排除して正本へ反映: Windows/PowerShell同等手順とLiteralPath・drive-letter・同一shell内の安全確認 / 501行の本文を入口、判断表、referencesへ分割し、最初に読む文脈量を抑える",
+        "verification":  "scoped frontmatter・name・500行上限・resource link・openai.yaml・source mapping・handoff coverage検査pass。全体Test-AgentSetは全担当完了後にmainで実行。"
+    },
+    {
+        "target_path":  "skills/ecc/rust-testing/",
+        "status":  "integrated",
+        "integration_summary":  "expected source 1件の引継ぎ要素を重複排除して正本へ反映: 502行の本文を入口、判断表、referencesへ分割し、最初に読む文脈量を抑える",
+        "verification":  "scoped frontmatter・name・500行上限・resource link・openai.yaml・source mapping・handoff coverage検査pass。全体Test-AgentSetは全担当完了後にmainで実行。"
+    },
+    {
+        "target_path":  "skills/ecc/safety-guard/",
+        "status":  "no_change_needed",
+        "integration_summary":  "既存正本がexpected source 1件の引継ぎ要素を充足: 絶対target確認、LiteralPath、read-only/dry-run、action-time承認、readbackを既に充足",
+        "verification":  "scoped frontmatter・name・500行上限・resource link・openai.yaml・source mapping・handoff coverage検査pass。全体Test-AgentSetは全担当完了後にmainで実行。"
+    },
+    {
+        "target_path":  "skills/ecc/santa-method/",
+        "status":  "integrated",
+        "integration_summary":  "expected source 1件の引継ぎ要素を重複排除して正本へ反映: Claude Codeのtool名・hook・.claude pathをCodexのtool/approval/commentary契約へ置換し、必要ならlegacy referenceへ分離する / token・Cookie・credentialは環境変数またはsecret storeから注入し、ログでmask / subagentやparallel agentを既定起動せず、ユーザーまたはPJ方針が明示した場合だけ使うgateを追加する / 開始・停止・handoff・完了条件を明文化し、会話要約だけで再開しない",
+        "verification":  "scoped frontmatter・name・500行上限・resource link・openai.yaml・source mapping・handoff coverage検査pass。全体Test-AgentSetは全担当完了後にmainで実行。"
+    },
+    {
+        "target_path":  "skills/ecc/search-first/",
+        "status":  "integrated",
+        "integration_summary":  "expected source 1件の引継ぎ要素を重複排除して正本へ反映: 非trigger、fake/dry-run、live操作gate、subagent gate、PowerShell path安全、完了条件を追加",
+        "verification":  "scoped frontmatter・name・500行上限・resource link・openai.yaml・source mapping・handoff coverage検査pass。全体Test-AgentSetは全担当完了後にmainで実行。"
+    },
+    {
+        "target_path":  "skills/ecc/security-bounty-hunter/",
+        "status":  "integrated",
+        "integration_summary":  "expected source 1件の引継ぎ要素を重複排除して正本へ反映: 外部変更経路をfake/dry-run既定にし、実token・live API・deployを別gate化 / push・deploy・送信・外部更新はread-only/dry-run既定、実行直前に明示承認 / Windows/PowerShell同等手順とLiteralPath・drive-letter・同一shell内の安全確認",
+        "verification":  "scoped frontmatter・name・500行上限・resource link・openai.yaml・source mapping・handoff coverage検査pass。全体Test-AgentSetは全担当完了後にmainで実行。"
+    },
+    {
+        "target_path":  "skills/ecc/security-review/",
+        "status":  "no_change_needed",
+        "integration_summary":  "既存正本がexpected source 2件の引継ぎ要素を充足: AI/model出力・retrieval・tool引数・cost/loopをtrust boundaryとして追加 / PowerShell/LiteralPath/drive-letter/read-only reviewを明記",
+        "verification":  "scoped frontmatter・name・500行上限・resource link・openai.yaml・source mapping・handoff coverage検査pass。全体Test-AgentSetは全担当完了後にmainで実行。"
+    },
+    {
+        "target_path":  "skills/ecc/security-scan/",
+        "status":  "integrated",
+        "integration_summary":  "expected source 2件の引継ぎ要素を重複排除して正本へ反映: Claude Codeのtool名・hook・.claude pathをCodexのtool/approval/commentary契約へ置換し、必要ならlegacy referenceへ分離する / Windows/PowerShell同等手順とLiteralPath・drive-letter・同一shell内の安全確認 / 開始・停止・handoff・完了条件を明文化し、会話要約だけで再開しない / 同名skillがecc-everything-claude-code / openai-pluginsにある。原著・現行Codex packaging・commit差分を比較して正本を1つに決める / 参照のみ（本文を複製せず、要件抽出またはlicense確認に限定）",
+        "verification":  "scoped frontmatter・name・500行上限・resource link・openai.yaml・source mapping・handoff coverage検査pass。全体Test-AgentSetは全担当完了後にmainで実行。"
+    },
+    {
+        "target_path":  "skills/ecc/seo/",
+        "status":  "integrated",
+        "integration_summary":  "expected source 1件の引継ぎ要素を重複排除して正本へ反映: 開始・停止・handoff・完了条件を明文化し、会話要約だけで再開しない / 長期作業はAGENTS.md/PROJECT.mdとdocs/impを実体再読し、進行中と完了証拠を分離",
+        "verification":  "scoped frontmatter・name・500行上限・resource link・openai.yaml・source mapping・handoff coverage検査pass。全体Test-AgentSetは全担当完了後にmainで実行。"
+    },
+    {
+        "target_path":  "skills/ecc/skill-comply/",
+        "status":  "integrated",
+        "integration_summary":  "expected source 1件の引継ぎ要素を重複排除して正本へ反映: Claude Codeのtool名・hook・.claude pathをCodexのtool/approval/commentary契約へ置換し、必要ならlegacy referenceへ分離する / Windows/PowerShell同等手順とLiteralPath・drive-letter・同一shell内の安全確認 / 開始・停止・handoff・完了条件を明文化し、会話要約だけで再開しない",
+        "verification":  "scoped frontmatter・name・500行上限・resource link・openai.yaml・source mapping・handoff coverage検査pass。全体Test-AgentSetは全担当完了後にmainで実行。"
+    },
+    {
+        "target_path":  "skills/ecc/skill-stocktake/",
+        "status":  "integrated",
+        "integration_summary":  "expected source 1件の引継ぎ要素を重複排除して正本へ反映: Claude Codeのtool名・hook・.claude pathをCodexのtool/approval/commentary契約へ置換し、必要ならlegacy referenceへ分離する / 外部変更経路をfake/dry-run既定にし、実token・live API・deployを別gate化 / Windows/PowerShell同等手順とLiteralPath・drive-letter・同一shell内の安全確認",
+        "verification":  "scoped frontmatter・name・500行上限・resource link・openai.yaml・source mapping・handoff coverage検査pass。全体Test-AgentSetは全担当完了後にmainで実行。"
+    },
+    {
+        "target_path":  "skills/ecc/social-graph-ranker/",
+        "status":  "integrated",
+        "integration_summary":  "expected source 1件の引継ぎ要素を重複排除して正本へ反映: 完了条件・check/test・観測結果・未検証範囲を出力契約化 / 開始・停止・handoff・完了条件を明文化し、会話要約だけで再開しない / 長期作業はAGENTS.md/PROJECT.mdとdocs/impを実体再読し、進行中と完了証拠を分離",
+        "verification":  "scoped frontmatter・name・500行上限・resource link・openai.yaml・source mapping・handoff coverage検査pass。全体Test-AgentSetは全担当完了後にmainで実行。"
+    },
+    {
+        "target_path":  "skills/ecc/springboot-patterns/",
+        "status":  "integrated",
+        "integration_summary":  "expected source 1件の引継ぎ要素を重複排除して正本へ反映: 外部変更経路をfake/dry-run既定にし、実token・live API・deployを別gate化 / push・deploy・送信・外部更新はread-only/dry-run既定、実行直前に明示承認",
+        "verification":  "scoped frontmatter・name・500行上限・resource link・openai.yaml・source mapping・handoff coverage検査pass。全体Test-AgentSetは全担当完了後にmainで実行。"
+    },
+    {
+        "target_path":  "skills/ecc/springboot-security/",
+        "status":  "integrated",
+        "integration_summary":  "expected source 1件の引継ぎ要素を重複排除して正本へ反映: 外部変更経路をfake/dry-run既定にし、実token・live API・deployを別gate化 / push・deploy・送信・外部更新はread-only/dry-run既定、実行直前に明示承認",
+        "verification":  "scoped frontmatter・name・500行上限・resource link・openai.yaml・source mapping・handoff coverage検査pass。全体Test-AgentSetは全担当完了後にmainで実行。"
+    },
+    {
+        "target_path":  "skills/ecc/springboot-tdd/",
+        "status":  "integrated",
+        "integration_summary":  "expected source 1件の引継ぎ要素を重複排除して正本へ反映: 開始・停止・handoff・完了条件を明文化し、会話要約だけで再開しない / 長期作業はAGENTS.md/PROJECT.mdとdocs/impを実体再読し、進行中と完了証拠を分離",
+        "verification":  "scoped frontmatter・name・500行上限・resource link・openai.yaml・source mapping・handoff coverage検査pass。全体Test-AgentSetは全担当完了後にmainで実行。"
+    },
+    {
+        "target_path":  "skills/ecc/springboot-verification/",
+        "status":  "integrated",
+        "integration_summary":  "expected source 2件の引継ぎ要素を重複排除して正本へ反映: push・deploy・送信・外部更新はread-only/dry-run既定、実行直前に明示承認 / Windows/PowerShell同等手順とLiteralPath・drive-letter・同一shell内の安全確認 / 開始・停止・handoff・完了条件を明文化し、会話要約だけで再開しない / push・deploy・送信・外部更新はread-only/dry-run既定、実行直前に明示承認 / token・Cookie・credentialは環境変数またはsecret storeから注入し、ログでmask / Windows/PowerShell同等手順とLiteralPath・drive-letter・同一shell内の安全確認 / 開始・停止・handoff・完了条件を明文化し、会話要約だけで再開しない",
+        "verification":  "scoped frontmatter・name・500行上限・resource link・openai.yaml・source mapping・handoff coverage検査pass。全体Test-AgentSetは全担当完了後にmainで実行。"
+    },
+    {
+        "target_path":  "skills/ecc/strategic-compact/",
+        "status":  "integrated",
+        "integration_summary":  "expected source 1件の引継ぎ要素を重複排除して正本へ反映: Claude Codeのtool名・hook・.claude pathをCodexのtool/approval/commentary契約へ置換し、必要ならlegacy referenceへ分離する / 外部変更経路をfake/dry-run既定にし、実token・live API・deployを別gate化 / push・deploy・送信・外部更新はread-only/dry-run既定、実行直前に明示承認 / Windows/PowerShell同等手順とLiteralPath・drive-letter・同一shell内の安全確認",
+        "verification":  "scoped frontmatter・name・500行上限・resource link・openai.yaml・source mapping・handoff coverage検査pass。全体Test-AgentSetは全担当完了後にmainで実行。"
+    },
+    {
+        "target_path":  "skills/ecc/swift-actor-persistence/",
+        "status":  "integrated",
+        "integration_summary":  "expected source 1件の引継ぎ要素を重複排除して正本へ反映: 外部変更経路をfake/dry-run既定にし、実token・live API・deployを別gate化 / push・deploy・送信・外部更新はread-only/dry-run既定、実行直前に明示承認",
+        "verification":  "scoped frontmatter・name・500行上限・resource link・openai.yaml・source mapping・handoff coverage検査pass。全体Test-AgentSetは全担当完了後にmainで実行。"
+    },
+    {
+        "target_path":  "skills/ecc/swift-concurrency-6-2/",
+        "status":  "integrated",
+        "integration_summary":  "expected source 1件の引継ぎ要素を重複排除して正本へ反映: 発火境界を明記",
+        "verification":  "scoped frontmatter・name・500行上限・resource link・openai.yaml・source mapping・handoff coverage検査pass。全体Test-AgentSetは全担当完了後にmainで実行。"
+    },
+    {
+        "target_path":  "skills/ecc/swift-protocol-di-testing/",
+        "status":  "integrated",
+        "integration_summary":  "expected source 1件の引継ぎ要素を重複排除して正本へ反映: 発火境界を明記",
+        "verification":  "scoped frontmatter・name・500行上限・resource link・openai.yaml・source mapping・handoff coverage検査pass。全体Test-AgentSetは全担当完了後にmainで実行。"
+    },
+    {
+        "target_path":  "skills/ecc/swiftui-patterns/",
+        "status":  "no_change_needed",
+        "integration_summary":  "既存正本がexpected source 1件の引継ぎ要素を充足: 同名skillがecc-everything-claude-code / openai-pluginsにある。原著・現行Codex packaging・commit差分を比較して正本を1つに決める",
+        "verification":  "scoped frontmatter・name・500行上限・resource link・openai.yaml・source mapping・handoff coverage検査pass。全体Test-AgentSetは全担当完了後にmainで実行。"
+    },
+    {
+        "target_path":  "skills/ecc/tdd-workflow/",
+        "status":  "no_change_needed",
+        "integration_summary":  "既存正本がexpected source 3件の引継ぎ要素を充足: subagent非既定、PowerShell/LiteralPath、drive-letter-safe artifact処理を追加 / task状態・subagent gateはactive正本と今回の補完で充足。別skillは追加せず / external write禁止、停止条件、Windows境界をactive正本へ集約。別skillは追加せず",
+        "verification":  "scoped frontmatter・name・500行上限・resource link・openai.yaml・source mapping・handoff coverage検査pass。全体Test-AgentSetは全担当完了後にmainで実行。"
+    },
+    {
+        "target_path":  "skills/ecc/team-builder/",
+        "status":  "integrated",
+        "integration_summary":  "expected source 1件の引継ぎ要素を重複排除して正本へ反映: Claude Codeのtool名・hook・.claude pathをCodexのtool/approval/commentary契約へ置換し、必要ならlegacy referenceへ分離する / Windows/PowerShell同等手順とLiteralPath・drive-letter・同一shell内の安全確認 / 開始・停止・handoff・完了条件を明文化し、会話要約だけで再開しない",
+        "verification":  "scoped frontmatter・name・500行上限・resource link・openai.yaml・source mapping・handoff coverage検査pass。全体Test-AgentSetは全担当完了後にmainで実行。"
+    },
+    {
+        "target_path":  "skills/ecc/terminal-ops/",
+        "status":  "no_change_needed",
+        "integration_summary":  "既存正本がexpected source 1件の引継ぎ要素を充足: secret mask、Windows安全、実体再読、task状態、停止・handoff・完了条件を追加",
+        "verification":  "scoped frontmatter・name・500行上限・resource link・openai.yaml・source mapping・handoff coverage検査pass。全体Test-AgentSetは全担当完了後にmainで実行。"
+    },
+    {
+        "target_path":  "skills/ecc/token-budget-advisor/",
+        "status":  "integrated",
+        "integration_summary":  "expected source 1件の引継ぎ要素を重複排除して正本へ反映: Claude Codeのtool名・hook・.claude pathをCodexのtool/approval/commentary契約へ置換し、必要ならlegacy referenceへ分離する",
+        "verification":  "scoped frontmatter・name・500行上限・resource link・openai.yaml・source mapping・handoff coverage検査pass。全体Test-AgentSetは全担当完了後にmainで実行。"
+    },
+    {
+        "target_path":  "skills/ecc/ui-demo/",
+        "status":  "integrated",
+        "integration_summary":  "expected source 1件の引継ぎ要素を重複排除して正本へ反映: 発火境界を明記",
+        "verification":  "scoped frontmatter・name・500行上限・resource link・openai.yaml・source mapping・handoff coverage検査pass。全体Test-AgentSetは全担当完了後にmainで実行。"
+    },
+    {
+        "target_path":  "skills/ecc/unified-notifications-ops/",
+        "status":  "integrated",
+        "integration_summary":  "expected source 1件の引継ぎ要素を重複排除して正本へ反映: 外部変更経路をfake/dry-run既定にし、実token・live API・deployを別gate化 / push・deploy・送信・外部更新はread-only/dry-run既定、実行直前に明示承認 / 完了条件・check/test・観測結果・未検証範囲を出力契約化",
+        "verification":  "scoped frontmatter・name・500行上限・resource link・openai.yaml・source mapping・handoff coverage検査pass。全体Test-AgentSetは全担当完了後にmainで実行。"
+    },
+    {
+        "target_path":  "skills/ecc/verification-loop/",
+        "status":  "no_change_needed",
+        "integration_summary":  "既存正本がexpected source 3件の引継ぎ要素を充足: Windows LiteralPath/drive-letter/same-shell境界とdebugging skillへのhandoffを追加 / 直接証拠matrix、missing evidence、完了主張境界を既存正本が充足。routingだけ補完 / Claude前提なし、secret非出力、Windows path安全、debug/verification役割分離を確認",
+        "verification":  "scoped frontmatter・name・500行上限・resource link・openai.yaml・source mapping・handoff coverage検査pass。全体Test-AgentSetは全担当完了後にmainで実行。"
+    },
+    {
+        "target_path":  "skills/ecc/videodb/",
+        "status":  "integrated",
+        "integration_summary":  "expected source 1件の引継ぎ要素を重複排除して正本へ反映: Windows/PowerShell同等手順とLiteralPath・drive-letter・同一shell内の安全確認",
+        "verification":  "scoped frontmatter・name・500行上限・resource link・openai.yaml・source mapping・handoff coverage検査pass。全体Test-AgentSetは全担当完了後にmainで実行。"
+    },
+    {
+        "target_path":  "skills/ecc/video-editing/",
+        "status":  "integrated",
+        "integration_summary":  "expected source 1件の引継ぎ要素を重複排除して正本へ反映: Claude Codeのtool名・hook・.claude pathをCodexのtool/approval/commentary契約へ置換し、必要ならlegacy referenceへ分離する / Windows/PowerShell同等手順とLiteralPath・drive-letter・同一shell内の安全確認 / 完了条件・check/test・観測結果・未検証範囲を出力契約化 / 長期作業はAGENTS.md/PROJECT.mdとdocs/impを実体再読し、進行中と完了証拠を分離",
+        "verification":  "scoped frontmatter・name・500行上限・resource link・openai.yaml・source mapping・handoff coverage検査pass。全体Test-AgentSetは全担当完了後にmainで実行。"
+    },
+    {
+        "target_path":  "skills/ecc/visa-doc-translate/",
+        "status":  "integrated",
+        "integration_summary":  "expected source 1件の引継ぎ要素を重複排除して正本へ反映: Windows/PowerShell同等手順とLiteralPath・drive-letter・同一shell内の安全確認",
+        "verification":  "scoped frontmatter・name・500行上限・resource link・openai.yaml・source mapping・handoff coverage検査pass。全体Test-AgentSetは全担当完了後にmainで実行。"
+    },
+    {
+        "target_path":  "skills/ecc/workspace-surface-audit/",
+        "status":  "no_change_needed",
+        "integration_summary":  "既存正本がexpected source 1件の引継ぎ要素を充足: read-only監査、capability実測、secret非出力、現在session証拠を既に充足",
+        "verification":  "scoped frontmatter・name・500行上限・resource link・openai.yaml・source mapping・handoff coverage検査pass。全体Test-AgentSetは全担当完了後にmainで実行。"
+    },
+    {
+        "target_path":  "skills/ecc/x-api/",
+        "status":  "integrated",
+        "integration_summary":  "expected source 1件の引継ぎ要素を重複排除して正本へ反映: Claude Codeのtool名・hook・.claude pathをCodexのtool/approval/commentary契約へ置換し、必要ならlegacy referenceへ分離する / Windows/PowerShell同等手順とLiteralPath・drive-letter・同一shell内の安全確認",
+        "verification":  "scoped frontmatter・name・500行上限・resource link・openai.yaml・source mapping・handoff coverage検査pass。全体Test-AgentSetは全担当完了後にmainで実行。"
+    }
+]

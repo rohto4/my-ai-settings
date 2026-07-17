@@ -124,3 +124,9 @@ PRODUCT GAP
 - the answer includes a live-data statement or snapshot timestamp
 - product-truth claims are code-backed
 - customer-impact and broader pricing/product conclusions are separated cleanly
+
+## Operating contract
+
+- Start from a bounded billing question and identified evidence source.
+- Stop on missing account authority, contradictory evidence, or required legal interpretation; hand off with evidence and complete only after scoped checks pass.
+- Keep in-progress task state separate from completion evidence and reread repository task artifacts after a handoff or summary-based resume.

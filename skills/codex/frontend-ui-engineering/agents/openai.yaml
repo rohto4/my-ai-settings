@@ -1,0 +1,4 @@
+interface:
+  display_name: "Frontend UI Engineering"
+  short_description: "Frontend UI Engineering：成果物の品質と一貫性を高める"
+  default_prompt: "$frontend-ui-engineering を使い、Frontend UI Engineeringに関する依頼を同梱domain guideに基づいて実施・検証してください。"

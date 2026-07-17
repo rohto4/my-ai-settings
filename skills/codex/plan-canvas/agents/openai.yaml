@@ -1,0 +1,4 @@
+interface:
+  display_name: "Plan Canvas"
+  short_description: "Plan Canvas：着手順と完了条件を明確にし、手戻りを減らす"
+  default_prompt: "$plan-canvas を使い、Plan Canvasに関する依頼を同梱domain guideに基づいて実施・検証してください。"

@@ -1,6 +1,6 @@
 ---
 name: database-migrations
-description: Plan safe schema or data migrations, compatibility, backfills, indexes, and recovery. Use for persisted shape or data changes, not ordinary transactions.
+description: Plan and verify safe schema or persisted-data migrations, compatibility windows, backfills, indexes, and recovery. Use when changing database shape, stored data, migration history, or production rollout order. Do not use for ordinary transactions, read queries, routine seeds, or direct production repair without a reviewed migration and explicit approval.
 ---
 
 # Database Migrations
@@ -11,15 +11,19 @@ description: Plan safe schema or data migrations, compatibility, backfills, inde
 - Do not activate it for ordinary application transactions, read queries, or routine seed data. Do not turn a normal transaction into a migration workflow.
 - For PostgreSQL schema or data changes, this skill owns migration lifecycle, compatibility, execution, and recovery. Use `postgres-patterns` only after this plan is established, for PostgreSQL SQL, schema, index, or diagnostic detail.
 - Treat the target PJ's `AGENTS.md`, `PROJECT.md`, deployment policy, pinned database version, and migration-runner configuration as authoritative. This skill is not a replacement for them.
+- After compaction, session transfer, or handoff, reread those files and the current task state from disk before resuming. Keep ongoing work separate from completed migration evidence according to the PJ's docs rules.
+- Default to read-only inspection of schema, migration history, runner configuration, metrics, and backup status. Use a generated diff, fake/local database, sanitized fixture, or isolated rehearsal before any shared-environment write.
 - Do not expose secrets in commands, logs, patches, or output. Do not execute SQL, deploy, change cloud state, or write to an external system without the user's explicit authorization.
+- On Windows, use PowerShell-safe commands, `-LiteralPath`, explicit drive-letter paths, and the PJ's pinned runner. Do not substitute an unverified Bash-only command or place a connection string on the command line.
 - Do not assume that Next, Hono, Drizzle, Better Auth, Vitest, or Playwright is current P0 in `pj-general`; they are future candidates. Read a framework reference only after the PJ has adopted and pinned it.
 
 ## Preflight and risk decision
 
-1. Identify the database engine and exact pinned version, target environment, table size and write rate, migration runner, transaction mode, deployment order, and every application version that can coexist.
+1. Identify the database engine and exact pinned version, target environment, stable server/database/schema identity, table size and write rate, migration runner, transaction mode, deployment order, and every application version that can coexist. Confirm the target again immediately before execution without printing credentials.
 2. Classify risk from evidence: local reversible changes may use a normal review path; shared, long-running, locking, rewriting, or data-changing work needs a tested rehearsal; production, destructive, irreversible, or availability-affecting work needs a named approver, window, monitoring, and recovery decision.
 3. Inspect the target runner before authoring SQL. Record whether it wraps each migration in a transaction and how it records partial failure. Never infer this from the language or ORM.
-4. Stop and ask for the missing owner, version, runner behavior, lock/rewrite estimate, compatibility plan, or recovery path. Do not substitute a generic recipe.
+4. Identify the backup or point-in-time recovery authority, latest successful backup, latest verified restore evidence, retention, RPO/RTO, restore owner, and whether the proposed change invalidates the recovery path. A backup claim without restore evidence is an unresolved risk.
+5. Stop and ask for the missing owner, target identity, version, runner behavior, lock/rewrite estimate, compatibility plan, backup evidence, or recovery path. Do not substitute a generic recipe.
 
 ## Plan the change
 
@@ -43,9 +47,10 @@ description: Plan safe schema or data migrations, compatibility, backfills, inde
 ## Execute only after approval
 
 1. Produce the migration, runner mode, deployment sequence, lock/timeout settings, monitoring signals, and recovery command or decision.
-2. Rehearse against representative scale and contention; validate forwards, partial failure behavior, recovery, and application compatibility.
-3. For production, obtain explicit approval for the exact target, window, operator, monitoring owner, stop threshold, and roll-forward/rollback decision before any external write.
-4. During execution, stop on unexpected lock waits, rewrite duration, error rate, replication lag, invalid index, or failed validation. Preserve evidence and escalate; do not improvise destructive remediation.
+2. Rehearse against representative scale and contention with synthetic or properly authorized sanitized data; validate forwards, partial failure behavior, backup restore or recovery, and application compatibility. Keep this rehearsal isolated from production.
+3. For production, obtain fresh explicit approval for the exact target fingerprint, migration set, backup/restore evidence, window, operator, monitoring owner, stop threshold, and roll-forward/rollback decision before any external write.
+4. Treat drop, truncate, incompatible type change, forced migration-history repair, constraint disablement, restore, failover, and direct data correction as destructive or availability-affecting operations requiring a separate explicit gate.
+5. During execution, stop on target mismatch, unexpected lock waits, rewrite duration, error rate, replication lag, invalid index, backup or restore uncertainty, or failed validation. Preserve evidence and escalate; do not improvise destructive remediation.
 
 ## Required output
 
@@ -55,8 +60,12 @@ Return: scope and assumptions; pinned versions and official sources; risk and lo
 
 - Confirm migration ordering and immutability, runner mode, and no secrets in artifacts.
 - Test the selected path at representative scale, including interruption or retry where relevant.
-- Verify schema, data invariants, query behavior, application compatibility, and rollback or roll-forward outcome.
+- Verify the target fingerprint, schema, data invariants, query behavior, application compatibility, monitoring outcome, and tested rollback, restore, or roll-forward result.
 - For PostgreSQL, re-check the current official page for the target pinned version, not only the links below.
+
+## Handoff and evidence boundary
+
+For context pressure or handoff, record the exact target identity, pinned versions, migration hashes or IDs, completed rehearsal, backup/restore evidence, approvals, current phase, monitoring thresholds, unresolved risks, and next read-only step. Complete only when the authorized migration scope is applied to the confirmed target, post-migration readback and invariants pass, recovery evidence remains valid, and every external or destructive action is traceable to its approval. If execution was not authorized, complete only the plan and label it as non-executed.
 
 ## Load references only when needed
 

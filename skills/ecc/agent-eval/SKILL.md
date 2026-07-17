@@ -1,143 +1,85 @@
 ---
 name: agent-eval
-description: Head-to-head comparison of coding agents (Claude Code, Aider, Codex, etc.) on custom tasks with pass rate, cost, time, and consistency metrics
+description: Design and run reproducible evaluations of coding agents, models, prompts, tools, or harness changes using representative fixtures, deterministic judges, repeated trials, and explicit score formulas. Use for adoption comparisons, regression checks, or evidence-backed agent selection. Do not use for one anecdotal run, unrelated product testing, live production tasks, or comparisons whose permissions, budgets, and environments cannot be normalized.
 ---
 
-# Agent Eval Skill
+# Agent Eval
 
-A lightweight CLI tool for comparing coding agents head-to-head on reproducible tasks. Every "which coding agent is best?" comparison runs on vibes — this tool systematizes it.
+Compare agent behavior with controlled evidence rather than brand assumptions or one successful demo.
 
-## When to Activate
+## Restore project truth
 
-- Comparing coding agents (Claude Code, Aider, Codex, etc.) on your own codebase
-- Measuring agent performance before adopting a new tool or model
-- Running regression checks when an agent updates its model or tooling
-- Producing data-backed agent selection decisions for a team
+1. Read the target PJ's actual `AGENTS.md`, `PROJECT.md`, evaluation policy, pinned stack, test commands, and current task state before defining fixtures.
+2. After compaction, session transfer, or handoff, reread them from disk. Project acceptance criteria outrank this skill, old reports, and conversation summaries.
+3. Keep active evaluation state separate from completed evidence according to PJ rules. Never rewrite acceptance criteria after seeing a preferred agent's output.
 
-## Installation
+## Define the comparison contract
 
-> **Note:** Install agent-eval from its repository after reviewing the source.
+Record before execution:
 
-## Core Concepts
+- decision being made and excluded conclusions;
+- evaluated agent/client/model/tool versions and observable capabilities actually available;
+- identical prompt, context, files, permissions, network policy, time budget, token/cost budget, and stop conditions;
+- baseline commit or immutable fixture hash, runtime versions, OS, and judge commands;
+- number of trials, concurrency, random seed when supported, and missing metrics;
+- score formula and tie or failure handling.
 
-### YAML Task Definitions
+Do not assume a particular harness, task-management capability, subagent API, model name, or cost field exists. Detect current capabilities and record unavailable dimensions instead of fabricating parity.
 
-Define tasks declaratively. Each task specifies what to do, which files to touch, and how to judge success:
+## Build representative fixtures
 
-```yaml
-name: add-retry-logic
-description: Add exponential backoff retry to the HTTP client
-repo: ./my-project
-files:
-  - src/http_client.py
-prompt: |
-  Add retry logic with exponential backoff to all HTTP requests.
-  Max 3 retries. Initial delay 1s, max delay 30s.
-judge:
-  - type: pytest
-    command: pytest tests/test_http_client.py -v
-  - type: grep
-    pattern: "exponential_backoff|retry"
-    files: src/http_client.py
-commit: "abc1234"  # pin to specific commit for reproducibility
+Use a small versioned set that reflects the real workload:
+
+1. a common successful path;
+2. an edge case with ambiguous or incomplete context;
+3. a recovery case with a failing test or tool error;
+4. a boundary case involving permissions, unsafe requests, or a required stop;
+5. a larger case only when the adoption decision depends on long-horizon work.
+
+Each fixture must define scope, starting state, allowed files/tools, forbidden actions, expected artifacts, deterministic checks, cleanup, and why it represents production work. Use synthetic or properly authorized sanitized data; never copy secrets or live customer content into fixtures. Avoid toy tasks, cherry-picked strengths, and duplicated fixtures that measure the same behavior.
+
+## Safe execution gate
+
+- Default to read-only fixture review and a dry-run of setup, judge, cleanup, and scoring.
+- Run agents only in isolated copies, disposable worktrees, sandboxes, or equivalent bounded environments. Verify the resolved target path before any recursive move or cleanup.
+- Replace HTTP services, LLM calls, databases, queues, email, payments, deploys, and other external effects with fake adapters unless the user separately approves a live test, exact target, cost, data boundary, and rollback.
+- Do not push, merge, deploy, contact people, change permissions, or mutate a shared external system during an eval. Destructive fixture reset or cleanup requires a verified disposable target and explicit approval when not inherently isolated.
+- Never place tokens, Cookies, credentials, system prompts, private traces, authenticated payloads, or command-line connection strings in fixtures, reports, or logs. Record only redacted usage totals when available.
+- On Windows, use PowerShell-safe setup, `-LiteralPath`, explicit drive-letter paths, and a single verified shell path. Do not assume Bash, Docker, or Unix signals.
+
+## Scoring
+
+Prefer deterministic judges: tests, builds, schema validation, exact artifact checks, policy checks, and bounded static analysis. Use pattern matching only as supporting evidence. Use an LLM judge only when semantics cannot be deterministically checked; pin its version and rubric, blind it to agent identity, and report its variance.
+
+For each fixture, define weighted checks before running:
+
+```text
+fixture_score = sum(check_weight * check_result) / sum(check_weight)
+overall_score = sum(fixture_weight * mean(fixture_score across trials)) / sum(fixture_weight)
 ```
 
-### Git Worktree Isolation
+Use `check_result` values fixed by the rubric, normally `0` or `1`. Report pass rate, score distribution, consistency, elapsed time, tool calls, retries, and cost only when measured from comparable sources. Never convert an unavailable metric to zero.
 
-Each agent run gets its own git worktree — no Docker required. This provides reproducibility isolation so agents cannot interfere with each other or corrupt the base repo.
+## Execution workflow
 
-### Metrics Collected
+1. Validate fixture hashes, baseline, setup, judge, cleanup, and expected failure behavior without an agent.
+2. Run a smoke trial for every candidate to detect capability mismatch.
+3. Run the predeclared trial count under equivalent isolation. Preserve raw stdout/stderr, tool events, artifacts, judge results, and environment metadata with secrets redacted.
+4. Re-run flaky judges independently. Do not rerun only the preferred candidate or discard failed trials after observation.
+5. Aggregate by the fixed formula, show per-fixture results, and separate measured facts from interpretation.
 
-| Metric | What It Measures |
-|--------|-----------------|
-| Pass rate | Did the agent produce code that passes the judge? |
-| Cost | API spend per task (when available) |
-| Time | Wall-clock seconds to completion |
-| Consistency | Pass rate across repeated runs (e.g., 3/3 = 100%) |
+## Optional parallel runs
 
-## Workflow
+Do not launch subagents or parallel runners by default. Use them only when the user or PJ instructions explicitly request parallelization and isolation prevents cross-run interference. Partition by independent run or fixture, not by overlapping edits. The main agent owns fixture parity, artifact collection, deduplication, scoring, conflict resolution, and final verification. Record concurrency because it can distort latency and shared-rate limits.
 
-### 1. Define Tasks
+## Stop, handoff, and completion
 
-Create a `tasks/` directory with YAML files, one per task:
+Stop when fixtures are not representative, baseline or judge is unstable, permissions differ materially, required secrets or live data would be exposed, cost approval is missing, isolation cannot prevent shared mutation, or results cannot be scored by the predeclared rubric.
 
-```bash
-mkdir tasks
-# Write task definitions (see template above)
-```
+For context pressure or handoff, record the decision, fixture/version hashes, candidate capabilities, completed and remaining trials, raw artifact paths, judge versions, score formula, exclusions, approval state, and next read-only step. Resume through the PJ's recovery order.
 
-### 2. Run Agents
+Complete only when representative fixtures pass their own validation, candidates ran under comparable conditions, all trials are accounted for, scores reproduce from saved judge results, variance and missing metrics are visible, duplicate evidence is removed, and the recommendation follows from the stated decision criteria.
 
-Execute agents against your tasks:
+## Output
 
-```bash
-agent-eval run --task tasks/add-retry-logic.yaml --agent claude-code --agent aider --runs 3
-```
-
-Each run:
-1. Creates a fresh git worktree from the specified commit
-2. Hands the prompt to the agent
-3. Runs the judge criteria
-4. Records pass/fail, cost, and time
-
-### 3. Compare Results
-
-Generate a comparison report:
-
-```bash
-agent-eval report --format table
-```
-
-```
-Task: add-retry-logic (3 runs each)
-┌──────────────┬───────────┬────────┬────────┬─────────────┐
-│ Agent        │ Pass Rate │ Cost   │ Time   │ Consistency │
-├──────────────┼───────────┼────────┼────────┼─────────────┤
-│ claude-code  │ 3/3       │ $0.12  │ 45s    │ 100%        │
-│ aider        │ 2/3       │ $0.08  │ 38s    │  67%        │
-└──────────────┴───────────┴────────┴────────┴─────────────┘
-```
-
-## Judge Types
-
-### Code-Based (deterministic)
-
-```yaml
-judge:
-  - type: pytest
-    command: pytest tests/ -v
-  - type: command
-    command: npm run build
-```
-
-### Pattern-Based
-
-```yaml
-judge:
-  - type: grep
-    pattern: "class.*Retry"
-    files: src/**/*.py
-```
-
-### Model-Based (LLM-as-judge)
-
-```yaml
-judge:
-  - type: llm
-    prompt: |
-      Does this implementation correctly handle exponential backoff?
-      Check for: max retries, increasing delays, jitter.
-```
-
-## Best Practices
-
-- **Start with 3-5 tasks** that represent your real workload, not toy examples
-- **Run at least 3 trials** per agent to capture variance — agents are non-deterministic
-- **Pin the commit** in your task YAML so results are reproducible across days/weeks
-- **Include at least one deterministic judge** (tests, build) per task — LLM judges add noise
-- **Track cost alongside pass rate** — a 95% agent at 10x the cost may not be the right choice
-- **Version your task definitions** — they are test fixtures, treat them as code
-
-## Links
-
-- Repository: [github.com/joaquinhuigomez/agent-eval](https://github.com/joaquinhuigomez/agent-eval)
+Return the comparison contract, fixture coverage, per-fixture score table, aggregate score with formula, variance, cost/time provenance, failures and safety stops, artifact paths, limitations, and recommendation. Label structural-only or incomplete evaluations clearly.

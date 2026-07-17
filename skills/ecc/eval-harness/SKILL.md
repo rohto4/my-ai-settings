@@ -1,16 +1,16 @@
 ---
 name: eval-harness
-description: Formal evaluation framework for Claude Code sessions implementing eval-driven development (EDD) principles
+description: Formal evaluation framework for Codex sessions implementing eval-driven development (EDD) principles
 ---
 
 # Eval Harness Skill
 
-A formal evaluation framework for Claude Code sessions, implementing eval-driven development (EDD) principles.
+A formal evaluation framework for Codex sessions, implementing eval-driven development (EDD) principles.
 
 ## When to Activate
 
 - Setting up eval-driven development (EDD) for AI-assisted workflows
-- Defining pass/fail criteria for Claude Code task completion
+- Defining pass/fail criteria for Codex task completion
 - Measuring agent reliability with pass@k metrics
 - Creating regression test suites for prompt or agent changes
 - Benchmarking agent performance across model versions
@@ -166,7 +166,7 @@ Status: READY FOR REVIEW
 ```
 /eval define feature-name
 ```
-Creates eval definition file at `.claude/evals/feature-name.md`
+Creates eval definition file at `docs/evals/feature-name.md`
 
 ### During Implementation
 ```
@@ -263,6 +263,13 @@ Recommended thresholds:
 
 ### Minimal Eval Artifact Layout
 
-- `.claude/evals/<feature>.md` definition
-- `.claude/evals/<feature>.log` run history
+- `docs/evals/<feature>.md` definition
+- `docs/evals/<feature>.log` run history
 - `docs/releases/<version>/eval-summary.md` release snapshot
+
+## Operating contract
+
+- Keep eval definitions and logs in repository-owned paths and use deterministic fixtures.
+- Never copy secrets or raw private session payloads into fixtures, prompts, or logs.
+- Keep evaluation read-only and local by default; obtain explicit approval before publishing results or mutating a remote evaluation surface.
+- On Windows, use PowerShell equivalents, LiteralPath, and explicit drive-letter checks.

@@ -1,154 +1,100 @@
 ---
 name: deep-research
-description: Multi-source deep research using firecrawl and exa MCPs. Searches the web, synthesizes findings, and delivers cited reports with source attribution. Use when the user wants thorough research on any topic with evidence and citations.
+description: Plan and conduct multi-source research with source attribution, uncertainty, and decision-ready synthesis. Use for broad or high-stakes questions that require several current sources, competing evidence, or a cited report. Do not use for a single factual lookup, a repo-local fact recoverable from workspace truth, or business-specific market analysis better handled by market-research.
 ---
 
 # Deep Research
 
-Produce thorough, cited research reports from multiple web sources using firecrawl and exa MCP tools.
+Produce a proportionate, cited research report. Treat web findings as evidence, not as a replacement for project truth or user-provided sources.
 
-## When to Activate
+## Establish the source boundary
 
-- User asks to research any topic in depth
-- Competitive analysis, technology evaluation, or market sizing
-- Due diligence on companies, investors, or technologies
-- Any question requiring synthesis from multiple sources
-- User says "research", "deep dive", "investigate", or "what's the current state of"
+1. Identify the decision, reader, time horizon, jurisdictions, and required depth. Ask only when an answer would materially change the research plan.
+2. When the request concerns a workspace or repository, read its actual `AGENTS.md`, `PROJECT.md`, prescribed initialization files, and current task records before searching externally. After compaction, session transfer, or handoff, reread them from disk before resuming.
+3. Prefer the project's current source of truth over memory, summaries, old reports, or general web guidance. Read only the minimum linked material needed for the question.
+4. If project rules require task tracking, keep objective, state, and completion conditions in the designated active-task file; keep finished evidence in its designated completion record.
 
-## MCP Requirements
+## Use a safe research surface
 
-At least one of:
-- **firecrawl** — `firecrawl_search`, `firecrawl_scrape`, `firecrawl_crawl`
-- **exa** — `web_search_exa`, `web_search_advanced_exa`, `crawling_exa`
+- Discover which search, browser, connector, or MCP tools are actually available. Do not assume Firecrawl, Exa, a Claude-specific tool, or a particular command name exists.
+- Search, open, and fetch in read-only mode by default. Do not install packages, change MCP configuration, sign in, buy reports, submit forms, contact people, or update an external system as part of research.
+- When a proposed method could mutate external state, demonstrate it with a fake boundary, saved request example, or dry-run first. Perform a live action only as a separate user-approved task with target and effect stated.
+- Never place tokens, API keys, Cookies, credentials, or authenticated response bodies in prompts, reports, repositories, command lines, or logs. Use an already-configured connector or secret store without echoing values.
+- On Windows, use PowerShell-safe paths, `-LiteralPath`, and explicit drive-letter paths when inspecting local evidence. Do not translate a working Windows workflow into an unverified Bash-only command.
+- If a needed capability or primary source is unavailable, report the limitation; do not silently weaken the evidence standard.
 
-Both together give the best coverage. Configure in `~/.claude.json` or `~/.codex/config.toml`.
+## Research workflow
 
-## Workflow
+### 1. Frame the questions
 
-### Step 1: Understand the Goal
+Break the goal into three to five non-overlapping questions. Include at least one question that could disconfirm the expected conclusion.
 
-Ask 1-2 quick clarifying questions:
-- "What's your goal — learning, making a decision, or writing something?"
-- "Any specific angle or depth you want?"
+### 2. Plan evidence
 
-If the user says "just research it" — skip ahead with reasonable defaults.
+For each question, name the preferred evidence class:
 
-### Step 2: Plan the Research
+1. primary sources: official documentation, regulations, filings, datasets, or papers;
+2. independent analysis or reputable reporting;
+3. blogs, forums, and social posts as leads or lived-experience evidence, not automatic fact authority.
 
-Break the topic into 3-5 research sub-questions. Example:
-- Topic: "Impact of AI on healthcare"
-  - What are the main AI applications in healthcare today?
-  - What clinical outcomes have been measured?
-  - What are the regulatory challenges?
-  - What companies are leading this space?
-  - What's the market size and growth trajectory?
+Set a freshness requirement where the answer can drift. Do not impose a fixed source quota; use enough independent evidence to resolve the question in proportion to its risk.
 
-### Step 3: Execute Multi-Source Search
+### 3. Search and deep-read
 
-For EACH sub-question, search using available MCP tools:
+- Use distinct query formulations for terminology, counterevidence, and recent changes.
+- Deduplicate mirrors, syndication, copied press releases, and sources that all depend on one underlying claim.
+- Open and read the strongest sources. Search snippets are discovery aids, not sufficient support for material claims.
+- Record title, publisher, publication or update date when available, URL, and the claim each source supports.
 
-**With firecrawl:**
-```
-firecrawl_search(query: "<sub-question keywords>", limit: 8)
-```
+### 4. Synthesize
 
-**With exa:**
-```
-web_search_exa(query: "<sub-question keywords>", numResults: 8)
-web_search_advanced_exa(query: "<keywords>", numResults: 5, startPublishedDate: "2025-01-01")
-```
+Separate:
 
-**Search strategy:**
-- Use 2-3 different keyword variations per sub-question
-- Mix general and news-focused queries
-- Aim for 15-30 unique sources total
-- Prioritize: academic, official, reputable news > blogs > forums
+- confirmed facts supported by the cited source;
+- inferences drawn across sources;
+- estimates and their assumptions;
+- unresolved conflicts or missing evidence;
+- recommendations and the decision criteria behind them.
 
-### Step 4: Deep-Read Key Sources
+Do not average away disagreements. Explain whether they arise from different dates, definitions, populations, incentives, or methods.
 
-For the most promising URLs, fetch full content:
+### 5. Deliver
 
-**With firecrawl:**
-```
-firecrawl_scrape(url: "<url>")
-```
-
-**With exa:**
-```
-crawling_exa(url: "<url>", tokensNum: 5000)
-```
-
-Read 3-5 key sources in full for depth. Do not rely only on search snippets.
-
-### Step 5: Synthesize and Write Report
-
-Structure the report:
+Use this default structure when it fits:
 
 ```markdown
 # [Topic]: Research Report
-*Generated: [date] | Sources: [N] | Confidence: [High/Medium/Low]*
+*As of: [date] | Scope: [boundary] | Confidence: [High/Medium/Low]*
 
 ## Executive Summary
-[3-5 sentence overview of key findings]
-
-## 1. [First Major Theme]
-[Findings with inline citations]
-- Key point ([Source Name](url))
-- Supporting data ([Source Name](url))
-
-## 2. [Second Major Theme]
-...
-
-## 3. [Third Major Theme]
-...
-
-## Key Takeaways
-- [Actionable insight 1]
-- [Actionable insight 2]
-- [Actionable insight 3]
-
+## Key Findings
+## Counterevidence and Uncertainty
+## Implications / Recommendation
+## Evidence Gaps
 ## Sources
-1. [Title](url) — [one-line summary]
-2. ...
-
-## Methodology
-Searched [N] queries across web and news. Analyzed [M] sources.
-Sub-questions investigated: [list]
+## Method
 ```
 
-### Step 6: Deliver
+Keep short reports in chat. Save a long report only to a user-specified or project-authorized path, then return the path and a compact summary.
 
-- **Short topics**: Post the full report in chat
-- **Long reports**: Post the executive summary + key takeaways, save full report to a file
+## Optional parallel research
 
-## Parallel Research with Subagents
+Do not launch subagents by default. Use parallel agents only when the user or project instructions explicitly request delegation or parallel work and the questions are independently bounded. Give each agent a distinct question and source boundary; the main agent must verify citations, remove duplicates, reconcile conflicts, and own the final synthesis. Parallel agents do not broaden write or approval authority.
 
-For broad topics, use Claude Code's Task tool to parallelize:
+## Completion, stop, and handoff
 
-```
-Launch 3 research agents in parallel:
-1. Agent 1: Research sub-questions 1-2
-2. Agent 2: Research sub-questions 3-4
-3. Agent 3: Research sub-question 5 + cross-cutting themes
-```
+Complete only when:
 
-Each agent searches, reads sources, and returns findings. The main session synthesizes into the final report.
+- the original decision or question is answered within the stated scope;
+- material claims have resolvable citations and important single-source claims are labeled;
+- source dates, counterevidence, assumptions, and gaps are visible;
+- duplicate sources and unsupported assertions have been removed;
+- the method and unavailable checks are reported.
 
-## Quality Rules
+Stop and report a blocker when the task requires unavailable primary evidence, an authenticated or paid source the user has not authorized, exposure of a secret, or an external action outside the research scope. For a long task or approaching context pressure, leave a compact handoff containing the objective, completed questions, remaining questions, source list, unresolved conflicts, artifact paths, and next safe step; then follow the project's compaction-recovery order.
 
-1. **Every claim needs a source.** No unsourced assertions.
-2. **Cross-reference.** If only one source says it, flag it as unverified.
-3. **Recency matters.** Prefer sources from the last 12 months.
-4. **Acknowledge gaps.** If you couldn't find good info on a sub-question, say so.
-5. **No hallucination.** If you don't know, say "insufficient data found."
-6. **Separate fact from inference.** Label estimates, projections, and opinions clearly.
+## Related skill boundaries
 
-## Examples
-
-```
-"Research the current state of nuclear fusion energy"
-"Deep dive into Rust vs Go for backend services in 2026"
-"Research the best strategies for bootstrapping a SaaS business"
-"What's happening with the US housing market right now?"
-"Investigate the competitive landscape for AI code editors"
-```
+- Use `exa-search` for a focused Exa lookup or code-context search when that tool is available.
+- Use `market-research` when the main output is a market, competitor, investor, sizing, or entry decision.
+- Use local repository search before this skill when the answer should come from workspace files.

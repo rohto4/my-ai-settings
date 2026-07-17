@@ -164,3 +164,7 @@ For native tool integration, use the MCP server instead of curl:
 - [API Playground](https://dashboard.nutrient.io/processor-api/playground/)
 - [Full API Docs](https://www.nutrient.io/guides/dws-processor/)
 - [npm MCP Server](https://www.npmjs.com/package/@nutrient-sdk/dws-mcp-server)
+
+## Operational Safety, Recovery, And Completion
+
+- On Windows, use the repository's PowerShell equivalents. Resolve paths with `Resolve-Path -LiteralPath` or `Get-Item -LiteralPath`, preserve drive letters and spaces, and keep discovery and any later mutation in the same shell.

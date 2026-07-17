@@ -1,0 +1,4 @@
+interface:
+  display_name: "Marketing Campaign"
+  short_description: "Marketing Campaign：成果物の品質と一貫性を高める"
+  default_prompt: "$marketing-campaign を使い、Marketing Campaignに関する依頼を同梱domain guideに基づいて実施・検証してください。"

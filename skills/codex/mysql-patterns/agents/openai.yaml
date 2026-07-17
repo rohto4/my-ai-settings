@@ -1,0 +1,4 @@
+interface:
+  display_name: "Mysql Patterns"
+  short_description: "Mysql Patterns：専門判断の精度を高め、調査の手戻りを減らす"
+  default_prompt: "$mysql-patterns を使い、Mysql Patternsに関する依頼を同梱domain guideに基づいて実施・検証してください。"

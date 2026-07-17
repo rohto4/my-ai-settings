@@ -25,6 +25,12 @@ pinned.
    without explicit authorization. Keep work inside the requested repository and paths.
 5. Leave branching, staging, commits, and remote writes to `git-workflow` and the user's
    authority. This skill creates no automatic commits.
+6. Do not start subagents or parallel workers merely because work is testable.
+   Use them only when the user or repository policy permits delegation. Keep
+   the authoritative test result and task state in the owning repository.
+7. On Windows, use the repository's PowerShell commands, `-LiteralPath` for
+   exact paths, and drive-letter-safe fixture and artifact handling. Do not
+   compose recursive cleanup across shells.
 
 ## Procedure
 

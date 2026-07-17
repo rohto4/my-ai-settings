@@ -1,0 +1,4 @@
+interface:
+  display_name: "Production Audit"
+  short_description: "Production Audit：判断材料を整理し、重要な見落としを減らす"
+  default_prompt: "$production-audit を使い、Production Auditに関する依頼を同梱domain guideに基づいて実施・検証してください。"

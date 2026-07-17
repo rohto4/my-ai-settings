@@ -7,6 +7,8 @@ description: Build a new API connector or provider by matching the target repo's
 
 Use this when the job is to add a repo-native integration surface, not just a generic HTTP client.
 
+Do not use this for API contract design (`api-design`), an engine-neutral integration decision (`search-first`), or a new external service that changes ownership and operations (`oss-adoption-planning`). Those decisions must be accepted before this implementation workflow starts.
+
 The point is to match the host repository's pattern:
 
 - connector layout
@@ -29,6 +31,7 @@ The point is to match the host repository's pattern:
 - do not start from vendor docs alone; start from existing in-repo connectors first
 - do not stop at transport code if the repo expects registry wiring, tests, and docs
 - do not cargo-cult old connectors if the repo has a newer current pattern
+- default tests to fake HTTP and fake credentials; real tokens, live API writes, account changes, deployment, and timer enablement require separate explicit authorization
 
 ## Workflow
 
@@ -116,3 +119,12 @@ src/integrations/
 - `backend-patterns`
 - `mcp-server-patterns`
 - `github-ops`
+
+Hand off to `verification-loop` after implementation; completion requires registration/discovery, repo-native tests, error and pagination behavior, and documentation expected by the host repository.
+
+## Operating contract
+
+- Start external paths with a fixture, fake, sandbox, or dry-run. Put real tokens, live APIs, deployment, and production writes behind a separate gate.
+- Keep diagnosis read-only. Obtain explicit approval immediately before push, deploy, send, publish, remote update, destructive cleanup, or another external mutation.
+- Do not use this skill to invent an API contract or perform broad documentation search; hand those concerns to api-design or search-first.
+- Verify request construction, retries, pagination, error mapping, and idempotency with fake HTTP before any live call.

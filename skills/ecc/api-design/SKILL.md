@@ -24,8 +24,14 @@ project's source of truth calls for it.
   `backend-patterns` first to surface ownership, consistency, transaction, and
   asynchronous constraints; then finalize the contract here and hand the
   accepted contract back to backend implementation planning.
+- Use `api-connector-builder` for implementing or operating an external API
+  integration. Keep this skill focused on the contract and consumer-visible
+  behavior rather than credentials, transport setup, or live calls.
 - Do not write to external systems, publish specifications, create credentials,
   or change runtime policy without explicit user authorization.
+- When examples or verification need an upstream service, prefer fake HTTP,
+  fixtures, or a read-only sandbox. Keep live tokens, write-capable calls, and
+  deployment behind a separate explicit gate, and mask credentials in output.
 
 ## Workflow
 
@@ -73,6 +79,9 @@ project's source of truth calls for it.
 - Make retry behavior explicit. A POST can be made safely retryable with a
   scoped idempotency key and durable request/result handling; document mismatch,
   expiry, concurrent duplicate, and replay outcomes.
+- Treat observable ordering, error text, timing, headers, and undocumented
+  response quirks as possible compatibility surfaces once consumers exist.
+  Verify real consumer dependency before declaring a behavioral change safe.
 - Bound every collection query. Reject or normalize unsupported filters and
   sort fields deterministically; never silently broaden access or query cost.
 - Put authorization checks at the resource and tenant boundary, not only in UI
@@ -125,3 +134,9 @@ Read only the topic needed for the current decision:
 - [Collection queries and pagination](references/queries-and-pagination.md)
 - [Security, resilience, compatibility, and observability](references/security-resilience-evolution.md)
 - [TypeScript, Python, and Go implementation examples](references/implementation-examples.md). For a `pj-general` Hono backend, use the `backend-patterns` Hono/BullMQ/Drizzle reference instead of the Next.js example.
+
+## Operating contract
+
+- Start external paths with a fixture, fake, sandbox, or dry-run. Put real tokens, live APIs, deployment, and production writes behind a separate gate.
+- Hand off implementation to the repository connector or backend owner after the resource, error, compatibility, and observability contracts are explicit.
+- Treat compatibility as observable: verify status, schema, idempotency, pagination, deprecation, and telemetry behavior.

@@ -296,3 +296,9 @@ fun AppTheme(
 
 See skill: `android-clean-architecture` for module structure and layering.
 See skill: `kotlin-coroutines-flows` for coroutine and Flow patterns.
+
+## Operating contract
+
+- Start external paths with a fixture, fake, sandbox, or dry-run. Put real tokens, live APIs, deployment, and production writes behind a separate gate.
+- For long work, reread AGENTS.md, PROJECT.md, and the current task artifact from disk; keep in-progress state separate from completion evidence. Stop on missing authority, ambiguous targets, unsafe live dependencies, or repeated non-progress. Hand off with evidence; complete only after the scoped checks pass.
+- Isolate platform services behind interfaces and test shared behavior with fakes before device, account, or store integration.

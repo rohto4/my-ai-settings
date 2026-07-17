@@ -1,129 +1,81 @@
 #!/usr/bin/env bash
-# scan-skills.sh — enumerate skill files, extract frontmatter and UTC mtime
-# Usage: scan-skills.sh [CWD_SKILLS_DIR]
-# Output: JSON to stdout
-#
-# When CWD_SKILLS_DIR is omitted, defaults to $PWD/.claude/skills so the
-# script always picks up project-level skills without relying on the caller.
-#
-# Environment:
-#   RULES_DISTILL_GLOBAL_DIR   Override ~/.claude/skills (for testing only;
-#                              do not set in production — intended for bats tests)
-#   RULES_DISTILL_PROJECT_DIR  Override project dir detection (for testing only)
+# Enumerate skill files from explicit roots and emit JSON to stdout.
+# Usage: scan-skills.sh <skills-root> [<skills-root> ...]
 
 set -euo pipefail
 
-GLOBAL_DIR="${RULES_DISTILL_GLOBAL_DIR:-$HOME/.claude/skills}"
-CWD_SKILLS_DIR="${RULES_DISTILL_PROJECT_DIR:-${1:-$PWD/.claude/skills}}"
-# Validate CWD_SKILLS_DIR looks like a .claude/skills path (defense-in-depth).
-# Only warn when the path exists — a nonexistent path poses no traversal risk.
-if [[ -n "$CWD_SKILLS_DIR" && -d "$CWD_SKILLS_DIR" && "$CWD_SKILLS_DIR" != */.claude/skills* ]]; then
-  echo "Warning: CWD_SKILLS_DIR does not look like a .claude/skills path: $CWD_SKILLS_DIR" >&2
+if [[ $# -lt 1 ]]; then
+  echo "Usage: scan-skills.sh <skills-root> [<skills-root> ...]" >&2
+  exit 2
 fi
 
-# Extract a frontmatter field (handles both quoted and unquoted single-line values).
-# Does NOT support multi-line YAML blocks (| or >) or nested YAML keys.
+for dependency in find sort awk jq stat date; do
+  if ! command -v "$dependency" >/dev/null 2>&1; then
+    echo "Missing dependency: $dependency" >&2
+    exit 2
+  fi
+done
+
 extract_field() {
   local file="$1" field="$2"
-  awk -v f="$field" '
-    BEGIN { fm=0 }
-    /^---$/ { fm++; next }
-    fm==1 {
-      n = length(f) + 2
-      if (substr($0, 1, n) == f ": ") {
-        val = substr($0, n+1)
-        gsub(/^"/, "", val)
-        gsub(/"$/, "", val)
-        print val
-        exit
-      }
+  awk -v field="$field" '
+    BEGIN { frontmatter = 0 }
+    /^---$/ { frontmatter++; next }
+    frontmatter == 1 && index($0, field ":") == 1 {
+      value = substr($0, length(field) + 2)
+      sub(/^[[:space:]]+/, "", value)
+      gsub(/^"|"$/, "", value)
+      print value
+      exit
     }
-    fm>=2 { exit }
+    frontmatter >= 2 { exit }
   ' "$file"
 }
 
-# Get file mtime in UTC ISO8601 (portable: GNU and BSD)
 get_mtime() {
-  local file="$1"
-  local secs
-  secs=$(stat -c %Y "$file" 2>/dev/null || stat -f %m "$file" 2>/dev/null) || return 1
-  date -u -d "@$secs" +%Y-%m-%dT%H:%M:%SZ 2>/dev/null ||
-  date -u -r "$secs" +%Y-%m-%dT%H:%M:%SZ
+  local file="$1" seconds
+  seconds=$(stat -c %Y "$file" 2>/dev/null || stat -f %m "$file" 2>/dev/null)
+  date -u -d "@$seconds" +%Y-%m-%dT%H:%M:%SZ 2>/dev/null ||
+    date -u -r "$seconds" +%Y-%m-%dT%H:%M:%SZ
 }
 
-# Scan a directory and produce a JSON array of skill objects
-scan_dir_to_json() {
-  local dir="$1"
+all_skills='[]'
+root_summaries='[]'
 
-  local tmpdir
-  tmpdir=$(mktemp -d)
-  local _scan_tmpdir="$tmpdir"
-  _scan_cleanup() { rm -rf "$_scan_tmpdir"; }
-  trap _scan_cleanup RETURN
-
-  local i=0
-  while IFS= read -r file; do
-    local name desc mtime dp
-    name=$(extract_field "$file" "name")
-    desc=$(extract_field "$file" "description")
-    mtime=$(get_mtime "$file")
-    dp="${file/#$HOME/~}"
-
-    jq -n \
-      --arg path "$dp" \
-      --arg name "$name" \
-      --arg description "$desc" \
-      --arg mtime "$mtime" \
-      '{path:$path,name:$name,description:$description,mtime:$mtime}' \
-      > "$tmpdir/$i.json"
-    i=$((i+1))
-  done < <(find "$dir" -name "SKILL.md" -type f 2>/dev/null | sort)
-
-  if [[ $i -eq 0 ]]; then
-    echo "[]"
-  else
-    jq -s '.' "$tmpdir"/*.json
+for requested_root in "$@"; do
+  if [[ ! -d "$requested_root" ]]; then
+    echo "Skills root not found: $requested_root" >&2
+    exit 1
   fi
-}
 
-# --- Main ---
+  root=$(cd "$requested_root" && pwd -P)
+  items=()
+  while IFS= read -r file; do
+    items+=("$(jq -n \
+      --arg root "$root" \
+      --arg path "$file" \
+      --arg name "$(extract_field "$file" name)" \
+      --arg description "$(extract_field "$file" description)" \
+      --arg mtimeUtc "$(get_mtime "$file")" \
+      '{root:$root,path:$path,name:$name,description:$description,mtimeUtc:$mtimeUtc}')")
+  done < <(find "$root" -type f -name 'SKILL.md' -not -path '*/.git/*' -print | sort)
 
-global_found="false"
-global_count=0
-global_skills="[]"
+  if [[ ${#items[@]} -eq 0 ]]; then
+    root_skills='[]'
+  else
+    root_skills=$(printf '%s\n' "${items[@]}" | jq -s '.')
+  fi
 
-if [[ -d "$GLOBAL_DIR" ]]; then
-  global_found="true"
-  global_skills=$(scan_dir_to_json "$GLOBAL_DIR")
-  global_count=$(echo "$global_skills" | jq 'length')
-fi
-
-project_found="false"
-project_path=""
-project_count=0
-project_skills="[]"
-
-if [[ -n "$CWD_SKILLS_DIR" && -d "$CWD_SKILLS_DIR" ]]; then
-  project_found="true"
-  project_path="$CWD_SKILLS_DIR"
-  project_skills=$(scan_dir_to_json "$CWD_SKILLS_DIR")
-  project_count=$(echo "$project_skills" | jq 'length')
-fi
-
-# Merge global + project skills into one array
-all_skills=$(jq -s 'add' <(echo "$global_skills") <(echo "$project_skills"))
+  count=$(jq 'length' <<<"$root_skills")
+  all_skills=$(jq -n --argjson current "$all_skills" --argjson added "$root_skills" '$current + $added')
+  root_summaries=$(jq -n \
+    --argjson current "$root_summaries" \
+    --arg root "$root" \
+    --argjson count "$count" \
+    '$current + [{root:$root,count:$count}]')
+done
 
 jq -n \
-  --arg global_found "$global_found" \
-  --argjson global_count "$global_count" \
-  --arg project_found "$project_found" \
-  --arg project_path "$project_path" \
-  --argjson project_count "$project_count" \
+  --argjson scan_summary "$root_summaries" \
   --argjson skills "$all_skills" \
-  '{
-    scan_summary: {
-      global: { found: ($global_found == "true"), count: $global_count },
-      project: { found: ($project_found == "true"), path: $project_path, count: $project_count }
-    },
-    skills: $skills
-  }'
+  '{scan_summary:$scan_summary,total:($skills|length),skills:$skills}'

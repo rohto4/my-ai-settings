@@ -1,68 +1,77 @@
 ---
 name: mcp-server-patterns
-description: Build MCP servers with Node/TypeScript SDK — tools, resources, prompts, Zod validation, stdio vs Streamable HTTP. Use Context7 or official MCP docs for latest API.
+description: Design, implement, refactor, or debug an MCP server against the current protocol and a pinned official SDK. Use when exposing tools, resources, or prompts; choosing or testing stdio or HTTP transport; upgrading an SDK; or adding schemas, auth, and safe external-action boundaries. Do not use for an ordinary internal API or CLI, for merely consuming an existing MCP server, or when a simpler skill or local function satisfies the capability.
 ---
 
 # MCP Server Patterns
 
-The Model Context Protocol (MCP) lets AI assistants call tools, read resources, and use prompts from your server. Use this skill when building or maintaining MCP servers. The SDK API evolves; check Context7 (query-docs for "MCP") or the official MCP documentation for current method names and signatures.
+Build the smallest MCP surface that satisfies the client use case. Keep protocol, business logic, external effects, and transport independently testable.
 
-For the broader routing decision of when a capability should be a rule, a skill, MCP, or a plain CLI/API workflow, see [docs/capability-surface-selection.md](../../docs/capability-surface-selection.md).
+## Restore project truth and current protocol
 
-## When to Use
+1. Read the target PJ's actual `AGENTS.md`, `PROJECT.md`, pinned stack, architecture decisions, security policy, and current task state before selecting an SDK or transport.
+2. After compaction, session transfer, or handoff, reread them from disk. Project decisions and pinned versions outrank this skill, memory, and old code examples.
+3. Record the target MCP protocol revision or compatibility requirement, official SDK and exact version, client capabilities, transport, authentication model, deployment target, and supported operating systems.
+4. Verify method names, schemas, lifecycle, and transport behavior against the current official [MCP documentation](https://modelcontextprotocol.io) and the selected official SDK's source, release notes, and examples. Record URLs and access date. Do not rely on Context7, a blog, or an old snippet as the sole authority.
+5. Pin dependency versions according to PJ policy. Do not install or upgrade an SDK as a side effect of reading this skill; dependency mutation requires an explicit implementation request and reviewed diff.
 
-Use when: implementing a new MCP server, adding tools or resources, choosing stdio vs HTTP, upgrading the SDK, or debugging MCP registration and transport issues.
+On Windows, use PowerShell-safe commands, `-LiteralPath`, explicit drive-letter paths, and the PJ's pinned package runner. Do not replace a working Windows path with an unverified Bash-only setup.
 
-## How It Works
+## Confirm MCP is the right surface
 
-### Core concepts
+Use MCP when a client needs discoverable, structured tools, resources, or prompts across a protocol boundary. Prefer a plain local function, CLI, API, scheduled worker, or skill when no MCP client interoperability is required. Avoid publishing an MCP tool that merely mirrors every backend endpoint without a model-facing use case and safety contract.
 
-- **Tools**: Actions the model can invoke (e.g. search, run a command). Register with `registerTool()` or `tool()` depending on SDK version.
-- **Resources**: Read-only data the model can fetch (e.g. file contents, API responses). Register with `registerResource()` or `resource()`. Handlers typically receive a `uri` argument.
-- **Prompts**: Reusable, parameterised prompt templates the client can surface (e.g. in Claude Desktop). Register with `registerPrompt()` or equivalent.
-- **Transport**: stdio for local clients (e.g. Claude Desktop); Streamable HTTP is preferred for remote (Cursor, cloud). Legacy HTTP/SSE is for backward compatibility.
+## Design the capability boundary
 
-The Node/TypeScript SDK may expose `tool()` / `resource()` or `registerTool()` / `registerResource()`; the official SDK has changed over time. Always verify against the current [MCP docs](https://modelcontextprotocol.io) or Context7.
+- **Tools:** model-invoked actions. Give each a narrow purpose, unambiguous description, validated input, bounded output, side-effect declaration, and retry/idempotency behavior.
+- **Resources:** read-only, addressable context. Define URI identity, freshness, pagination, authorization, content type, and size limits.
+- **Prompts:** reusable client-visible templates. Keep arguments explicit and never embed secrets or hidden authority.
+- **Server metadata:** use stable names and versions; expose only capabilities the implementation and target clients actually support.
 
-### Connecting with stdio
+Keep handlers independent from transport and delegate business logic or external I/O to explicit ports/adapters. Do not let schemas claim stricter validation or safer effects than the handler enforces.
 
-For local clients, create a stdio transport and pass it to your server’s connect method. The exact API varies by SDK version (e.g. constructor vs factory). See the official MCP documentation or query Context7 for "MCP stdio server" for the current pattern.
+## Safe write and secret boundary
 
-Keep server logic (tools + resources) independent of transport so you can plug in stdio or HTTP in the entrypoint.
+- Default external integrations to read-only or fake adapters. For a write-capable tool, provide a fake transport or dry-run that returns the intended target, payload summary, effect, cost, and required approval without performing the action.
+- Require explicit approval from the user immediately before a live external write or destructive action. Scope approval to the exact tool call, target, effect, and expiry; do not infer approval from tool availability.
+- Protect retries with idempotency keys or duplicate detection. Separate preview from apply and make destructive actions visibly distinct from reads.
+- Never put API keys, tokens, Cookies, authorization headers, connection strings, private payloads, or authenticated response bodies in source, schemas, prompts, tool results, test fixtures, command lines, or logs. Inject secrets through the PJ's secret boundary and redact diagnostics.
+- Return bounded structured errors. Do not expose raw stack traces, environment dumps, headers, SQL, filesystem paths containing secrets, or provider bodies to the model.
 
-### Remote (Streamable HTTP)
+## Transport contract
 
-For Cursor, cloud, or other remote clients, use **Streamable HTTP** (single MCP HTTP endpoint per current spec). Support legacy HTTP/SSE only when backward compatibility is required.
+Select transport only after checking the current specification and target client:
 
-## Examples
+- For stdio, reserve stdout for protocol frames. Send only sanitized diagnostics to the approved logging channel, and test process startup, shutdown, malformed input, and cancellation on the target OS.
+- For remote HTTP, verify the currently supported MCP transport, session model, authentication, authorization, TLS, origin controls, rate limits, timeouts, cancellation, and deployment lifecycle. Support legacy transport only for a documented client-compatibility requirement.
+- Keep the same capability behavior across transports. Transport adapters must not silently broaden tool authority or resource visibility.
 
-### Install and server setup
+## Implementation workflow
 
-```bash
-npm install @modelcontextprotocol/sdk zod
-```
+1. Write a capability table: name, type, user purpose, input/output schema, data class, read/write effect, approval, idempotency, timeout, and evidence.
+2. Implement schemas and pure handler logic first. Put live provider calls behind interfaces that can be replaced by fakes.
+3. Connect a fake or in-memory transport and synthetic data. Validate capability listing, invocation, result serialization, errors, cancellation, and shutdown without live credentials.
+4. Add the selected official SDK and real transport only at the pinned version and with current official signatures.
+5. Integrate real read-only dependencies next. Gate every live write, paid request, deployment, or destructive path separately.
 
-```typescript
-import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
-import { z } from "zod";
+## Verification
 
-const server = new McpServer({ name: "my-server", version: "1.0.0" });
-```
+Test at least:
 
-Register tools and resources using the API your SDK version provides: some versions use `server.tool(name, description, schema, handler)` (positional args), others use `server.tool({ name, description, inputSchema }, handler)` or `registerTool()`. Same for resources — include a `uri` in the handler when the API provides it. Check the official MCP docs or Context7 for the current `@modelcontextprotocol/sdk` signatures to avoid copy-paste errors.
+- schema-valid and invalid inputs, unknown capabilities, and output size limits;
+- fake handler success, provider failure, timeout, cancellation, retry, and duplicate request;
+- resource URI, pagination, freshness, and authorization boundaries;
+- write-tool dry-run, missing approval, expired approval, wrong target, and idempotent replay;
+- secret and log redaction, including negative tests for headers and provider errors;
+- transport startup, capability negotiation, disconnect, and clean shutdown on the target OS;
+- compatibility with the named client and pinned SDK/protocol versions.
 
-Use **Zod** (or the SDK’s preferred schema format) for input validation.
+Use synthetic or explicitly authorized sanitized data. A live provider, external write, paid API, deploy, or production credential requires a separate approved test plan.
 
-## Best Practices
+## Stop, handoff, and completion
 
-- **Schema first**: Define input schemas for every tool; document parameters and return shape.
-- **Errors**: Return structured errors or messages the model can interpret; avoid raw stack traces.
-- **Idempotency**: Prefer idempotent tools where possible so retries are safe.
-- **Rate and cost**: For tools that call external APIs, consider rate limits and cost; document in the tool description.
-- **Versioning**: Pin SDK version in package.json; check release notes when upgrading.
+Stop when current official docs or the pinned SDK cannot be verified, target-client capabilities are unknown, auth or tenant isolation is unresolved, the fake transport cannot reproduce the handler contract, a secret could enter logs/results, or a live/destructive action lacks approval. Do not guess an SDK method or weaken validation to make an example run.
 
-## Official SDKs and Docs
+For context pressure or handoff, record PJ sources reread, protocol and SDK versions, official references and access date, capability table, transport/auth decision, fake-test results, approval state, unresolved compatibility issues, artifact paths, and next read-only step.
 
-- **JavaScript/TypeScript**: `@modelcontextprotocol/sdk` (npm). Use Context7 with library name "MCP" for current registration and transport patterns.
-- **Go**: Official Go SDK on GitHub (`modelcontextprotocol/go-sdk`).
-- **C#**: Official C# SDK for .NET.
+Complete only when schemas and descriptions match implementation, fake-transport and negative tests pass, secret/log boundaries are verified, target-client compatibility is evidenced, approved live tests are distinguished from synthetic tests, and every write-capable tool has dry-run, approval, idempotency, and post-action evidence. If the correct decision is not to use MCP, document the simpler selected surface and its rationale.

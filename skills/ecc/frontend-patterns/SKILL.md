@@ -13,6 +13,7 @@ description: Design or review React and Next.js boundaries, state and data flow,
 - server/client boundary、state ownership、data flow、loading/error/empty/success、アクセシビリティ、性能、レスポンシブ挙動を伴うときに使う。
 - API契約、認可、データベース、デザインシステムの正本は各担当skill・対象PJの文書へ委ねる。境界をまたぐ変更は、先にその正本を読む。
 - 採用されていないライブラリ、古い実装例、特定のアニメーションライブラリを既定にしない。必要性と依存関係を確認してから提案する。
+- 既に承認済みのAPI契約・デザイン方向・単純なCSS修正だけを再検討する目的では使わない。APIは `api-design`、視覚方向は `frontend-design-direction`、ブラウザ実測は `browser-qa` へ引き継ぐ。
 
 ## Workflow
 
@@ -24,6 +25,8 @@ description: Design or review React and Next.js boundaries, state and data flow,
 6. **Implement by states.** semantic HTMLを基準に、各UI状態と復旧操作を実装する。フォームはクライアントとサーバーの双方で入力を検証し、送信中の重複実行を防ぐ。
 7. **Check non-functional behavior.** キーボード、フォーカス、エラー通知、狭い画面、拡大表示、低速回線、大量データ、不要なclient JavaScriptを確認する。
 8. **Verify locally.** 対象PJの型検査、lint、unit/integration/e2eのうち変更リスクに見合う既存コマンドを実行し、必要なら代表的なviewportと支援技術で手動確認する。
+
+圧縮・handoff後は会話要約ではなく `AGENTS.md`、`PROJECT.md`、現行task、対象実装を再読する。長期作業の進行状態はtaskへ、完了証拠はcompletion logへ分離する。
 
 ## Decision rules
 
@@ -74,3 +77,4 @@ description: Design or review React and Next.js boundaries, state and data flow,
 - レビュー時は、最も重大な境界違反、状態不整合、失敗復旧不能、アクセシビリティ問題、性能退行を根拠とともに優先して示す。
 - 対象PJが `pj-general` で、採用済みスタックの実装詳細が必要な場合だけ [pj-general-next-app-router.md](references/pj-general-next-app-router.md) を読む。
 - 任意・旧来パターンの採否判断には [optional-and-legacy-patterns.md](references/optional-and-legacy-patterns.md) を読む。例を正解として複製しない。
+- 完了は、対象UI状態、型/lint/test、代表viewport、キーボード/フォーカス、失敗時の復旧を変更リスクに応じて確認できた時だけ主張する。未確認項目は明示してhandoffする。

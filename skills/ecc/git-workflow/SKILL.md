@@ -25,6 +25,7 @@ Activate for branch, commit, PR, merge, rebase, conflict, release/tag, rollback,
 2. Use branch protection, CI, release, and host-provider policies over generic Git conventions.
 3. For Git, hosting-provider, action, or release-tool behavior that is version-dependent, confirm the repository's pinned version and current official documentation before acting. Do not treat examples in this skill as current policy.
 4. If policy, ownership, base branch, or release authority is unclear, stop and ask a focused question.
+5. After compaction, session transfer, or handoff, reread the repository-required initialization files and current task record from disk before another Git mutation. Treat conversation summaries as pointers, not repository truth.
 
 ## Inspect Before Changing
 
@@ -40,9 +41,12 @@ git remote
 
 Then identify the repository root, active worktree, intended base branch, remote name, existing PR/review state, and any changes not owned by this task. Do not print raw remote URLs. If a host or repository identity is necessary, capture the URL without echoing it and report only a sanitized host/path with credentials, tokens, and query data removed. Prefer `git diff -- <paths>` and `git diff --cached -- <paths>` to broad staging or inspection.
 
+On Windows, keep filesystem validation in PowerShell: use `Resolve-Path -LiteralPath` or `Get-Item -LiteralPath` for user-supplied worktree and file paths, preserve drive letters and spaces, and do not enumerate targets in one shell before passing computed cleanup or move operations to another.
+
 ## Decision Procedure
 
 1. **Classify the work.** Separate local editing, local history organization, shared-branch integration, hosted review, and release publication. Apply only the controls needed for that class.
+   Prefer a supported dry-run or preview for state-changing helpers. When Git itself has no dry-run, show the exact refs/paths and intended diff or effect, then stop at the approval gate rather than using the real mutation as a test.
 2. **Choose the branch model from policy.** Use the repository's documented model. If none exists, propose a short-lived task branch and PR review as a reversible default; do not install a new branching model unilaterally.
 3. **Protect the base.** Confirm the base branch and its current remote state before creating or updating a branch. Use a unique `codex/` prefix only when creating a Codex branch and local policy does not specify another prefix.
 4. **Make focused commits.** Stage explicit paths, inspect the staged diff, and write an imperative message that describes the change. Follow the repository's commit convention; Conventional Commits are optional, not assumed.

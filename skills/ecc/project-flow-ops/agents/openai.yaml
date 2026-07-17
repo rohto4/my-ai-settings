@@ -1,0 +1,4 @@
+interface:
+  display_name: "Project Flow Ops"
+  short_description: "複数trackerとcode hostの実行状態を正本基準で整合"
+  default_prompt: "Use $project-flow-ops to audit these work items, reconcile them with project truth, and propose evidence-backed next actions."

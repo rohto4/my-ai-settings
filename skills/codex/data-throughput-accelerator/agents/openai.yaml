@@ -1,0 +1,4 @@
+interface:
+  display_name: "Data Throughput Accelerator"
+  short_description: "Data Throughput Accelerator：専門判断の精度を高め、調査の手戻りを減らす"
+  default_prompt: "$data-throughput-accelerator を使い、Data Throughput Acceleratorに関する依頼を同梱domain guideに基づいて実施・検証してください。"

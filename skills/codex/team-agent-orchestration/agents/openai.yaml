@@ -1,0 +1,4 @@
+interface:
+  display_name: "Team Agent Orchestration"
+  short_description: "Team Agent Orchestration：専門判断の精度を高め、調査の手戻りを減らす"
+  default_prompt: "$team-agent-orchestration を使い、Team Agent Orchestrationに関する依頼を同梱domain guideに基づいて実施・検証してください。"

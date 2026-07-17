@@ -1,0 +1,4 @@
+interface:
+  display_name: "Terminal Ops"
+  short_description: "Run scoped repository commands and verify observed results."
+  default_prompt: "Use $terminal-ops to inspect and execute this repository task with explicit scope and verification."

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Agent Harness Construction"
+  short_description: "fake HTTP・fake LLMで安全なagent harnessを設計"
+  default_prompt: "Use $agent-harness-construction to redesign this harness with fake HTTP and fake LLM tests, bounded authority, and observable completion evidence."

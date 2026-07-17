@@ -1,0 +1,4 @@
+interface:
+  display_name: "Market Research"
+  short_description: "市場・競合・投資判断を、根拠・反証・限界付きで調査"
+  default_prompt: "Use $market-research to assess this market decision with sourced evidence, counterarguments, and explicit assumptions."

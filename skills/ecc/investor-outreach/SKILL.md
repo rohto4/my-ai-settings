@@ -88,3 +88,7 @@ Before delivering:
 - the proof point is concrete
 - filler praise and softener language are gone
 - word count stays tight
+
+## Operational Safety, Recovery, And Completion
+
+- Keep diagnosis read-only and prefer local fixtures, fake services, and dry-runs. Treat real tokens, live APIs, deploys, sends, pushes, or remote writes as separate actions requiring explicit approval immediately before execution.

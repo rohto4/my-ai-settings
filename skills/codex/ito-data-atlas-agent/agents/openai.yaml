@@ -1,0 +1,4 @@
+interface:
+  display_name: "Ito Data Atlas Agent"
+  short_description: "Ito Data Atlas Agent：成果物の品質と一貫性を高める"
+  default_prompt: "$ito-data-atlas-agent を使い、Ito Data Atlas Agentに関する依頼を同梱domain guideに基づいて実施・検証してください。"

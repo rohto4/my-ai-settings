@@ -1,58 +1,47 @@
 #!/usr/bin/env bash
-# scan-rules.sh — enumerate rule files and extract H2 heading index
-# Usage: scan-rules.sh [RULES_DIR]
-# Output: JSON to stdout
-#
-# Environment:
-#   RULES_DISTILL_DIR  Override ~/.claude/rules (for testing only)
+# Enumerate Markdown rule files from an explicit root and emit JSON to stdout.
+# Usage: scan-rules.sh <rules-root>
 
 set -euo pipefail
 
-RULES_DIR="${RULES_DISTILL_DIR:-${1:-$HOME/.claude/rules}}"
+if [[ $# -ne 1 ]]; then
+  echo "Usage: scan-rules.sh <rules-root>" >&2
+  exit 2
+fi
 
-if [[ ! -d "$RULES_DIR" ]]; then
-  jq -n --arg path "$RULES_DIR" '{"error":"rules directory not found","path":$path}' >&2
+for dependency in find sort grep sed jq wc; do
+  if ! command -v "$dependency" >/dev/null 2>&1; then
+    echo "Missing dependency: $dependency" >&2
+    exit 2
+  fi
+done
+
+if [[ ! -d "$1" ]]; then
+  echo "Rules root not found: $1" >&2
   exit 1
 fi
 
-# Collect all .md files (excluding _archived/)
-files=()
-while IFS= read -r f; do
-  files+=("$f")
-done < <(find "$RULES_DIR" -name '*.md' -not -path '*/_archived/*' -print | sort)
+rules_root=$(cd "$1" && pwd -P)
+items=()
 
-total=${#files[@]}
-
-tmpdir=$(mktemp -d)
-_rules_cleanup() { rm -rf "$tmpdir"; }
-trap _rules_cleanup EXIT
-
-for i in "${!files[@]}"; do
-  file="${files[$i]}"
-  rel_path="${file#"$HOME"/}"
-  rel_path="~/$rel_path"
-
-  # Extract H2 headings (## Title) into a JSON array via jq
-  headings_json=$({ grep -E '^## ' "$file" 2>/dev/null || true; } | sed 's/^## //' | jq -R . | jq -s '.')
-
-  # Get line count
-  line_count=$(wc -l < "$file" | tr -d ' ')
-
-  jq -n \
-    --arg path "$rel_path" \
+while IFS= read -r file; do
+  headings=$({ grep -E '^##[[:space:]]+' "$file" 2>/dev/null || true; } | sed -E 's/^##[[:space:]]+//' | jq -R . | jq -s '.')
+  lines=$(wc -l < "$file" | tr -d ' ')
+  items+=("$(jq -n \
+    --arg path "$file" \
     --arg file "$(basename "$file")" \
-    --argjson lines "$line_count" \
-    --argjson headings "$headings_json" \
-    '{path:$path,file:$file,lines:$lines,headings:$headings}' \
-    > "$tmpdir/$i.json"
-done
+    --argjson lines "$lines" \
+    --argjson headings "$headings" \
+    '{path:$path,file:$file,lines:$lines,headings:$headings}')")
+done < <(find "$rules_root" -type f -name '*.md' -not -path '*/_archived/*' -not -path '*/.git/*' -print | sort)
 
-if [[ ${#files[@]} -eq 0 ]]; then
-  jq -n --arg dir "$RULES_DIR" '{rules_dir:$dir,total:0,rules:[]}'
+if [[ ${#items[@]} -eq 0 ]]; then
+  rules='[]'
 else
-  jq -n \
-    --arg dir "$RULES_DIR" \
-    --argjson total "$total" \
-    --argjson rules "$(jq -s '.' "$tmpdir"/*.json)" \
-    '{rules_dir:$dir,total:$total,rules:$rules}'
+  rules=$(printf '%s\n' "${items[@]}" | jq -s '.')
 fi
+
+jq -n \
+  --arg rules_root "$rules_root" \
+  --argjson rules "$rules" \
+  '{rules_root:$rules_root,total:($rules|length),rules:$rules}'

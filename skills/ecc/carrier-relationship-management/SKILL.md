@@ -202,3 +202,7 @@ Track weekly, review monthly with carrier management team, share quarterly with 
 
 - Track carrier scorecards, exception trends, and routing-guide compliance in the same operating review so pricing and service decisions stay tied together.
 - Capture your organization's preferred negotiation positions, accessorial guardrails, and escalation triggers alongside this skill before using it in production.
+
+## Operating contract
+
+- Use for carrier portfolio, rate, allocation, scorecard, and relationship decisions. Do not use for customs classification, legal advice, or executing a live tender or contract without human review.

@@ -29,12 +29,14 @@ Pull these ECC-native skills into the workflow when relevant:
 ## Guardrails
 
 - do not answer current questions from stale memory when fresh search is cheap
+- on resume, read the target PJ's `AGENTS.md`, `PROJECT.md`, and current task record from disk; do not treat a conversation summary as the source of truth
 - separate:
   - sourced fact
   - user-provided evidence
   - inference
   - recommendation
 - do not spin up a heavyweight research pass if the answer is already in local code or docs
+- keep research read-only unless the user explicitly requests an external write, message, publication, or monitor creation
 
 ## Workflow
 
@@ -78,6 +80,13 @@ Freshness-sensitive answers should include concrete dates.
 ### 5. Decide whether the task should stay manual
 
 If the user is likely to ask the same research question repeatedly, say so explicitly and recommend a monitoring or workflow layer instead of repeating the same manual search forever.
+
+### 6. Stop, hand off, and complete explicitly
+
+- Stop when a required source is inaccessible, evidence conflicts materially, or the decision depends on a user preference that cannot be inferred safely.
+- Hand off implementation planning to the relevant product or engineering skill; research does not authorize repository changes or external actions.
+- Complete only when important claims have source/date coverage, inference is labeled, the question is answered, and open uncertainty is visible.
+- For long-running research, keep current questions and state in the PJ's task file; move only finished evidence to its completion log.
 
 ## Output Format
 

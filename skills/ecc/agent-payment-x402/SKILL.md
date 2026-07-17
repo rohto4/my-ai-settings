@@ -28,7 +28,7 @@ Agents hold their own keys via ERC-4337 smart accounts. The orchestrator sets po
 
 ## MCP Integration
 
-The payment layer exposes standard MCP tools that slot into any Claude Code or agent harness setup.
+The payment layer exposes standard MCP tools that slot into Codex or another approved agent harness.
 
 > **Security note**: Always pin the package version. This tool manages private keys — unpinned `npx` installs introduce supply-chain risk.
 
@@ -175,3 +175,10 @@ main().catch((err) => {
 - **npm**: [`agentwallet-sdk`](https://www.npmjs.com/package/agentwallet-sdk)
 - **Merged into NVIDIA NeMo Agent Toolkit**: [PR #17](https://github.com/NVIDIA/NeMo-Agent-Toolkit-Examples/pull/17) — x402 payment tool for NVIDIA's agent examples
 - **Protocol spec**: [x402.org](https://x402.org)
+
+## Operating contract
+
+- Start external paths with a fixture, fake, sandbox, or dry-run. Put real tokens, live APIs, deployment, and production writes behind a separate gate.
+- Load tokens, cookies, and credentials from environment or a secret store; never print, commit, or copy their values into logs and examples.
+- For long work, reread AGENTS.md, PROJECT.md, and the current task artifact from disk; keep in-progress state separate from completion evidence. Stop on missing authority, ambiguous targets, unsafe live dependencies, or repeated non-progress. Hand off with evidence; complete only after the scoped checks pass.
+- Treat every payment quote, authorization, and settlement as a live external effect; stop before spending until the user confirms the amount, asset, chain, recipient, and budget.

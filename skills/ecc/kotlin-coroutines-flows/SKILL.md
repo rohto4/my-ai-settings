@@ -281,3 +281,7 @@ class FakeItemRepository : ItemRepository {
 
 See skill: `compose-multiplatform-patterns` for UI consumption of Flows.
 See skill: `android-clean-architecture` for where coroutines fit in layers.
+
+## Operational Safety, Recovery, And Completion
+
+- Keep diagnosis read-only and prefer local fixtures, fake services, and dry-runs. Treat real tokens, live APIs, deploys, sends, pushes, or remote writes as separate actions requiring explicit approval immediately before execution.

@@ -140,3 +140,7 @@ final class QuestionListViewModel {
 - Offline-first architectures that sync to a server later
 - Any shared mutable state that multiple parts of the app access concurrently
 - Replacing legacy `DispatchQueue`-based thread safety with modern Swift concurrency
+
+## Operational Safety, Recovery, And Completion
+
+- Keep diagnosis read-only and prefer local fixtures, fake services, and dry-runs. Treat real tokens, live APIs, deploys, sends, pushes, or remote writes as separate actions requiring explicit approval immediately before execution.

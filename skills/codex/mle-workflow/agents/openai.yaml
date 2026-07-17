@@ -1,0 +1,4 @@
+interface:
+  display_name: "Mle Workflow"
+  short_description: "Mle Workflow：定型作業と判断のばらつきを減らし、運用を安定させる"
+  default_prompt: "$mle-workflow を使い、Mle Workflowに関する依頼を同梱domain guideに基づいて実施・検証してください。"

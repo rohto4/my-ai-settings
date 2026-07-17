@@ -1,0 +1,4 @@
+interface:
+  display_name: "AI-First Engineering"
+  short_description: "Design governance for AI-heavy engineering teams."
+  default_prompt: "Use $ai-first-engineering to design or review this team's AI-assisted engineering operating model."

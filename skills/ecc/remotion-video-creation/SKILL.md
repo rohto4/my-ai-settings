@@ -1,6 +1,6 @@
 ---
 name: remotion-video-creation
-description: Best practices for Remotion - Video creation in React. 29 domain-specific rules covering 3D, animations, audio, captions, charts, transitions, and more.
+description: Implement Remotion video composition in React using rules for animation, audio, captions, charts, transitions, and rendering. Use when writing or reviewing Remotion code; do not use for generic video editing, media-file inspection, UI demo recording, or non-Remotion rendering.
 ---
 
 ## When to use

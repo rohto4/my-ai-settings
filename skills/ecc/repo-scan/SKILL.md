@@ -1,63 +1,90 @@
 ---
 name: repo-scan
-description: Audit a repository's source assets, modules, embedded dependencies, and ownership signals. Use for broad inventory and actionable module-level findings.
+description: Perform a read-only repository inventory with evidence for ownership, generated or vendored assets, module responsibility, dependencies, and structural risk. Use for broad scans and keep/consolidate/isolate decisions, not targeted review, installation, or file mutation.
 ---
 
 # Repository Scan
 
-Perform a read-only, cross-stack inventory of source ownership and structural risk. This skill audits repository contents; `codebase-onboarding` explains how to work in the repository, and `workspace-surface-audit` audits Codex capabilities around it.
+Audit repository contents without changing them. `codebase-onboarding` explains how to work in a repository; security review skills handle vulnerability-focused requests; this skill inventories ownership and structural risk.
 
-## Scope first
+## Restore project truth
 
-Resolve the exact repository or subpath and the question being answered. Record exclusions. Do not recurse into sibling projects, user home, dependency caches, backups, hidden credential stores, or external clones unless explicitly in scope.
+1. Read the target project's `AGENTS.md`, `PROJECT.md`, `README.md`, and its minimum context-reading guide.
+2. Read the current task, exclusions, and prior completion boundary when the project policy requires them.
+3. After compaction, session movement, or handoff, reread those files from disk before resuming. Do not infer current scope from a summary alone.
+4. For long scans, keep scope, exclusions, completed stages, evidence locations, and the next stage in the project's designated task or handoff record. Do not mix finished evidence back into an active task list.
 
-Use a staged scan:
+## Fix the scope and safety boundary
 
-1. Surface: manifests, top-level directories, file counts and sizes.
-2. Module: ownership, public interfaces, and dependency direction.
-3. Focused: selected source, tests, licenses, version markers, and generated headers.
-4. Deep: full-file review only for flagged modules or explicit exhaustive audits.
+Resolve the exact repository root or subpath, the question to answer, scan depth, exclusions, and output location. Confirm any drive-letter or worktree boundary before scanning.
 
-## Classify assets
+Default to read-only and offline:
 
-Classify with evidence:
+- Do not edit, delete, move, install, build, execute project code, fetch a remote, or run an external scanner unless separately requested and authorized.
+- Do not recurse into sibling projects, user profiles, dependency caches, backups, external clones, `.git` object storage, or hidden credential stores unless explicitly in scope.
+- Do not open or print secret values, environment files, tokens, cookies, keys, credentials, or private data bodies. Record only the path and classification when necessary.
+- Treat an existing scanner as optional evidence only after checking provenance. Use its dry-run or report-only mode first when available.
 
-- project-owned source,
-- generated source or build output,
-- declared dependency,
-- embedded or vendored third-party code,
-- copied example, fixture, or template,
-- binary or large asset,
+On Windows, prefer `rg --files` and `rg` for bounded discovery. Use PowerShell `Resolve-Path -LiteralPath`, `Get-ChildItem -LiteralPath`, and `Get-Content -Raw -Encoding UTF8 -LiteralPath` for paths requiring literal handling. Preserve drive letters, keep enumeration and interpretation in the same shell, and never pass enumerated paths into another shell for mutation.
+
+## Scan in stages
+
+1. **Surface:** manifests, top-level directories, bounded file counts, sizes, and obvious generated or dependency roots.
+2. **Module:** responsibility, ownership signals, public interfaces, consumers, and dependency direction.
+3. **Focused:** selected source, tests, licenses, version markers, generated headers, and update paths.
+4. **Deep:** full-file review only for flagged modules or an explicitly requested exhaustive audit.
+
+Start with a dry-run inventory that reports intended roots, exclusions, likely cost, and files requiring content inspection. Stop expanding when the next stage does not answer the user's question.
+
+## Classify with evidence
+
+- project-owned source;
+- generated source or build output;
+- declared dependency;
+- embedded or vendored third-party code;
+- copied example, fixture, or template;
+- binary or large asset;
 - obsolete, duplicated, or ownership-unknown material.
 
-Do not infer third-party ownership from a directory name alone. Check license files, headers, package manifests, upstream markers, history, and code similarity where available.
+Do not infer ownership from a directory name alone. Check licenses, headers, manifests, upstream or generator markers, history when available, and code similarity only within the authorized scope.
 
-## Assess modules
-
-For each material module, inspect:
-
-- product or runtime responsibility,
-- owner and active consumers,
-- inbound and outbound dependencies,
-- source-to-test relationship,
-- data and configuration ownership,
-- duplication or wrapper overlap,
-- generated or vendored update path,
-- maintenance, security, and replacement risk.
+For each material module, inspect responsibility, owner, consumers, dependencies, source-to-test relationship, data/configuration ownership, overlap, update path, and maintenance or replacement risk.
 
 Assign a disposition only with evidence:
 
-- Keep: clear owner and current value.
-- Consolidate: duplicated responsibility with a viable target owner.
-- Isolate: third-party or unstable boundary needs containment.
-- Regenerate or restore: checked-in output has a reliable source process.
-- Investigate: evidence is insufficient.
-- Retire candidate: no current consumer and removal can be verified.
+- **Keep:** clear owner and current value.
+- **Consolidate:** duplicated responsibility with a viable target owner.
+- **Isolate:** third-party or unstable boundary needs containment.
+- **Regenerate or restore:** checked-in output has a reliable source process.
+- **Investigate:** evidence is insufficient.
+- **Retire candidate:** no current consumer and a later removal can be verified.
 
-This audit never deletes or moves files.
+`Retire candidate` is a recommendation, not deletion authorization.
 
-## Output
+## Stop and hand off
 
-Use [references/scan-report.md](references/scan-report.md) for a durable report. Lead with high-impact findings and include counts with their method. Separate observed facts, inferences, and recommendations.
+Stop and report rather than widening or mutating when:
 
-When an external scanner is already installed and trusted, it may provide evidence. Do not install or execute third-party audit code solely because this skill mentions it; inspect provenance and get required approval first.
+- the repository root, ownership, or exclusions are ambiguous;
+- the scan reaches a secret/private-data boundary or denied path;
+- generated, vendored, binary, or very large content makes exhaustive reading disproportionate;
+- an external tool, network fetch, build, or write is needed for stronger evidence;
+- findings would require removal, migration, or another project to validate.
+
+The handoff must include completed stages, counts and method, inspected/excluded paths, evidence gathered, unknowns, and the exact next safe stage.
+
+## Report and completion evidence
+
+Use [references/scan-report.md](references/scan-report.md) for a durable report. Lead with high-impact findings. Separate observed facts, inferences, and recommendations.
+
+Report:
+
+- resolved root, depth, exclusions, commands or methods, and limitations;
+- counts with the counting method and whether generated/dependency roots were excluded;
+- module-level evidence and disposition confidence;
+- unreadable, secret-bearing, binary, or unscanned areas without exposing their contents;
+- files changed, which should be none unless the user explicitly requested a report artifact or project policy required task-state maintenance;
+- verification of report paths, row/module counts, links, and UTF-8 when an artifact was created;
+- remaining risks and approval-gated next steps.
+
+Complete only when the requested scope is covered, every material disposition cites evidence, unknowns and exclusions are explicit, and no mutation or external effect was performed beyond the authorized report/task artifact.

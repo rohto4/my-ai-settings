@@ -1,0 +1,4 @@
+interface:
+  display_name: "Browser QA"
+  short_description: "Verify browser behavior from observed runtime evidence."
+  default_prompt: "Use $browser-qa to verify this browser-facing change through safe runtime observations."

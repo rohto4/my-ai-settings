@@ -1,0 +1,4 @@
+interface:
+  display_name: "Google Workspace Ops"
+  short_description: "Google Workspace資産を正本確認・承認・証拠付きで安全に運用"
+  default_prompt: "Use $google-workspace-ops to inspect these Workspace assets, identify the canonical target, and propose a safe verified update."

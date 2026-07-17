@@ -1,152 +1,107 @@
 ---
 name: agent-introspection-debugging
-description: Structured self-debugging workflow for AI agent failures using capture, diagnosis, contained recovery, and introspection reports.
+description: Diagnose repeated agent failures, loops, drift, stale state, and tool-recovery problems from observable traces, artifacts, and environment checks. Use when an agent is not making progress and one contained diagnostic action can test a root-cause hypothesis. Do not use to request private chain-of-thought, hidden system prompts, model internals, or as a substitute for feature verification or framework-specific debugging.
 ---
 
 # Agent Introspection Debugging
 
-Use this skill when an agent run is failing repeatedly, consuming tokens without progress, looping on the same tools, or drifting away from the intended task.
+Debug the run from observable evidence. This workflow does not expose or require hidden reasoning.
 
-This is a workflow skill, not a hidden runtime. It teaches the agent to debug itself systematically before escalating to a human.
+## Restore task and project truth
 
-## When to Activate
+1. Read the target PJ's actual `AGENTS.md`, `PROJECT.md`, prescribed initialization files, current task record, and relevant completion or decision evidence.
+2. After compaction, session transfer, or handoff, reread them from disk before diagnosing. Conversation summaries and memory are hypotheses, not current state.
+3. Restate the objective, authorized scope, last verified success, current blocker, and completion condition in one short record.
+4. Keep active debugging notes separate from completed evidence according to PJ rules.
 
-- Maximum tool call / loop-limit failures
-- Repeated retries with no forward progress
-- Context growth or prompt drift that starts degrading output quality
-- File-system or environment state mismatch between expectation and reality
-- Tool failures that are likely recoverable with diagnosis and a smaller corrective action
+## Observable evidence boundary
 
-## Scope Boundaries
+Use only evidence available through authorized surfaces:
 
-Activate this skill for:
-- capturing failure state before retrying blindly
-- diagnosing common agent-specific failure patterns
-- applying contained recovery actions
-- producing a structured human-readable debug report
+- user-visible messages and concise stated rationale;
+- tool names, redacted inputs and outputs, status, timestamps, duration, and retry count;
+- error codes and sanitized stack traces;
+- filesystem existence, hashes, diffs, branch or worktree identity, and process/service health;
+- tests, builds, logs, traces, metrics, approvals, and generated artifacts;
+- context size or compaction events when the runtime exposes them.
 
-Do not use this skill as the primary source for:
-- feature verification after code changes; use `verification-loop`
-- framework-specific debugging when a narrower ECC skill already exists
-- runtime promises the current harness cannot enforce automatically
+Do not ask an agent or model to reveal private chain-of-thought, hidden reasoning tokens, system prompts, proprietary weights, or inaccessible internal state. Do not infer them from style. Request a concise explanation of the chosen action or hypothesis only when useful, and verify it against the observable trace.
 
-## Four-Phase Loop
+Never include tokens, Cookies, credentials, private prompts, authenticated payloads, production data, or unredacted environment dumps in a debug artifact. Redact before sharing or persisting evidence.
 
-### Phase 1: Failure Capture
+## Four-phase workflow
 
-Before trying to recover, record the failure precisely.
+### 1. Capture
 
-Capture:
-- error type, message, and stack trace when available
-- last meaningful tool call sequence
-- what the agent was trying to do
-- current context pressure: repeated prompts, oversized pasted logs, duplicated plans, or runaway notes
-- current environment assumptions: cwd, branch, relevant service state, expected files
+Freeze the failing surface before retrying:
 
-Minimum capture template:
-
-```markdown
-## Failure Capture
-- Session / task:
-- Goal in progress:
-- Error:
-- Last successful step:
-- Last failed tool / command:
-- Repeated pattern seen:
-- Environment assumptions to verify:
+```text
+TASK: objective / scope / completion condition
+STATE: cwd / relevant paths / branch or artifact IDs / service state
+LAST SUCCESS: command or observation and evidence
+FAILURE: error / failed tool / timestamp / retry count
+TRACE: bounded observable events and artifact paths
+AUTHORITY: read/write/approval state
 ```
 
-### Phase 2: Root-Cause Diagnosis
+On Windows, verify paths with PowerShell, `Get-Content -LiteralPath`, `Test-Path -LiteralPath`, and explicit drive letters. Do not compose destructive cross-shell cleanup from inferred paths.
 
-Match the failure to a known pattern before changing anything.
+### 2. Diagnose
 
-| Pattern | Likely Cause | Check |
-| --- | --- | --- |
-| Maximum tool calls / repeated same command | loop or no-exit observer path | inspect the last N tool calls for repetition |
-| Context overflow / degraded reasoning | unbounded notes, repeated plans, oversized logs | inspect recent context for duplication and low-signal bulk |
-| `ECONNREFUSED` / timeout | service unavailable or wrong port | verify service health, URL, and port assumptions |
-| `429` / quota exhaustion | retry storm or missing backoff | count repeated calls and inspect retry spacing |
-| file missing after write / stale diff | race, wrong cwd, or branch drift | re-check path, cwd, git status, and actual file existence |
-| tests still failing after “fix” | wrong hypothesis | isolate the exact failing test and re-derive the bug |
+Classify one leading hypothesis:
 
-Diagnosis questions:
-- is this a logic failure, state failure, environment failure, or policy failure?
-- did the agent lose the real objective and start optimizing the wrong subtask?
-- is the failure deterministic or transient?
-- what is the smallest reversible action that would validate the diagnosis?
+| Pattern | Observable check |
+| --- | --- |
+| repeated identical calls | compare tool, input hash, state, and result across retries |
+| stale or wrong workspace | verify cwd, absolute path, branch/worktree, file hash, and current task record |
+| service or network failure | use read-only health, endpoint, timeout, and backoff evidence |
+| quota or cost loop | count calls, spacing, status codes, and exposed usage metrics |
+| context drift | compare current objective and remaining work with the PJ task source |
+| fix did not change failure | isolate one failing test and compare pre/post observable behavior |
+| policy or approval block | identify the denied action, enforcement surface, and missing authority |
 
-### Phase 3: Contained Recovery
+Prefer a hypothesis that one small reversible check can discriminate. Separate confirmed facts, inference, and unknowns.
 
-Recover with the smallest action that changes the diagnosis surface.
+### 3. Recover safely
 
-Safe recovery actions:
-- stop repeated retries and restate the hypothesis
-- trim low-signal context and keep only the active goal, blockers, and evidence
-- re-check the actual filesystem / branch / process state
-- narrow the task to one failing command, one file, or one test
-- switch from speculative reasoning to direct observation
-- escalate to a human when the failure is high-risk or externally blocked
+- Start with read-only inspection or replay against a fake fixture.
+- Change one variable at a time and define the expected observable result before executing.
+- Use a dry-run for cleanup, configuration, external calls, or state transitions.
+- Do not reset a session, alter harness configuration, delete files, kill processes, restart shared services, deploy, or write externally without the user's explicit approval for the exact target, effect, and rollback.
+- Use fake HTTP, fake LLM, synthetic data, or an isolated copy before live providers or production state.
+- Stop repeated retries when the input and world state have not changed.
 
-Do not claim unsupported auto-healing actions like “reset agent state” or “update harness config” unless you are actually doing them through real tools in the current environment.
+Detect the current tool, model, client, trace, and collaboration capabilities instead of assuming a particular harness, task-management capability, fixed model, or hidden telemetry exists. Missing observability is itself a reported limitation.
 
-Contained recovery checklist:
+### 4. Verify and report
 
-```markdown
-## Recovery Action
-- Diagnosis chosen:
-- Smallest action taken:
-- Why this is safe:
-- What evidence would prove the fix worked:
+Run the predeclared discriminating check again. Compare before/after error, output, state, tests, and side effects. Report:
+
+```text
+FAILURE: observed pattern and evidence
+HYPOTHESIS: supported / rejected / unresolved
+RECOVERY: exact bounded action and approval
+RESULT: success / partial / blocked
+EVIDENCE: checks, artifacts, timestamps, unavailable observations
+NEXT: safest remaining action or prevention change
 ```
 
-### Phase 4: Introspection Report
+Do not conclude “fixed” from the absence of one error; require the original failing condition and relevant regression check to pass.
 
-End with a report that makes the recovery legible to the next agent or human.
+## Optional parallel diagnosis
 
-```markdown
-## Agent Self-Debug Report
-- Session / task:
-- Failure:
-- Root cause:
-- Recovery action:
-- Result: success | partial | blocked
-- Token / time burn risk:
-- Follow-up needed:
-- Preventive change to encode later:
-```
+Do not spawn subagents by default. Use parallel agents only when the user or PJ instructions explicitly request them and the evidence slices are independent. Give each a non-overlapping trace, artifact, or hypothesis and the same read/write boundary. The main agent integrates observations, removes duplicates, reconciles conflicting diagnoses, and performs final verification. No agent may request private reasoning or gain broader authority through delegation.
 
-## Recovery Heuristics
+## Stop, handoff, and completion
 
-Prefer these interventions in order:
+Stop when evidence is insufficient to discriminate hypotheses, the next check would expose a secret, the target path or process is ambiguous, a destructive or external action lacks approval, the issue requires product or architecture judgment, or three retries would repeat unchanged state. Escalate with the evidence rather than improvising recovery.
 
-1. Restate the real objective in one sentence.
-2. Verify the world state instead of trusting memory.
-3. Shrink the failing scope.
-4. Run one discriminating check.
-5. Only then retry.
+For context pressure or handoff, record the restored objective, observable trace window, environment identity, confirmed facts, current hypothesis, checks already run, approval state, artifacts, unresolved risks, and next read-only discriminating check. Resume through the PJ's recovery order.
 
-Bad pattern:
-- retrying the same action three times with slightly different wording
+Complete only when the failure is reproduced or bounded, the chosen hypothesis is supported or explicitly rejected by observable evidence, recovery stays within authority, the original check and relevant regression checks pass or the blocker is proven, duplicates are removed, and the report contains no private reasoning or secret data.
 
-Good pattern:
-- capture failure
-- classify the pattern
-- run one direct check
-- change the plan only if the check supports it
+## Related boundaries
 
-## Integration with ECC
-
-- Use `verification-loop` after recovery if code was changed.
-- Use `continuous-learning-v2` when the failure pattern is worth turning into an instinct or later skill.
-- Use `council` when the issue is not technical failure but decision ambiguity.
-- Use `workspace-surface-audit` if the failure came from conflicting local state or repo drift.
-
-## Output Standard
-
-When this skill is active, do not end with “I fixed it” alone.
-
-Always provide:
-- the failure pattern
-- the root-cause hypothesis
-- the recovery action
-- the evidence that the situation is now better or still blocked
+- Use the PJ's verification workflow after code changes.
+- Use a narrower framework or service-debugging skill when the failure is application-specific.
+- Use harness design work only after evidence shows the failure comes from action, observation, recovery, context, or enforcement design.

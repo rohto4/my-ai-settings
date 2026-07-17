@@ -285,7 +285,7 @@ python3 ${SKILL_DIR}/gacha.py [次数]
 ## 兼容性
 
 本 Skill 遵循 Markdown 指令注入标准：
-- **Claude Code / Claude.ai**：原生支持
+- **Codex**：通过 SKILL.md 与当前 workspace 指令使用
 - **OpenClaw Agent**：通过 SOUL.md 注入
 - **其他 Agent**：支持 SKILL.md 格式的框架均可使用
 
@@ -293,3 +293,9 @@ python3 ${SKILL_DIR}/gacha.py [次数]
 头像生图能力通过当前环境中已审核的可选生图 skill 提供。
 
 > 注：README.md / README.zh.md 是给人类用户看的安装说明，不影响 Skill 运行。
+
+## Operational Safety, Recovery, And Completion
+
+- On Windows, use the repository's PowerShell equivalents. Resolve paths with `Resolve-Path -LiteralPath` or `Get-Item -LiteralPath`, preserve drive letters and spaces, and keep discovery and any later mutation in the same shell.
+- Stop when authority, required data, credentials, or external impact is unclear. Hand off the exact scope, attempted checks, observed results, artifacts, blockers, and next decision. Claim completion only with recorded verification evidence and remaining unverified scope.
+- At start and after compaction, session transfer, or handoff, reread repository `AGENTS.md`, `PROJECT.md`, and the current `docs/imp` task from disk; do not resume from a conversation summary alone.

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Netmiko SSH Automation"
+  short_description: "Netmiko SSH Automation：定型作業と判断のばらつきを減らし、運用を安定させる"
+  default_prompt: "$netmiko-ssh-automation を使い、Netmiko SSH Automationに関する依頼を同梱domain guideに基づいて実施・検証してください。"

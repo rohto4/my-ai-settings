@@ -9,7 +9,7 @@ Prove the requested behavior at the same scope as the change. Treat a green but 
 
 ## 1. Load project rules
 
-Read `AGENTS.md`, `PROJECT.md`, the current task files, and the repository's documented verification commands. On Windows, prefer PowerShell and UTF-8-safe commands.
+Read `AGENTS.md`, `PROJECT.md`, the current task files, and the repository's documented verification commands. On Windows, prefer PowerShell and UTF-8-safe commands; use `-LiteralPath` for exact paths, preserve drive letters, and keep recursive filesystem validation and any authorized mutation in the same shell.
 
 Preserve user changes. Never use reset, checkout, clean, or broad deletion to make verification pass.
 
@@ -82,3 +82,7 @@ Verification result
 ```
 
 Only claim completion when every required item has direct evidence. State commands that could not run and why.
+
+Use `debugging-and-error-recovery` when a check fails and needs root-cause
+diagnosis. This skill owns the completion evidence matrix, not speculative bug
+fixing, incident response, or mandatory subagent dispatch.

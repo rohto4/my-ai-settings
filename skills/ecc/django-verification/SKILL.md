@@ -467,3 +467,10 @@ jobs:
 | Diff stats | `git diff --stat` |
 
 Remember: Automated verification catches common issues but doesn't replace manual code review and testing in staging environment.
+
+## Operating contract
+
+- Keep verification read-only and use isolated tests before any external effect.
+- Require explicit approval before migrations, deployment, remote writes, or production remediation.
+- On Windows, use repository PowerShell commands, LiteralPath, and explicit drive-letter checks.
+- Stop on ambiguous expected behavior or an unisolated live dependency; hand off with the checks run, observed result, and remaining gap.

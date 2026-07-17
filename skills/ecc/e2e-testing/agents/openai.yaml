@@ -1,0 +1,4 @@
+interface:
+  display_name: "E2E Testing"
+  short_description: "Build reliable Playwright journeys with safe fixtures."
+  default_prompt: "Use $e2e-testing to build or review durable Playwright coverage for this critical journey."

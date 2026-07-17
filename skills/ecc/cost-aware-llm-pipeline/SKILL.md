@@ -1,182 +1,97 @@
 ---
 name: cost-aware-llm-pipeline
-description: Cost optimization patterns for LLM API usage — model routing by task complexity, budget tracking, retry logic, and prompt caching.
+description: Design or review an LLM pipeline with measurable quality, latency, usage, and spend budgets. Use for model routing, batch cost control, retry/caching policy, or cost regressions; do not use for one-off prompt rewriting or provider selection without an application pipeline.
 ---
 
 # Cost-Aware LLM Pipeline
 
-Patterns for controlling LLM API costs while maintaining quality. Combines model routing, budget tracking, retry logic, and prompt caching into a composable pipeline.
+Reduce cost only when the pipeline keeps its required quality and reliability. Provider names, model availability, usage units, caching rules, and prices are current facts; verify them against the pinned SDK and official provider documentation.
 
-## When to Activate
+## Start and Boundaries
 
-- Building applications that call LLM APIs (Claude, GPT, etc.)
-- Processing batches of items with varying complexity
-- Need to stay within a budget for API spend
-- Optimizing cost without sacrificing quality on complex tasks
+1. Read the target PJ's instructions, pinned providers/models/SDKs, current task, data policy, evals, and existing telemetry.
+2. Define the workload, quality acceptance, latency target, monthly or per-run budget, and hard-stop behavior before changing routing.
+3. This skill owns pipeline economics and controls. Use `prompt-optimizer` for one prompt, provider-specific skills for API details, and `eval-harness` for a full evaluation system.
+4. Default experiments to fake LLM responses and recorded usage fixtures. Real credentials, live API calls, paid batches, external writes, deployment, and scheduled execution require separate explicit gates.
+5. Never put tokens, credentials, prompts containing private data, raw model responses, or customer identifiers in logs or the repository. Use redacted IDs and approved secret injection.
 
-## Core Concepts
+Stop when quality acceptance, budget owner, usage/pricing evidence, or data-handling policy is unknown.
 
-### 1. Model Routing by Task Complexity
+## Measurement Contract
 
-Automatically select cheaper models for simple tasks, reserving expensive models for complex ones.
+For each evaluated call or cohort, record only approved telemetry:
 
-```python
-MODEL_SONNET = "claude-sonnet-4-6"
-MODEL_HAIKU = "claude-haiku-4-5-20251001"
+- provider/model/version or deployment ID;
+- workload class and redacted request ID;
+- provider-reported input/output/cache usage units;
+- retry count and terminal status;
+- latency distribution;
+- eval outcome or business-quality proxy;
+- calculated cost, currency, pricing source, and effective date.
 
-_SONNET_TEXT_THRESHOLD = 10_000  # chars
-_SONNET_ITEM_THRESHOLD = 30     # items
+Do not estimate spend from character counts when provider usage is available. Keep estimates labeled and reconcile them against invoices or provider usage reports.
 
-def select_model(
-    text_length: int,
-    item_count: int,
-    force_model: str | None = None,
-) -> str:
-    """Select model based on task complexity."""
-    if force_model is not None:
-        return force_model
-    if text_length >= _SONNET_TEXT_THRESHOLD or item_count >= _SONNET_ITEM_THRESHOLD:
-        return MODEL_SONNET  # Complex task
-    return MODEL_HAIKU  # Simple task (3-4x cheaper)
-```
+## Design Workflow
 
-### 2. Immutable Cost Tracking
+### 1. Establish a baseline
 
-Track cumulative spend with frozen dataclasses. Each API call returns a new tracker — never mutates state.
+Run representative workloads through the existing path. Capture quality, latency, failures, usage, retries, cache behavior, and spend. Separate fixed overhead from per-item cost.
 
-```python
-from dataclasses import dataclass
+### 2. Segment by demonstrated difficulty
 
-@dataclass(frozen=True, slots=True)
-class CostRecord:
-    model: str
-    input_tokens: int
-    output_tokens: int
-    cost_usd: float
+Create workload classes from observed features and eval results, not a generic text-length threshold. Examples include extraction complexity, tool need, context size, modality, or required reasoning depth.
 
-@dataclass(frozen=True, slots=True)
-class CostTracker:
-    budget_limit: float = 1.00
-    records: tuple[CostRecord, ...] = ()
+### 3. Define routing with fallbacks
 
-    def add(self, record: CostRecord) -> "CostTracker":
-        """Return new tracker with added record (never mutates self)."""
-        return CostTracker(
-            budget_limit=self.budget_limit,
-            records=(*self.records, record),
-        )
+For each class, specify:
 
-    @property
-    def total_cost(self) -> float:
-        return sum(r.cost_usd for r in self.records)
+- default model/capability;
+- quality gate;
+- escalation signal;
+- maximum attempts;
+- fallback and terminal failure;
+- budget impact.
 
-    @property
-    def over_budget(self) -> bool:
-        return self.total_cost > self.budget_limit
-```
+Use the least expensive option that passes the declared eval. Do not route solely by vendor tier names or assumed capability.
 
-### 3. Narrow Retry Logic
+### 4. Bound retries
 
-Retry only on transient errors. Fail fast on authentication or bad request errors.
+Retry only documented transient failures with provider-appropriate backoff and jitter. Authentication, validation, policy, and deterministic parse failures fail fast or use a deliberate repair path. Count every retry against budget and preserve idempotency for tool or external effects.
 
-```python
-from anthropic import (
-    APIConnectionError,
-    InternalServerError,
-    RateLimitError,
-)
+### 5. Use caching deliberately
 
-_RETRYABLE_ERRORS = (APIConnectionError, RateLimitError, InternalServerError)
-_MAX_RETRIES = 3
+Apply provider or application caching only when:
 
-def call_with_retry(func, *, max_retries: int = _MAX_RETRIES):
-    """Retry only on transient errors, fail fast on others."""
-    for attempt in range(max_retries):
-        try:
-            return func()
-        except _RETRYABLE_ERRORS:
-            if attempt == max_retries - 1:
-                raise
-            time.sleep(2 ** attempt)  # Exponential backoff
-    # AuthenticationError, BadRequestError etc. → raise immediately
-```
+- the pinned provider supports it;
+- data retention and tenancy rules allow it;
+- cache keys include every behavior-changing input;
+- freshness and invalidation are defined;
+- observed hit rate saves more than operational complexity costs.
 
-### 4. Prompt Caching
+Do not hardcode universal cache thresholds or assume a provider-specific payload shape.
 
-Cache long system prompts to avoid resending them on every request.
+### 6. Enforce budgets
 
-```python
-messages = [
-    {
-        "role": "user",
-        "content": [
-            {
-                "type": "text",
-                "text": system_prompt,
-                "cache_control": {"type": "ephemeral"},  # Cache this
-            },
-            {
-                "type": "text",
-                "text": user_input,  # Variable part
-            },
-        ],
-    }
-]
-```
+Use preflight estimates for batch admission and provider-reported usage for reconciliation. Define warning, throttle, degrade, and hard-stop thresholds. A budget overrun must not silently switch to a path that violates quality, privacy, or correctness.
 
-## Composition
+### 7. Verify the change
 
-Combine all four techniques in a single pipeline function:
+Compare like-for-like cohorts. Report quality delta, latency, failure rate, cache hit rate, cost per accepted result, total spend, variance, and workload mix. Roll back or label inconclusive if savings are within noise or quality regresses beyond tolerance.
 
-```python
-def process(text: str, config: Config, tracker: CostTracker) -> tuple[Result, CostTracker]:
-    # 1. Route model
-    model = select_model(len(text), estimated_items, config.force_model)
+## State and Handoff
 
-    # 2. Check budget
-    if tracker.over_budget:
-        raise BudgetExceededError(tracker.total_cost, tracker.budget_limit)
+On compaction or handoff, reread `AGENTS.md`, `PROJECT.md`, the task, pricing evidence, and eval artifacts from disk. Keep active hypotheses and budget state in the task record; move only verified results to the completion log.
 
-    # 3. Call with retry + caching
-    response = call_with_retry(lambda: client.messages.create(
-        model=model,
-        messages=build_cached_messages(system_prompt, text),
-    ))
+## Output
 
-    # 4. Track cost (immutable)
-    record = CostRecord(model=model, input_tokens=..., output_tokens=..., cost_usd=...)
-    tracker = tracker.add(record)
+Lead with the selected policy and its evidence:
 
-    return parse_result(response), tracker
-```
+- workload and quality acceptance;
+- baseline economics;
+- routing/retry/cache/budget rules;
+- current pricing source and date;
+- fake/dry-run and live gates;
+- measured before/after result;
+- residual uncertainty and rollback.
 
-## Pricing Reference (2025-2026)
-
-| Model | Input ($/1M tokens) | Output ($/1M tokens) | Relative Cost |
-|-------|---------------------|----------------------|---------------|
-| Haiku 4.5 | $0.80 | $4.00 | 1x |
-| Sonnet 4.6 | $3.00 | $15.00 | ~4x |
-| Opus 4.5 | $15.00 | $75.00 | ~19x |
-
-## Best Practices
-
-- **Start with the cheapest model** and only route to expensive models when complexity thresholds are met
-- **Set explicit budget limits** before processing batches — fail early rather than overspend
-- **Log model selection decisions** so you can tune thresholds based on real data
-- **Use prompt caching** for system prompts over 1024 tokens — saves both cost and latency
-- **Never retry on authentication or validation errors** — only transient failures (network, rate limit, server error)
-
-## Anti-Patterns to Avoid
-
-- Using the most expensive model for all requests regardless of complexity
-- Retrying on all errors (wastes budget on permanent failures)
-- Mutating cost tracking state (makes debugging and auditing difficult)
-- Hardcoding model names throughout the codebase (use constants or config)
-- Ignoring prompt caching for repetitive system prompts
-
-## When to Use
-
-- Any application calling Claude, OpenAI, or similar LLM APIs
-- Batch processing pipelines where cost adds up quickly
-- Multi-model architectures that need intelligent routing
-- Production systems that need budget guardrails
+Complete only when representative eval quality still passes, costs reconcile to current usage/pricing evidence, hard-stop behavior is tested, secret/private data is absent from artifacts, and the result is repeatable.

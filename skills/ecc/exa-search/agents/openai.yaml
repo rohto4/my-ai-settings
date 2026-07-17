@@ -1,0 +1,4 @@
+interface:
+  display_name: "Exa Search"
+  short_description: "ExaでWeb・コード・企業情報を安全に絞り込み検索"
+  default_prompt: "Use $exa-search to run a focused Exa lookup and verify the important findings against source pages."

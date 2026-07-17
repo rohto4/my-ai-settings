@@ -1,0 +1,4 @@
+interface:
+  display_name: "Spec Driven Development"
+  short_description: "Spec Driven Development：実装の抜け漏れを減らし、作業効率を高める"
+  default_prompt: "$spec-driven-development を使い、Spec Driven Developmentに関する依頼を同梱domain guideに基づいて実施・検証してください。"

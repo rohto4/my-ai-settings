@@ -1,11 +1,13 @@
 ---
 name: agentic-engineering
-description: Operate as an agentic engineer using eval-first execution, decomposition, and cost-aware model routing.
+description: Structure a substantial AI-assisted engineering task around evals, bounded work units, and risk-aware model routing. Use for multi-phase implementation or harness work; do not use for a simple local edit or ordinary explanation.
 ---
 
 # Agentic Engineering
 
 Use this skill for engineering workflows where AI agents perform most implementation work and humans enforce quality and risk controls.
+
+Do not use it to override the target repository's architecture, task process, approval boundary, or completion definition. Subagents and parallel execution are optional and may be used only when the user or target PJ rules authorize them.
 
 ## Operating Principles
 
@@ -30,15 +32,17 @@ Apply the 15-minute unit rule:
 
 ## Model Routing
 
-- Haiku: classification, boilerplate transforms, narrow edits
-- Sonnet: implementation and refactors
-- Opus: architecture, root-cause analysis, multi-file invariants
+- Use the lightest available model that can satisfy the task's accuracy and tool requirements.
+- Escalate for architecture, root-cause analysis, ambiguous evidence, or multi-file invariants.
+- Do not encode vendor-specific model names as a durable contract; route against capabilities exposed in the current environment.
 
 ## Session Strategy
 
 - Continue session for closely-coupled units.
 - Start fresh session after major phase transitions.
 - Compact after milestone completion, not during active debugging.
+- On resume or compaction, reread `AGENTS.md`, `PROJECT.md`, and the current task record from disk before continuing.
+- Keep in-progress state and done conditions in the task file; move only completed evidence to the completion log.
 
 ## Review Focus for AI-Generated Code
 
@@ -60,3 +64,7 @@ Track per task:
 - success/failure
 
 Escalate model tier only when lower tier fails with a clear reasoning gap.
+
+## Completion and Handoff
+
+Complete only when the declared evals pass and the requested artifact is verified. Stop and hand off when authority, architecture, or source-of-truth ownership is unresolved; include the last verified state, failure signature, remaining risk, and next safe action.

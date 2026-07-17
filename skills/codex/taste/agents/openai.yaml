@@ -1,0 +1,4 @@
+interface:
+  display_name: "Taste"
+  short_description: "Taste：成果物の品質と一貫性を高める"
+  default_prompt: "$taste を使い、Tasteに関する依頼を同梱domain guideに基づいて実施・検証してください。"

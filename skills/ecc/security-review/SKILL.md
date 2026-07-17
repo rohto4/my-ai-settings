@@ -28,6 +28,10 @@ modeling, validation, or remediation. Do not substitute the ECC-local
 4. Read [current OWASP sources](references/current-owasp-sources.md) when a
    conclusion depends on current ASVS or Cheat Sheet guidance. Verify every
    version-dependent fact in the current official primary source.
+5. On Windows, keep path discovery and file inspection in PowerShell, use
+   `-LiteralPath` for exact targets, preserve drive-letter paths, and keep any
+   recursive move or deletion outside this read-only review unless separately
+   authorized and verified in the same shell.
 
 ## Review
 
@@ -49,6 +53,10 @@ category, inspect both the allow path and the reject or failure path.
   query, command, template, redirect, serialization, and rendering sinks.
   For files, inspect size, type/content, filename/path, storage isolation,
   processing, authorization, and serving behavior.
+- **AI and agent boundaries:** Treat model output, retrieved documents, tool
+  arguments, and generated paths as untrusted input. Check allowlists, schema
+  validation, tenant isolation, loop and cost bounds, and confirmation before
+  destructive or externally visible tool actions.
 - **Secrets and data exposure:** Check source, configuration, logs, errors,
   traces, client payloads, exports, backups, and telemetry. Do not print or
   copy secret values, tokens, cookies, or unnecessary personal data.

@@ -14,6 +14,9 @@ Capture architectural decisions as they happen during coding sessions. Instead o
 - User says "we decided to..." or "the reason we're doing X instead of Y is..."
 - User asks "why did we choose X?" (read existing ADRs)
 - During planning phases when architectural trade-offs are discussed
+- Do not use for trivial implementation details, unresolved brainstorming with no decision, or a choice already governed by a canonical ADR unless the task is to supersede it.
+
+Start by reading the target PJ's instructions, ADR index, and relevant architecture/task documents. Draft in chat or a temporary local artifact first; the repository write remains approval-gated.
 
 ## ADR Format
 
@@ -72,14 +75,17 @@ What becomes easier or more difficult to do because of this change?
 
 When a decision moment is detected:
 
-1. **Initialize (first time only)** — if `docs/adr/` does not exist, ask the user for confirmation before creating the directory, a `README.md` seeded with the index table header (see ADR Index Format below), and a blank `template.md` for manual use. Do not create files without explicit consent.
-2. **Identify the decision** — extract the core architectural choice being made
-3. **Gather context** — what problem prompted this? What constraints exist?
-4. **Document alternatives** — what other options were considered? Why were they rejected?
-5. **State consequences** — what are the trade-offs? What becomes easier/harder?
-6. **Assign a number** — scan existing ADRs in `docs/adr/` and increment
-7. **Confirm and write** — present the draft ADR to the user for review. Only write to `docs/adr/NNNN-decision-title.md` after explicit approval. If the user declines, discard the draft without writing any files.
-8. **Update the index** — append to `docs/adr/README.md`
+1. **Discover the convention** — inspect project instructions, existing ADRs/indexes, and ADR-tool configuration such as `.adr-dir`. Existing location, markup, headings, numbering, and filename patterns override this skill. If evidence conflicts, stop instead of creating a second scheme.
+2. **Initialize (first time only)** — only when no convention exists, propose `docs/adr/` as the default and ask for confirmation before creating the directory, a `README.md` seeded with the index table header, and a blank `template.md`. Do not create files without explicit consent.
+3. **Identify the decision** — extract the core architectural choice being made.
+4. **Gather context** — what problem prompted this? What constraints exist?
+5. **Document alternatives** — what other options were considered? Why were they rejected?
+6. **State consequences** — what are the trade-offs? What becomes easier/harder?
+7. **Assign a number** — continue the established sequence; use the default `docs/adr/` sequence only for a newly accepted default.
+8. **Confirm and write** — present the draft ADR to the user for review. Write only to the discovered or accepted path after explicit approval. If the user declines, discard the draft without writing any files.
+9. **Update the index** — update the repository's established index, or `docs/adr/README.md` for the accepted default.
+
+Never copy tokens, cookies, credentials, private keys, or secret values into an ADR. Record the secret source/owner and rotation boundary without the value. External publishing, PR creation, and deployment are outside this skill.
 
 ### Reading Existing ADRs
 
@@ -159,6 +165,8 @@ proposed → accepted → [deprecated | superseded by ADR-NNNN]
 - **deprecated**: decision is no longer relevant (e.g., feature removed)
 - **superseded**: a newer ADR replaces this one (always link the replacement)
 
+Do not delete historical ADRs. When a decision changes, add a new ADR that explicitly supersedes the old one and update both links.
+
 ## Categories of Decisions Worth Recording
 
 | Category | Examples |
@@ -176,3 +184,10 @@ proposed → accepted → [deprecated | superseded by ADR-NNNN]
 
 - **Planner agent**: when the planner proposes architecture changes, suggest creating an ADR
 - **Code reviewer agent**: flag PRs that introduce architectural changes without a corresponding ADR
+
+Complete when the accepted decision, status, alternatives, consequences, deciders, date, and index link are verified. On resume, reread the ADR index and current task from disk; keep proposed state in the task record until acceptance.
+
+## Operating contract
+
+- For long work, reread AGENTS.md, PROJECT.md, and the current task artifact from disk; keep in-progress state separate from completion evidence. Stop on missing authority, ambiguous targets, unsafe live dependencies, or repeated non-progress. Hand off with evidence; complete only after the scoped checks pass.
+- Use existing ADR conventions as authority. Draft first, exclude secret values, obtain approval before superseding a decision, and keep external publication out of scope unless explicitly requested.

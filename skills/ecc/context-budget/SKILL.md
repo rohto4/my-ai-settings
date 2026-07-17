@@ -13,6 +13,8 @@ Measure what the current Codex task must carry, then reduce avoidable context wi
 - Do not invent exact token costs for hidden system instructions or tool schemas.
 - Do not treat disk size as loaded context. Distinguish discoverable metadata, selected skill bodies, tool output, and unread files.
 - Do not solve a project profile problem by deleting source skills.
+- Do not use this for ordinary summarization or to justify deleting authoritative project state. It diagnoses context pressure; it does not authorize compaction, task rotation, profile mutation, or skill removal.
+- Do not copy secret values, cookies, credentials, private prompts, or raw session payloads into the audit. Report only redacted type, size, and relevance.
 
 ## Workflow
 
@@ -84,3 +86,5 @@ Context budget
 ```
 
 Do not promise a token saving that was not measured. Re-run the same inventory after changes and compare like for like.
+
+On resume, reread PJ instructions and the current task from disk. Complete when the measured surfaces, estimation method, correctness risks, reversible recommendation, and remeasurement step are explicit; keep proposed changes in the task record and verified reductions in the completion log.

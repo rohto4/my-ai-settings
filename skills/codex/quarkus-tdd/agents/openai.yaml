@@ -1,0 +1,4 @@
+interface:
+  display_name: "Quarkus Tdd"
+  short_description: "Quarkus Tdd：該当技術の実装精度と検証効率を高める"
+  default_prompt: "$quarkus-tdd を使い、Quarkus Tddに関する依頼を同梱domain guideに基づいて実施・検証してください。"

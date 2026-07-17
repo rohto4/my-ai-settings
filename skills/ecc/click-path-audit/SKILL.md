@@ -241,3 +241,10 @@ selectThread: (thread) => set({
 - Step 1 maps `selectThread` resets `composeMode`
 - Step 2 traces the handler: call 1 sets true, call 2 resets false
 - Verdict: Sequential Undo — final state contradicts button intent
+
+## Operating contract
+
+- Start external paths with a fixture, fake, sandbox, or dry-run. Put real tokens, live APIs, deployment, and production writes behind a separate gate.
+- Keep diagnosis read-only. Obtain explicit approval immediately before push, deploy, send, publish, remote update, destructive cleanup, or another external mutation.
+- Do not start subagents or parallel agents by default; use them only when the user or project policy explicitly requests delegation.
+- Observe and report the click path before changing UI state, accounts, permissions, or remote data.

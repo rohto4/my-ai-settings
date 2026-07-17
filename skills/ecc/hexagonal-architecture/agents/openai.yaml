@@ -1,0 +1,4 @@
+interface:
+  display_name: "Hexagonal Architecture"
+  short_description: "必要なsliceだけPorts and Adaptersへ安全に分離"
+  default_prompt: "Use $hexagonal-architecture to assess whether this slice needs Ports and Adapters and propose the smallest behavior-preserving refactor."

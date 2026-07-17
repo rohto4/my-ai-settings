@@ -237,3 +237,8 @@ Track weekly and trend monthly:
 
 - Pair this skill with your SKU segmentation model, service-level policy, and planner override audit log.
 - Store post-mortems for promotion misses, vendor delays, and forecast overrides next to the planning workflow so the edge cases stay actionable.
+
+## Operational Safety, Recovery, And Completion
+
+- Stop when authority, required data, credentials, or external impact is unclear. Hand off the exact scope, attempted checks, observed results, artifacts, blockers, and next decision. Claim completion only with recorded verification evidence and remaining unverified scope.
+- At start and after compaction, session transfer, or handoff, reread repository `AGENTS.md`, `PROJECT.md`, and the current `docs/imp` task from disk; do not resume from a conversation summary alone.

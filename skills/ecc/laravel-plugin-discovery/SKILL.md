@@ -17,7 +17,7 @@ Find, evaluate, and choose healthy Laravel packages using the LaraPlugins.io MCP
 
 ## MCP Requirement
 
-LaraPlugins MCP server must be configured. Add to your `~/.claude.json` mcpServers:
+LaraPlugins MCP server must be configured in the current Codex MCP configuration. Inspect the existing configuration read-only first, follow the runtime's current schema, and do not overwrite unrelated servers or print secret values.
 
 ```json
 "laraplugins": {
@@ -226,3 +226,8 @@ The detailed response includes:
 - `laravel-tdd` — Test-driven development for Laravel
 - `laravel-security` — Laravel security best practices
 - `documentation-lookup` — General library documentation lookup (Context7)
+
+## Operational Safety, Recovery, And Completion
+
+- On Windows, use the repository's PowerShell equivalents. Resolve paths with `Resolve-Path -LiteralPath` or `Get-Item -LiteralPath`, preserve drive letters and spaces, and keep discovery and any later mutation in the same shell.
+- Load tokens, cookies, and credentials only from approved environment variables or a secret store. Never print or persist values; redact logs, fixtures, reports, and failure output.

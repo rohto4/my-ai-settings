@@ -144,3 +144,8 @@ log.error("failed_fetch_market slug={}", slug, ex);
 - Favor deterministic tests; no hidden sleeps
 
 **Remember**: Keep code intentional, typed, and observable. Optimize for maintainability over micro-optimizations unless proven necessary.
+
+## Operational Safety, Recovery, And Completion
+
+- Stop when authority, required data, credentials, or external impact is unclear. Hand off the exact scope, attempted checks, observed results, artifacts, blockers, and next decision. Claim completion only with recorded verification evidence and remaining unverified scope.
+- At start and after compaction, session transfer, or handoff, reread repository `AGENTS.md`, `PROJECT.md`, and the current `docs/imp` task from disk; do not resume from a conversation summary alone.

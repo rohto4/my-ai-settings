@@ -336,3 +336,8 @@ plugins { id("kmp-library") }
 
 See skill: `compose-multiplatform-patterns` for UI patterns.
 See skill: `kotlin-coroutines-flows` for async patterns.
+
+## Operating contract
+
+- For long work, reread AGENTS.md, PROJECT.md, and the current task artifact from disk; keep in-progress state separate from completion evidence. Stop on missing authority, ambiguous targets, unsafe live dependencies, or repeated non-progress. Hand off with evidence; complete only after the scoped checks pass.
+- Hand off platform, dependency-injection, persistence, and UI implementation to the repository-specific owner after the dependency rule is clear.

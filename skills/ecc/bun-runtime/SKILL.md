@@ -1,11 +1,13 @@
 ---
 name: bun-runtime
-description: Bun as runtime, package manager, bundler, and test runner. When to choose Bun vs Node, migration notes, and Vercel support.
+description: Choose, migrate, configure, or debug Bun as a JavaScript runtime, package manager, bundler, or test runner. Use when the target repository already uses Bun or is explicitly evaluating it; do not use for a Node project with no runtime decision.
 ---
 
 # Bun Runtime
 
 Bun is a fast all-in-one JavaScript runtime and toolkit: runtime, package manager, bundler, and test runner.
+
+Read the target PJ's instructions, manifest, lockfile, installed Bun version, and current official Bun/platform documentation before applying examples. Do not replace Node, rewrite a lockfile, install dependencies, or change deployment settings unless the task explicitly authorizes migration or implementation.
 
 ## When to Use
 
@@ -46,6 +48,13 @@ bun run --env-file=.env dev
 FOO=bar bun run script.ts
 ```
 
+PowerShell equivalent:
+
+```powershell
+$env:FOO = 'bar'
+bun run script.ts
+```
+
 ### Testing
 
 ```bash
@@ -81,3 +90,11 @@ Bun.serve({
 - Commit the lockfile (`bun.lock` or `bun.lockb`) for reproducible installs.
 - Prefer `bun run` for scripts. For TypeScript, Bun runs `.ts` natively.
 - Keep dependencies up to date; Bun and the ecosystem evolve quickly.
+
+## State and Completion
+
+On resume, reread `AGENTS.md`, `PROJECT.md`, the manifest/lockfile, and current task from disk. For long-running migration work, keep active state in the task file and finished evidence in the completion log.
+
+Stop when the pinned runtime, lockfile owner, Node-compatibility requirement, or deployment support is unclear. Hand off provider-specific deployment changes to the relevant deployment skill. Complete only after the repository's existing install/build/test commands pass with the chosen runtime and the lockfile/config diff is verified.
+
+On Windows file operations, use PowerShell and `-LiteralPath`; verify resolved drive-letter paths before moving or deleting caches or lockfiles, and keep discovery and mutation in the same shell.

@@ -1,6 +1,6 @@
 ---
 name: dmux-workflows
-description: Multi-agent orchestration using dmux (tmux pane manager for AI agents). Patterns for parallel agent workflows across Claude Code, Codex, OpenCode, and other harnesses. Use when running multiple agent sessions in parallel or coordinating multi-agent development workflows.
+description: Multi-agent orchestration using dmux (tmux pane manager for AI agents). Patterns for parallel agent workflows across Codex and other supported harnesses. Use when running multiple agent sessions in parallel or coordinating multi-agent development workflows.
 ---
 
 # dmux Workflows
@@ -10,7 +10,7 @@ Orchestrate parallel AI agent sessions using dmux, a tmux pane manager for agent
 ## When to Activate
 
 - Running multiple agent sessions in parallel
-- Coordinating work across Claude Code, Codex, and other harnesses
+- Coordinating work across Codex and other supported harnesses
 - Complex tasks that benefit from divide-and-conquer parallelism
 - User says "run in parallel", "split this work", "use dmux", or "multi-agent"
 
@@ -19,7 +19,7 @@ Orchestrate parallel AI agent sessions using dmux, a tmux pane manager for agent
 dmux is a tmux-based orchestration tool that manages AI agent panes:
 - Press `n` to create a new pane with a prompt
 - Press `m` to merge pane output back to the main session
-- Supports: Claude Code, Codex, OpenCode, Cline, Gemini, Qwen
+- Supports: Codex, OpenCode, Cline, Gemini, Qwen, and other configured harnesses
 
 **Install:** Install dmux from its repository after reviewing the package. See [github.com/standardagents/dmux](https://github.com/standardagents/dmux)
 
@@ -83,9 +83,9 @@ Pane 2 (Fixer): "Fix failing tests based on the error output from pane 1"
 Use different AI tools for different tasks:
 
 ```
-Pane 1 (Claude Code): "Review the security of the auth module"
+Pane 1 (Codex): "Review the security of the auth module"
 Pane 2 (Codex): "Refactor the utility functions for performance"
-Pane 3 (Claude Code): "Write E2E tests for the checkout flow"
+Pane 3 (Codex): "Write E2E tests for the checkout flow"
 ```
 
 ### Pattern 5: Code Review Pipeline
@@ -132,7 +132,7 @@ git merge feat/billing
 |------|-------------|-------------|
 | **dmux** | tmux pane management for agents | Parallel agent sessions |
 | **Superset** | Terminal IDE for 10+ parallel agents | Large-scale orchestration |
-| **Claude Code Task tool** | In-process subagent spawning | Programmatic parallelism within a session |
+| **Codex multi-agent tools** | In-process subagent spawning | Programmatic parallelism within a session |
 | **Codex multi-agent** | Built-in agent roles | Codex-specific parallel work |
 
 ## ECC Helper
@@ -173,7 +173,7 @@ Use `seedPaths` when workers need access to dirty or untracked local files that 
   "seedPaths": [
     "scripts/orchestrate-worktrees.js",
     "scripts/lib/tmux-worktree-orchestrator.js",
-    ".claude/plan/workflow-e2e-test.json"
+    "docs/imp/workflow-e2e-test.json"
   ],
   "launcherCommand": "bash {repo_root}/scripts/orchestrate-codex-worker.sh {task_file} {handoff_file} {status_file}",
   "workers": [
@@ -188,3 +188,10 @@ Use `seedPaths` when workers need access to dirty or untracked local files that 
 - **Merge conflicts:** Use git worktrees to isolate file changes per pane.
 - **High token usage:** Reduce number of parallel panes. Each pane is a full agent session.
 - **tmux not found:** Install with `brew install tmux` (macOS) or `apt install tmux` (Linux).
+
+## Operating contract
+
+- Do not start subagents or parallel agents by default; use dmux only when the user or project policy explicitly requests delegation.
+- Give panes non-overlapping write scopes and integrate only after reviewing their artifacts.
+- Keep pane work read-only unless its scope authorizes local edits; obtain explicit approval before push, merge, deploy, or another external write.
+- On Windows, use an approved terminal environment and verify path and worktree semantics before dispatch.

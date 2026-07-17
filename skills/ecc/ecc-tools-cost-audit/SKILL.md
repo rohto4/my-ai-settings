@@ -157,3 +157,10 @@ If the system can spend tokens and then fail on PR creation, file update, or bra
 - fixes are ordered by burn impact, not code neatness
 - proving commands are named
 - final status distinguishes local change, verification, push, and deployment
+
+## Operating contract
+
+- Keep billing, workflow, and PR inspection read-only; do not rerun workflows, change quotas, or modify billing configuration during diagnosis.
+- Obtain explicit approval immediately before any remote or billing mutation.
+- Load credentials from environment or a secret store and mask all logs and evidence.
+- Stop on missing billing authority or ambiguous account identity; hand off evidence and complete only after scoped checks pass.

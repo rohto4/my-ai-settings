@@ -38,7 +38,7 @@ headers = {"Authorization": f"Bearer {bearer}"}
 resp = requests.get(
     "https://api.x.com/2/tweets/search/recent",
     headers=headers,
-    params={"query": "claude code", "max_results": 10}
+    params={"query": "codex", "max_results": 10}
 )
 tweets = resp.json()
 ```
@@ -76,7 +76,7 @@ oauth = OAuth1Session(
 ```python
 resp = oauth.post(
     "https://api.x.com/2/tweets",
-    json={"text": "Hello from Claude Code"}
+    json={"text": "Hello from Codex"}
 )
 resp.raise_for_status()
 tweet_id = resp.json()["data"]["id"]
@@ -227,3 +227,7 @@ Use `brand-voice` plus `content-engine` to generate platform-native content, the
 - `content-engine` — Generate platform-native content for X
 - `crosspost` — Distribute content across X, LinkedIn, and other platforms
 - `connections-optimizer` — Reorganize the X graph before drafting network-driven outreach
+
+## Operational Safety, Recovery, And Completion
+
+- On Windows, use the repository's PowerShell equivalents. Resolve paths with `Resolve-Path -LiteralPath` or `Get-Item -LiteralPath`, preserve drive letters and spaces, and keep discovery and any later mutation in the same shell.

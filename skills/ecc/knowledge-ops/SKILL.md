@@ -1,73 +1,88 @@
 ---
 name: knowledge-ops
-description: Route, deduplicate, store, sync, and retrieve project or cross-project knowledge. Use when source-of-truth ownership, handoff, archive, or vault placement matters.
+description: Route, deduplicate, store, sync, retrieve, or hand off durable project knowledge while preserving one source of truth and provenance. Use for vault placement and completed lessons, not ordinary edits, transient summaries, speculation, or secrets.
 ---
 
 # Knowledge Operations
 
-Keep one source of truth per fact. Route information by ownership and lifecycle before writing it anywhere.
+Keep one canonical owner per fact. Classify ownership and lifecycle before any write.
 
-## 1. Load the governing policy
+## Restore the governing context
 
-Read the current repository's `AGENTS.md`, `PROJECT.md`, and docs-management policy. If they point to a central knowledge policy, read that policy before any cross-project write.
+1. Read the current project's `AGENTS.md`, `PROJECT.md`, and the minimum docs-management or context-reading guide they require.
+2. Read the current task, completion, user-decision, or handoff record only when it affects the request.
+3. After compaction, session movement, or handoff, reread those files from disk before continuing. Treat conversation summaries and model memory as aids, not project truth.
+4. If a cross-project destination is in scope, read that destination project's `AGENTS.md` and `PROJECT.md` before proposing a write.
+5. If project docs point to a central policy such as `G:\knowledge-vault\knowledge-vault-write-policy.md`, read it before any central write. Do not copy the policy into another source.
 
-For this tool-set environment, the default central policy is:
+On Windows, prefer `rg` for search and PowerShell commands such as `Get-Content -Raw -Encoding UTF8 -LiteralPath <path>`. Preserve drive letters and use `-LiteralPath` for user-provided paths. Keep filesystem inspection and any later mutation in the same shell.
 
-`G:\knowledge-vault\knowledge-vault-write-policy.md`
-
-Do not duplicate that policy inside a skill or project.
-
-## 2. Classify the information
+## Classify ownership
 
 | Information | Default owner |
 | --- | --- |
-| Current implementation task | project task file |
-| User decision required | project user-decision file |
-| User action required | project user-task file |
-| Completed project work | project completion record |
-| Session recovery context | project handoff or diary |
-| Adopted specification or architecture | project source-of-truth docs |
-| Reusable cross-project principle or failure lesson | central knowledge base, after policy gate |
-| Secret, token, cookie, credential, private key | nowhere |
+| Current implementation work | Project task file |
+| User decision or action | Project user-decision or user-task file |
+| Completed project work and verification | Project completion record |
+| Session recovery state | Project handoff or diary |
+| Adopted specification or architecture | Project source-of-truth docs |
+| Reusable cross-project principle or failure lesson | Central knowledge base, after its policy gate |
+| Secret, token, cookie, credential, private key, or private data body | No repository or knowledge note |
 
-Project-specific work remains in the project even when it is important. Importance alone does not make it cross-project knowledge.
+Importance alone does not make project-specific work cross-project knowledge. Keep facts, inference, decisions, and open questions visibly distinct.
 
-## 3. Check before writing
+## Inspect before writing
 
-1. Search the destination for an existing canonical entry.
-2. Compare scope, date, source, and decision status.
-3. Update the canonical entry when the policy allows it; do not create a parallel note for the same fact.
-4. Keep facts, inference, decisions, and open questions visibly distinct.
-5. Record the source paths needed to reconstruct the conclusion.
-6. If confidence or destination ownership is unclear, leave a project-local decision item instead of guessing.
+Default to a read-only assessment or dry-run summary:
 
-## 4. Synchronize minimally
+1. Resolve the exact source, destination, requested operation, and exclusions.
+2. Search the intended destination for an existing canonical entry.
+3. Compare scope, date, evidence, decision status, and source paths.
+4. Propose `create`, `update`, `skip`, or `hold`, with the reason and affected paths.
+5. Show the planned diff or field-level change before any cross-project, external-system, or broad write when the request or governing policy requires approval.
 
-Update the source of truth and only the required indexes, task states, or completion records. Avoid copying full policy tables, specifications, or logs into multiple files.
+Do not recurse across sibling projects, backups, dependency caches, hidden directories, or the whole knowledge vault without an explicit scope. Do not expose secret values in searches, commands, logs, reports, or examples; report only the path and secret class when that evidence is necessary.
 
-When a cross-project write succeeds, record in the project completion log:
+## Apply the minimum authorized change
 
-- what was transferred,
-- where it was stored,
-- when it was stored,
-- which project evidence supported it.
+- Update the canonical entry rather than creating a parallel note for the same fact.
+- Write only when the user request and governing project policy authorize it. A request to review, search, diagnose, or recommend is not write authorization.
+- Use the project's normal patch/edit mechanism and preserve unrelated content. Do not delete, move, bulk overwrite, or notify external services unless explicitly requested and separately approved when required.
+- Synchronize only required indexes and project state. Keep ongoing work in task records and finished evidence in completion records.
+- When ownership, evidence, permission, or destination is unclear, stop at `hold` and leave a concrete handoff rather than guessing.
 
-Do not treat chat memory, model memory, issue trackers, or vector indexes as independent authorities. They may index or summarize a source of truth, but they do not replace it.
-
-## 5. Retrieve with provenance
+## Retrieve with provenance
 
 Search in this order:
 
 1. Current project sources of truth.
-2. Current task, completion, and handoff records.
+2. Current task, completion, decision, and handoff records.
 3. Central cross-project knowledge.
-4. External systems or live connectors when needed.
+4. External systems or live connectors only when needed and authorized.
 
-Report whether a statement is current project fact, historical record, external fact, or inference. Refresh drift-prone external facts before relying on them.
+Label each reported statement as current project fact, historical record, external fact, or inference. Refresh drift-prone external facts before relying on them.
 
-## Completion check
+## Stop and hand off
 
-- One canonical owner is clear for every written fact.
-- No secret or unresolved project-only item was copied into the central knowledge base.
-- Required project state and transfer evidence are synchronized.
-- Duplicate or stale entries were not introduced.
+Stop before mutation when any of these applies:
+
+- the canonical owner or applicable policy cannot be determined;
+- source evidence is missing or conflicting;
+- the operation could disclose a secret or private data body;
+- the requested target expands beyond the authorized project or service;
+- a cross-project or external write needs approval that has not been granted.
+
+The handoff must state the intended destination, inspected sources, proposed disposition, unresolved decision, and the exact safe next step.
+
+## Completion evidence
+
+Report:
+
+- canonical destination and source evidence;
+- created, updated, skipped, or held items;
+- duplicate check and scope checked;
+- files or external records changed, plus verification performed;
+- secrets, external writes, runtime sync, or notifications intentionally not performed;
+- remaining risks and any user decision required.
+
+Complete only when the canonical owner is clear, required state and provenance are synchronized, no secret was copied, and no duplicate or stale authority was introduced.

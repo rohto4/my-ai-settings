@@ -318,3 +318,7 @@ dotnet test --filter "FullyQualifiedName~OrderService"
 # Watch mode during development
 dotnet watch test --project tests/MyApp.UnitTests/
 ```
+
+## Operating contract
+
+- On Windows, use repository PowerShell commands, LiteralPath for filesystem targets, explicit drive-letter checks, and the pinned dotnet test configuration.

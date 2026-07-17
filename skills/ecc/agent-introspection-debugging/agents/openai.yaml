@@ -1,0 +1,4 @@
+interface:
+  display_name: "Agent Introspection Debugging"
+  short_description: "private思考を求めずobservable traceでagent失敗を診断"
+  default_prompt: "Use $agent-introspection-debugging to diagnose this repeated agent failure from observable traces and propose one contained recovery check."

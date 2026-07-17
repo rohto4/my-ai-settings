@@ -1,0 +1,4 @@
+interface:
+  display_name: "Interview Me"
+  short_description: "Interview Me：成果物の品質と一貫性を高める"
+  default_prompt: "$interview-me を使い、Interview Meに関する依頼を同梱domain guideに基づいて実施・検証してください。"

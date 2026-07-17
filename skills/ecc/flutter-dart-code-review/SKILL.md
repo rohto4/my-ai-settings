@@ -432,3 +432,7 @@ The table below maps universal principles to their implementation in popular sol
 - [Flutter Navigation and Routing](https://docs.flutter.dev/ui/navigation)
 - [Flutter Error Handling](https://docs.flutter.dev/testing/errors)
 - [Flutter State Management Options](https://docs.flutter.dev/data-and-backend/state-mgmt/options)
+
+## Operating contract
+
+- Keep review read-only. Do not push fixes, publish packages, deploy builds, or update remote review state without explicit approval.

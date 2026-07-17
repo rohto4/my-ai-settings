@@ -1,0 +1,4 @@
+interface:
+  display_name: "Agent Self Evaluation"
+  short_description: "Agent Self Evaluation：成果物の品質と一貫性を高める"
+  default_prompt: "$agent-self-evaluation を使い、Agent Self Evaluationに関する依頼を同梱domain guideに基づいて実施・検証してください。"

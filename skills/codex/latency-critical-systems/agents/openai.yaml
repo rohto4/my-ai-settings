@@ -1,0 +1,4 @@
+interface:
+  display_name: "Latency Critical Systems"
+  short_description: "Latency Critical Systems：専門判断の精度を高め、調査の手戻りを減らす"
+  default_prompt: "$latency-critical-systems を使い、Latency Critical Systemsに関する依頼を同梱domain guideに基づいて実施・検証してください。"

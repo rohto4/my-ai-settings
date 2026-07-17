@@ -1,0 +1,4 @@
+interface:
+  display_name: "Observability And Instrumentation"
+  short_description: "Observability And Instrumentation：異常を早期発見し、復旧判断を速める"
+  default_prompt: "$observability-and-instrumentation を使い、Observability And Instrumentationに関する依頼を同梱domain guideに基づいて実施・検証してください。"

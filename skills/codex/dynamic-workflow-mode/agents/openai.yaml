@@ -1,0 +1,4 @@
+interface:
+  display_name: "Dynamic Workflow Mode"
+  short_description: "Dynamic Workflow Mode：定型作業と判断のばらつきを減らし、運用を安定させる"
+  default_prompt: "$dynamic-workflow-mode を使い、Dynamic Workflow Modeに関する依頼を同梱domain guideに基づいて実施・検証してください。"

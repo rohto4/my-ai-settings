@@ -7,6 +7,10 @@ description: Map an unfamiliar codebase's architecture, entry points, convention
 
 Build an evidence-backed map of an unfamiliar repository without reading every file or generating new project rules by default.
 
+Keep onboarding read-only unless the user explicitly requests a durable
+artifact. Do not install dependencies, run deployment, create project files,
+or call write-capable external services merely to understand the repository.
+
 ## 1. Read authority first
 
 Locate and read the repository's `AGENTS.md`, `PROJECT.md`, README, current task files, and documented build or verification entrypoints. Nested instructions apply to their subtree. Existing project instructions outrank inferred conventions.
@@ -64,3 +68,8 @@ Use [references/onboarding-map.md](references/onboarding-map.md) when a durable 
 7. risks, unknowns, and best first task.
 
 Do not copy the README or list every dependency. The result should help the next change land in the correct owner with the correct checks.
+
+Stop and label the gap when the repository root, nested instruction scope,
+authoritative task, generated/source boundary, or safe verification command
+cannot be established. Do not guess a convention from one file or use a
+conversation summary in place of the current files on disk.

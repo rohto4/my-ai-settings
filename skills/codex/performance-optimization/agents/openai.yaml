@@ -1,0 +1,4 @@
+interface:
+  display_name: "Performance Optimization"
+  short_description: "Performance Optimization：成果物の品質と一貫性を高める"
+  default_prompt: "$performance-optimization を使い、Performance Optimizationに関する依頼を同梱domain guideに基づいて実施・検証してください。"

@@ -1,11 +1,29 @@
 ---
 name: e2e-testing
-description: Build and review Playwright E2E tests, fixtures, artifacts, CI execution, and flake controls for critical user journeys.
+description: Build or review durable Playwright end-to-end tests, fixtures, artifacts, CI execution, and flake controls for critical browser journeys. Use when a project needs repeatable E2E coverage; use browser-qa instead for one-off interactive observation.
 ---
 
 # E2E Testing Patterns
 
 Comprehensive Playwright patterns for building stable, fast, and maintainable E2E test suites.
+
+## Authority and execution boundary
+
+- Read the repository's browser-test conventions, pinned Playwright version,
+  package manager, existing fixtures, CI, and test environment before using the
+  examples below. They are patterns, not commands to impose on every project.
+- Default to fake services, seeded disposable data, and test accounts. Never
+  run a write-capable journey against production, real money, a personal
+  account, or an external recipient.
+- Keep credentials out of source, fixtures, traces, screenshots, videos, and
+  logs. Inject approved test secrets through the project's secret mechanism
+  and redact artifacts before sharing them.
+- Installing browsers, changing CI, creating accounts, sending messages,
+  completing purchases, or mutating external systems requires the user's
+  requested scope and the appropriate authorization gate.
+- On Windows, use the project's PowerShell commands, preserve drive-letter
+  paths, and use `-LiteralPath` for exact artifact cleanup. Do not translate a
+  destructive cleanup across shells.
 
 ## Test File Organization
 
@@ -302,8 +320,8 @@ test('wallet connection', async ({ page, context }) => {
 
 ```typescript
 test('trade execution', async ({ page }) => {
-  // Skip on production — real money
-  test.skip(process.env.NODE_ENV === 'production', 'Skip on production')
+  // Run only against an explicitly configured fake financial backend.
+  test.skip(process.env.E2E_FAKE_FINANCE !== 'true', 'Requires fake financial backend')
 
   await page.goto('/markets/test-market')
   await page.locator('[data-testid="position-yes"]').click()
@@ -323,3 +341,12 @@ test('trade execution', async ({ page }) => {
   await expect(page.locator('[data-testid="trade-success"]')).toBeVisible()
 })
 ```
+
+## Verification and handoff
+
+Run the narrowest changed spec first, then the repository-required suite. Use
+the detected package manager and committed scripts instead of assuming `npm` or
+`npx`. Report commands actually run, passed/failed/skipped counts, retries,
+artifacts retained, known flakes, and checks not run. A retrying test is not
+stable merely because one retry passed; preserve the first failure evidence and
+diagnose the cause.

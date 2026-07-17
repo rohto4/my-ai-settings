@@ -1,0 +1,4 @@
+interface:
+  display_name: "Orch Refine Code"
+  short_description: "Orch Refine Code：成果物の品質と一貫性を高める"
+  default_prompt: "$orch-refine-code を使い、Orch Refine Codeに関する依頼を同梱domain guideに基づいて実施・検証してください。"

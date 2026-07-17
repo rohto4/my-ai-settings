@@ -1,0 +1,4 @@
+interface:
+  display_name: "Frontend Design Direction"
+  short_description: "Frontend Design Direction：画面の一貫性とプロダクトらしさを高める"
+  default_prompt: "$frontend-design-direction を使い、Frontend Design Directionに関する依頼を同梱domain guideに基づいて実施・検証してください。"

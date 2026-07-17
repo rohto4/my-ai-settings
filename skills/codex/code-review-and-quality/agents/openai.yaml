@@ -1,0 +1,4 @@
+interface:
+  display_name: "Code Review And Quality"
+  short_description: "Code Review And Quality：欠陥を早期発見し、マージ後の手戻りを減らす"
+  default_prompt: "$code-review-and-quality を使い、Code Review And Qualityに関する依頼を同梱domain guideに基づいて実施・検証してください。"

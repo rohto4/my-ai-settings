@@ -1,0 +1,4 @@
+interface:
+  display_name: "Browser Testing With Devtools"
+  short_description: "Browser Testing With Devtools：実行時だけ現れる表示・通信・コンソール問題を発見する"
+  default_prompt: "$browser-testing-with-devtools を使い、Browser Testing With Devtoolsに関する依頼を同梱domain guideに基づいて実施・検証してください。"

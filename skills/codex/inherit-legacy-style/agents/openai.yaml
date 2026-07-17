@@ -1,0 +1,4 @@
+interface:
+  display_name: "Inherit Legacy Style"
+  short_description: "Inherit Legacy Style：成果物の品質と一貫性を高める"
+  default_prompt: "$inherit-legacy-style を使い、Inherit Legacy Styleに関する依頼を同梱domain guideに基づいて実施・検証してください。"

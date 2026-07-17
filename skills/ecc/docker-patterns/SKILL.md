@@ -1,19 +1,46 @@
 ---
 name: docker-patterns
-description: Docker and Docker Compose patterns for local development, container security, networking, volume strategies, and multi-service orchestration.
+description: Design, review, or troubleshoot repository-owned Dockerfiles and Docker Compose environments for local development, security, networking, volumes, and multi-service orchestration. Use for concrete container configuration or runtime diagnosis; do not use for generic application debugging or non-Docker production orchestration.
 ---
 
 # Docker Patterns
 
 Docker and Docker Compose best practices for containerized development.
 
-## When to Activate
+## Activation And Handoff
 
-- Setting up Docker Compose for local development
-- Designing multi-container architectures
-- Troubleshooting container networking or volume issues
-- Reviewing Dockerfiles for security and size
-- Migrating from local dev to containerized workflow
+Activate when the task requires one or more of the following:
+
+- creating or reviewing a repository-owned Dockerfile, Compose file, `.dockerignore`, health check, network, or volume;
+- diagnosing a concrete build, container startup, service-discovery, bind-mount, or resource problem;
+- hardening an image or local multi-container workflow against the repository's stated requirements.
+
+Do not activate for generic application debugging that has no container boundary, Kubernetes or cloud deployment design without a Docker/Compose concern, or production changes owned by a deployment/provider-specific runbook. Hand those tasks to the relevant application, deployment, or provider skill and preserve the observed container evidence.
+
+## Project Truth And Recovery
+
+1. Read the target repository's `AGENTS.md`, `PROJECT.md`, stack/version source, local setup guide, and applicable operations/deployment docs before proposing a container workflow.
+2. Treat its Dockerfile, Compose files, `.dockerignore`, lockfiles, environment template, and pinned Docker/Compose versions as the implementation truth. Generic examples below never override them.
+3. After compaction, session transfer, or handoff, reread the repository-required initialization files and current task record from disk before running another command. A conversation summary is only a pointer.
+4. If the daemon/context, target Compose project, data ownership, environment class, or deployment authority is unclear, stop and request the missing fact.
+
+## Safe Operating Procedure
+
+Start with read-only evidence such as source-file inspection, `docker version`, `docker context show`, `docker compose config`, `docker compose ps`, bounded `docker compose logs --tail <n> <service>`, and targeted `docker inspect`. Avoid printing full environment arrays because they can contain secrets.
+
+Classify the next step before running it:
+
+- local writes include builds, pulls, image creation, container start/stop/restart, network/volume creation, and Compose `up`/`down`;
+- destructive actions include `down -v`, `rm`, `rmi`, `builder prune`, `system prune`, and deletion or replacement of data-bearing volumes;
+- external writes include registry login/push and any deployment or remote daemon change.
+
+Use a supported Docker/Compose dry-run or an explicit command preview when available. Otherwise report the intended project, services, images, ports, mounts, data impact, and recovery path, then obtain the user's authorization before mutation. Never infer permission to deploy from permission to edit a Dockerfile.
+
+Keep credentials out of Dockerfiles, Compose YAML, build arguments, command lines, and logs. Inject them from the repository-approved secret source, keep local environment files untracked, and redact values in evidence. Do not run `docker inspect` or `docker compose config` in a way that publishes resolved secrets.
+
+On Windows, stay in PowerShell for host-path validation. Resolve user-supplied paths with `Resolve-Path -LiteralPath`, preserve drive letters and spaces, and confirm whether Docker Desktop, WSL, or a remote context owns the daemon before adapting bind mounts or shell commands. Do not enumerate paths in one shell and pass computed cleanup targets to another.
+
+Stop rather than retrying broadly when authentication, daemon/context selection, production data, an unknown volume, or an external registry/deployment boundary is involved. On completion or handoff, report the repository/context inspected, files and runtime objects changed, commands that mutated state, redacted diagnostic evidence, checks run, remaining risk, and any approval still required. A successful build alone is not completion; confirm the repository's relevant health/test contract and final scoped diff/runtime state.
 
 ## Docker Compose for Local Development
 
@@ -32,7 +59,7 @@ services:
       - .:/app                        # Bind mount for hot reload
       - /app/node_modules             # Anonymous volume -- preserves container deps
     environment:
-      - DATABASE_URL=postgres://postgres:postgres@db:5432/app_dev
+      - DATABASE_URL
       - REDIS_URL=redis://redis:6379/0
       - NODE_ENV=development
     depends_on:
@@ -48,7 +75,7 @@ services:
       - "5432:5432"
     environment:
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD outside this file}
       POSTGRES_DB: app_dev
     volumes:
       - pgdata:/var/lib/postgresql/data
@@ -140,7 +167,7 @@ services:
           memory: 512M
 ```
 
-```bash
+```powershell
 # Development (auto-loads override)
 docker compose up
 
@@ -302,7 +329,7 @@ tests/
 
 ### Common Commands
 
-```bash
+```powershell
 # View logs
 docker compose logs -f app           # Follow app logs
 docker compose logs --tail=50 db     # Last 50 lines from db
@@ -323,12 +350,12 @@ docker compose build --no-cache app   # Force full rebuild
 # Clean up
 docker compose down                   # Stop and remove containers
 docker compose down -v                # Also remove volumes (DESTRUCTIVE)
-docker system prune                   # Remove unused images/containers
+docker system prune                   # Remove unused images/containers (DESTRUCTIVE)
 ```
 
 ### Debugging Network Issues
 
-```bash
+```powershell
 # Check DNS resolution inside container
 docker compose exec app nslookup db
 

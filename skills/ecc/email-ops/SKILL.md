@@ -118,3 +118,10 @@ NEXT STEP
 - the response names the account and thread or recipient
 - any send claim includes Sent proof or an explicit client-side confirmation
 - the final state is one of drafted / sent / blocked / awaiting verification
+
+## Operating contract
+
+- Start with read-only search and a local draft; use fake or dry-run boundaries for automation.
+- Confirm mailbox, recipients, subject, attachments, and final body immediately before sending or mutating mail state.
+- Load credentials from environment or a secret store and never expose message secrets in logs.
+- Stop on ambiguous recipients, authority, or sensitive content; hand off a draft and complete only after sent-state readback when a send was approved.

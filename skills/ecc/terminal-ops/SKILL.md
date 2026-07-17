@@ -32,6 +32,8 @@ Pull these ECC-native skills into the workflow when relevant:
 - prefer repo-local scripts and helpers over improvised ad hoc wrappers
 - do not claim fixed until the proving command was rerun
 - do not claim pushed unless the branch actually moved upstream
+- never place tokens, cookies, credentials, or secret values in commands, tracked files, or reports; inject them from an approved environment or secret store and mask them in logs
+- on Windows, keep recursive move/delete path discovery and execution in PowerShell, use `-LiteralPath`, and verify resolved absolute drive-letter targets before mutation
 
 ## Workflow
 
@@ -47,6 +49,8 @@ Settle:
   - fix
   - verify
   - push
+
+On resume, reread the repo's `AGENTS.md`, `PROJECT.md`, and current task record from disk. For non-trivial work, record the objective, state, and done condition in the PJ task file; keep completion evidence in its completion log.
 
 ### 2. Read the failing surface first
 
@@ -75,6 +79,8 @@ Use exact status words:
 - committed
 - pushed
 - blocked
+
+Stop when the target repo/path is ambiguous, an operation needs authority not granted by the request, unrelated local changes overlap the target, or the same failure repeats without new evidence. Hand off with the exact command, observed output, changed files, remaining risk, and next safe action.
 
 ## Output Format
 
@@ -106,3 +112,4 @@ STATUS
 - the response names the proving command or test
 - git-related work names the repo path and branch
 - any push claim includes the target branch and exact result
+- completion means the requested outcome and its direct proving command both succeeded; partial execution must remain labeled partial or blocked

@@ -15,19 +15,9 @@ Generate images, videos, and audio using fal.ai models via MCP.
 - Any media generation task
 - User says "generate image", "create video", "text to speech", "make a thumbnail", or similar
 
-## MCP Requirement
+## Capability requirement
 
-fal.ai MCP server must be configured. Add to `~/.claude.json`:
-
-```json
-"fal-ai": {
-  "command": "npx",
-  "args": ["-y", "fal-ai-mcp-server"],
-  "env": { "FAL_KEY": "YOUR_FAL_KEY_HERE" }
-}
-```
-
-Get an API key at [fal.ai](https://fal.ai).
+Use an already configured and approved fal.ai or equivalent media capability. If none is available, stop and ask the user how to proceed; do not install a server or request that a secret be pasted into chat, configuration, or source.
 
 ## MCP Tools
 
@@ -281,3 +271,10 @@ models()
 - `videodb` — Video processing, editing, and streaming
 - `video-editing` — AI-powered video editing workflows
 - `content-engine` — Content creation for social platforms
+
+## Operating contract
+
+- Detect an already available media capability before use; do not install or reconfigure a server from this skill.
+- Load credentials from environment or a secret store and never paste API keys into configuration, prompts, source, or logs.
+- Use PowerShell-compatible local paths on Windows and keep generated artifacts in an explicit output directory.
+- Generate previews first and obtain approval before paid generation, remote upload, publication, or deletion.

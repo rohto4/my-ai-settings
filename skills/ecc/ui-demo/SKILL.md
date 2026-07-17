@@ -1,6 +1,6 @@
 ---
 name: ui-demo
-description: Record polished UI demo videos using Playwright. Use when the user asks to create a demo, walkthrough, screen recording, or tutorial video of a web application. Produces WebM videos with visible cursor, natural pacing, and professional feel.
+description: Record polished web UI demos with Playwright video, cursor overlays, pacing, and narrative flow. Use when creating a demo, walkthrough, screen recording, or tutorial of an approved web application; do not use for generic browser QA, ordinary screenshots, non-web video editing, or unapproved production recording.
 ---
 
 # UI Demo Video Recorder

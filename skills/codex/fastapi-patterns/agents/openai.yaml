@@ -1,0 +1,4 @@
+interface:
+  display_name: "Fastapi Patterns"
+  short_description: "Fastapi Patterns：該当技術の実装精度と検証効率を高める"
+  default_prompt: "$fastapi-patterns を使い、Fastapi Patternsに関する依頼を同梱domain guideに基づいて実施・検証してください。"

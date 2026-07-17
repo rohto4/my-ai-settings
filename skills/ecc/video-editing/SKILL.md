@@ -42,9 +42,9 @@ Collect the source material:
 
 Output: raw files ready for organization.
 
-## Layer 2: Organization (Claude / Codex)
+## Layer 2: Agent-Assisted Organization
 
-Use Claude Code or Codex to:
+Use Codex to:
 - **Transcribe and label**: generate transcript, identify topics and themes
 - **Plan structure**: decide what stays, what gets cut, what order works
 - **Identify dead sections**: find pauses, tangents, repeated takes
@@ -307,3 +307,9 @@ identify the 5 most engaging 30-second clips for social media."
 - `fal-ai-media` — AI image, video, and audio generation
 - `videodb` — Server-side video processing, indexing, and streaming
 - `content-engine` — Platform-native content distribution
+
+## Operational Safety, Recovery, And Completion
+
+- On Windows, use the repository's PowerShell equivalents. Resolve paths with `Resolve-Path -LiteralPath` or `Get-Item -LiteralPath`, preserve drive letters and spaces, and keep discovery and any later mutation in the same shell.
+- At start and after compaction, session transfer, or handoff, reread repository `AGENTS.md`, `PROJECT.md`, and the current `docs/imp` task from disk; do not resume from a conversation summary alone.
+- The completion report must list exact checks or observations, their results and artifacts, and every skipped, unavailable, or otherwise unverified area.

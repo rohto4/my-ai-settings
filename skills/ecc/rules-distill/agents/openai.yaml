@@ -1,0 +1,4 @@
+interface:
+  display_name: "Rules Distill"
+  short_description: "Distill repeated skill principles into rule previews."
+  default_prompt: "Use $rules-distill to find repeated principles in these skills and preview evidence-backed rule updates."

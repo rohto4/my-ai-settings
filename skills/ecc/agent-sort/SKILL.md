@@ -140,7 +140,7 @@ Demote to `LIBRARY` when:
 
 Translate the classification into action:
 
-- DAILY skills -> install or keep in `.claude/skills/`
+- DAILY skills -> keep in the active profile or repository skill group
 - DAILY commands -> keep as explicit shims only if still useful
 - DAILY rules -> install only matching language sets
 - DAILY hooks/scripts -> keep only compatible ones
@@ -152,7 +152,7 @@ If the repo already uses selective installs, update that plan instead of creatin
 
 If the project wants a searchable library surface, create:
 
-- `.claude/skills/skill-library/SKILL.md`
+- `skills/<group>/skill-library/SKILL.md`
 
 That router should contain:
 
@@ -212,3 +212,11 @@ INSTALL PLAN
 VERIFICATION
 - checks run and remaining gaps
 ```
+
+## Operating contract
+
+- Start external paths with a fixture, fake, sandbox, or dry-run. Put real tokens, live APIs, deployment, and production writes behind a separate gate.
+- Keep diagnosis read-only. Obtain explicit approval immediately before push, deploy, send, publish, remote update, destructive cleanup, or another external mutation.
+- Do not start subagents or parallel agents by default; use them only when the user or project policy explicitly requests delegation.
+- On Windows, use PowerShell equivalents, LiteralPath for filesystem targets, explicit drive-letter checks, and one shell for a filesystem operation.
+- Produce an install plan first. Do not install, remove, sync, or rewrite active skills during sorting.

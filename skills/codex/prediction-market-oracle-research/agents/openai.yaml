@@ -1,0 +1,4 @@
+interface:
+  display_name: "Prediction Market Oracle Research"
+  short_description: "Prediction Market Oracle Research：判断材料を整理し、重要な見落としを減らす"
+  default_prompt: "$prediction-market-oracle-research を使い、Prediction Market Oracle Researchに関する依頼を同梱domain guideに基づいて実施・検証してください。"

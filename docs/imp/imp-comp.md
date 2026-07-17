@@ -1,5 +1,19 @@
 # 完了記録
 
+## AI-SET-SKILL-04: 上流skill全件の推奨処理を一括適用
+
+- 完了日: 2026-07-17
+- baseline: 大編集前の正本はcommit `7d2a7a0`。reviewで確定済みの判断をsource mappingとdestination統合の二相に分け、統合元を先に確定してから統合先を一度だけ編集した。
+- source phase: 968 / 968件を完了し、manual review 0、旧正本選定待ち9件は同一sourceのaliasへ解消した。読む順レビュー上の継続候補149件というsource単位の分類は114 Codex私用版 + 35 installed plugin skillのままである。
+- destination phase: 358 targetを判定し、`integrated=249`、`no_change_needed=105`、`blocked=4`とした。内訳はECC 180 target、Codex私用版114 target、plugin判断64 target。pluginは導入済み7 bundleだけを利用し、具体需要のない57 bundleは本文を複製・導入せず台帳へ判断を残した。
+- Codex適応: 114件すべてに`SKILL.md`、`agents/openai.yaml`、`LICENSE.txt`、直接linkした`references/upstream-domain-guide.md`を配置した。domain手順・例・上流resourceを保持しつつ、Codex / Windows / read-only既定 / 外部作用の承認境界へ編集した。
+- blocker: `ck`はsession-start hook入力とruntime storage、`configure-ecc`はrepo正本と旧Claude installerの配布契約、`continuous-learning`はStop hookとtranscript schema、`continuous-learning-v2`はsession hook・observer入力・永続storageがCodex側で未定義である。推測で移植せず、4件だけ理由付きblockedとして残した。
+- registry: `skills-registry.csv` 118行、`skill-lineage.csv` 307行、`plugin-skill-adoptions.csv` 520行。各台帳に重複0、plugin license空欄0。active skillは307件となった。
+- 検証: target監査はsource 968、target 358、local skill target 294、installed plugin target 7で整合。全体`Test-AgentSet.ps1`はskills 307、errors 0。pj-general profileはcore 30、recommended 15、発見用metadata 7,950 / 8,000文字、errors 0。新規Node command 5件は構文error 0、SKILL TODO 0、diff whitespace error 0。認証情報patternの3ファイルは同一の`risk-...` source IDを`sk-` tokenと誤認したfalse positiveで、secretではない。
+- validator境界: 公式`quick_validate.py`はbundled PythonにPyYAMLがなく起動できなかった。依存を勝手に導入せず、repo validator、target自己監査、registry監査、参照/resource監査を完了証拠とした。
+- artifact: `docs/imp/upstream-skill-bulk-edit-progress.json`を進捗正本、`docs/imp/upstream-skill-bulk-edit-progress-2026-07-17.html`を閲覧用とし、handoff policy/candidates、4つのtarget result manifest、生成・更新・最終監査commandを保存した。
+- 配布: Gドライブの正本だけを更新し、`C:\Users\unibe\.codex\skills`へは同期していない。
+
 ## AI-SET-REVIEW-11: overviewのrisk説明帯削除と正本選定待ちfilter
 
 - 完了日: 2026-07-17

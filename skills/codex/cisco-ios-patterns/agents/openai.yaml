@@ -1,0 +1,4 @@
+interface:
+  display_name: "Cisco iOS Patterns"
+  short_description: "Cisco iOS Patterns：該当技術の実装精度と検証効率を高める"
+  default_prompt: "$cisco-ios-patterns を使い、Cisco iOS Patternsに関する依頼を同梱domain guideに基づいて実施・検証してください。"

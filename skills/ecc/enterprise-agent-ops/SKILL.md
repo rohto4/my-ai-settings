@@ -47,3 +47,10 @@ This skill pairs with:
 - systemd services
 - container orchestrators
 - CI/CD gates
+
+## Operating contract
+
+- Operate against fake or staging workloads first; keep real tokens, production scheduling, and deployment behind separate gates.
+- Keep diagnosis read-only and require explicit approval before production or control-plane writes.
+- Load credentials from environment or a secret store and mask logs.
+- Stop on missing authority, unsafe live dependencies, or repeated non-progress; hand off evidence and complete only after scoped checks pass.

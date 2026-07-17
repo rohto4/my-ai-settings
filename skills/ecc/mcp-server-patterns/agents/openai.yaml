@@ -1,0 +1,4 @@
+interface:
+  display_name: "MCP Server Patterns"
+  short_description: "現行MCP仕様とfake transportで安全なserverを設計"
+  default_prompt: "Use $mcp-server-patterns to design this MCP capability against current official docs with fake-transport tests and safe write boundaries."

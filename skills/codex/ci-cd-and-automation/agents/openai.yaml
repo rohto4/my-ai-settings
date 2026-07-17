@@ -1,0 +1,4 @@
+interface:
+  display_name: "CI CD And Automation"
+  short_description: "CI CD And Automation：定型作業と判断のばらつきを減らし、運用を安定させる"
+  default_prompt: "$ci-cd-and-automation を使い、CI CD And Automationに関する依頼を同梱domain guideに基づいて実施・検証してください。"

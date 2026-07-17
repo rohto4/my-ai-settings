@@ -1,0 +1,4 @@
+interface:
+  display_name: "Recsys Pipeline Architect"
+  short_description: "Recsys Pipeline Architect：成果物の品質と一貫性を高める"
+  default_prompt: "$recsys-pipeline-architect を使い、Recsys Pipeline Architectに関する依頼を同梱domain guideに基づいて実施・検証してください。"

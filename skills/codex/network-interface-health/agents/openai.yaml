@@ -1,0 +1,4 @@
+interface:
+  display_name: "Network Interface Health"
+  short_description: "Network Interface Health：手順の抜け漏れを減らし、作業を再現しやすくする"
+  default_prompt: "$network-interface-health を使い、Network Interface Healthに関する依頼を同梱domain guideに基づいて実施・検証してください。"

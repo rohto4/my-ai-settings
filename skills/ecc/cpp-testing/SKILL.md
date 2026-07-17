@@ -321,3 +321,8 @@ extern "C" int LLVMFuzzerTestOneInput(const uint8_t *data, size_t size) {
 
 - **Catch2**: header-only, expressive matchers
 - **doctest**: lightweight, minimal compile overhead
+
+## Operating contract
+
+- On Windows, use PowerShell equivalents, LiteralPath for filesystem targets, explicit drive-letter checks, and one shell for a filesystem operation.
+- Use the repository build and test runner; do not assume Bash-only paths or commands.

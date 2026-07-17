@@ -184,3 +184,8 @@ NEXT ECC MOVE
 - `github-ops`
 - `knowledge-ops`
 - `customer-billing-ops` when the notification pain is billing/customer operations rather than engineering
+
+## Operational Safety, Recovery, And Completion
+
+- Keep diagnosis read-only and prefer local fixtures, fake services, and dry-runs. Treat real tokens, live APIs, deploys, sends, pushes, or remote writes as separate actions requiring explicit approval immediately before execution.
+- The completion report must list exact checks or observations, their results and artifacts, and every skipped, unavailable, or otherwise unverified area.

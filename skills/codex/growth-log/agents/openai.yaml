@@ -1,0 +1,4 @@
+interface:
+  display_name: "Growth Log"
+  short_description: "Growth Log：成果物の品質と一貫性を高める"
+  default_prompt: "$growth-log を使い、Growth Logに関する依頼を同梱domain guideに基づいて実施・検証してください。"

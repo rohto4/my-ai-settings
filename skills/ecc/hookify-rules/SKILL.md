@@ -1,128 +1,32 @@
 ---
 name: hookify-rules
-description: This skill should be used when the user asks to create a hookify rule, write a hook rule, configure hookify, add a hookify rule, or needs guidance on hookify rule syntax and patterns.
+description: Translate a requested Hookify-style guard into a supported Codex or repository rule, or maintain a legacy Hookify rule when the user explicitly names that runtime. Use for command, file, prompt, or completion guardrails; do not use for ordinary code validation, unsupported automatic hooks, or destructive enforcement without approval.
 ---
 
-# Writing Hookify Rules
+# Hookify Rules
 
-## Overview
+Turn a requested guardrail into an enforceable rule without assuming that Codex supports another runtime's hook system.
 
-Hookify rules are markdown files with YAML frontmatter that define patterns to watch for and messages to show when those patterns match. Rules are stored in `.claude/hookify.{rule-name}.local.md` files.
+## Choose The Supported Target
 
-## Rule File Format
+1. Read repository `AGENTS.md`, `PROJECT.md`, current task state, and the runtime's documented capabilities.
+2. Capture the rule intent: event, match condition, warning or block behavior, false-positive boundary, and verification example.
+3. Prefer an existing supported owner:
+   - durable agent behavior in `AGENTS.md` or a scoped skill;
+   - deterministic repository validation in an existing script, test, linter, or CI rule;
+   - user-facing reminders in the current task workflow;
+   - a runtime hook only when the current runtime documents it and the user authorizes configuration changes.
+4. Do not invent `.codex` hook files or copy `.claude` paths into a Codex project.
+5. For an explicitly scoped legacy Hookify task, read [legacy-hookify-format.md](references/legacy-hookify-format.md) and keep its files isolated from Codex-native configuration.
 
-### Basic Structure
+## Specify And Verify The Rule
 
-```markdown
----
-name: rule-identifier
-enabled: true
-event: bash|file|stop|prompt|all
-pattern: regex-pattern-here
----
+- Use a narrow pattern and include positive and negative fixtures.
+- State which field is inspected, whether matching is regex or literal, and what action follows.
+- Diagnose read-only. Preview the proposed rule and fixture outcomes before writing.
+- Treat a blocking rule, config write, install, or external mutation as a separate action requiring explicit approval.
+- Never embed tokens, cookies, credentials, or sensitive prompt content. Redact fixture and log values.
+- On Windows, use project PowerShell commands and resolve paths with `Resolve-Path -LiteralPath` or `Get-Item -LiteralPath`; preserve drive letters and keep discovery and mutation in the same shell.
+- Before any delete, reset, or cleanup, verify absolute targets and obtain explicit approval.
 
-Message to show Claude when this rule triggers.
-Can include markdown formatting, warnings, suggestions, etc.
-```
-
-### Frontmatter Fields
-
-| Field | Required | Values | Description |
-|-------|----------|--------|-------------|
-| name | Yes | kebab-case string | Unique identifier (verb-first: warn-*, block-*, require-*) |
-| enabled | Yes | true/false | Toggle without deleting |
-| event | Yes | bash/file/stop/prompt/all | Which hook event triggers this |
-| action | No | warn/block | warn (default) shows message; block prevents operation |
-| pattern | Yes* | regex string | Pattern to match (*or use conditions for complex rules) |
-
-### Advanced Format (Multiple Conditions)
-
-```markdown
----
-name: warn-env-api-keys
-enabled: true
-event: file
-conditions:
-  - field: file_path
-    operator: regex_match
-    pattern: \.env$
-  - field: new_text
-    operator: contains
-    pattern: API_KEY
----
-
-You're adding an API key to a .env file. Ensure this file is in .gitignore!
-```
-
-**Condition fields by event:**
-- bash: `command`
-- file: `file_path`, `new_text`, `old_text`, `content`
-- prompt: `user_prompt`
-
-**Operators:** `regex_match`, `contains`, `equals`, `not_contains`, `starts_with`, `ends_with`
-
-All conditions must match for rule to trigger.
-
-## Event Type Guide
-
-### bash Events
-Match Bash command patterns:
-- Dangerous commands: `rm\s+-rf`, `dd\s+if=`, `mkfs`
-- Privilege escalation: `sudo\s+`, `su\s+`
-- Permission issues: `chmod\s+777`
-
-### file Events
-Match Edit/Write/MultiEdit operations:
-- Debug code: `console\.log\(`, `debugger`
-- Security risks: `eval\(`, `innerHTML\s*=`
-- Sensitive files: `\.env$`, `credentials`, `\.pem$`
-
-### stop Events
-Completion checks and reminders. Pattern `.*` matches always.
-
-### prompt Events
-Match user prompt content for workflow enforcement.
-
-## Pattern Writing Tips
-
-### Regex Basics
-- Escape special chars: `.` to `\.`, `(` to `\(`
-- `\s` whitespace, `\d` digit, `\w` word char
-- `+` one or more, `*` zero or more, `?` optional
-- `|` OR operator
-
-### Common Pitfalls
-- **Too broad**: `log` matches "login", "dialog" — use `console\.log\(`
-- **Too specific**: `rm -rf /tmp` — use `rm\s+-rf`
-- **YAML escaping**: Use unquoted patterns; quoted strings need `\\s`
-
-### Testing
-```bash
-python3 -c "import re; print(re.search(r'your_pattern', 'test text'))"
-```
-
-## File Organization
-
-- **Location**: `.claude/` directory in project root
-- **Naming**: `.claude/hookify.{descriptive-name}.local.md`
-- **Gitignore**: Add `.claude/*.local.md` to `.gitignore`
-
-## Commands
-
-- `/hookify [description]` - Create new rules (auto-analyzes conversation if no args)
-- `/hookify-list` - View all rules in table format
-- `/hookify-configure` - Toggle rules on/off interactively
-- `/hookify-help` - Full documentation
-
-## Quick Reference
-
-Minimum viable rule:
-```markdown
----
-name: my-rule
-enabled: true
-event: bash
-pattern: dangerous_command
----
-Warning message here
-```
+Stop when the target runtime or rule owner is unknown, the pattern would block unrelated work, or safe fixtures cannot reproduce the behavior. Hand off the target runtime, proposed owner/path, rule intent, fixtures, preview results, blockers, and approval needed. Complete only after the supported owner accepts the rule and positive and negative fixtures show the expected behavior.

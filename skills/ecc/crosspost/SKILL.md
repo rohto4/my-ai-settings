@@ -108,3 +108,8 @@ Before delivering:
 - `brand-voice` for reusable source-derived voice capture
 - `content-engine` for voice capture and source shaping
 - `x-api` for X publishing workflows
+
+## Operating contract
+
+- Keep diagnosis read-only. Obtain explicit approval immediately before each post, update, deletion, or scheduled publish.
+- Prepare platform-specific drafts and previews before any external write.

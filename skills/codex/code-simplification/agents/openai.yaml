@@ -1,0 +1,4 @@
+interface:
+  display_name: "Code Simplification"
+  short_description: "Code Simplification：成果物の品質と一貫性を高める"
+  default_prompt: "$code-simplification を使い、Code Simplificationに関する依頼を同梱domain guideに基づいて実施・検証してください。"

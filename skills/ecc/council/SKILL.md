@@ -152,7 +152,7 @@ Keep it scannable on a phone screen.
 
 ## Persistence Rule
 
-Do **not** write ad-hoc notes to `~/.claude/notes` or other shadow paths from this skill.
+Do **not** write ad-hoc notes to runtime-private or other shadow paths from this skill.
 
 If the council materially changes the recommendation:
 - use `knowledge-ops` to store the lesson in the right durable location
@@ -200,3 +200,10 @@ Likely council shape:
 - Critic focuses on support burden, expectation debt, and rollout confusion
 
 The value is not unanimity. The value is making the disagreement legible before choosing.
+
+## Operating contract
+
+- Do not start subagents or parallel agents by default; use them only when the user or project policy explicitly requests delegation.
+- Keep council work read-only unless the user gives separate explicit approval for a concrete mutation; use normal commentary and handoff channels rather than harness-specific hidden state.
+- On Windows, use PowerShell equivalents, LiteralPath for filesystem targets, explicit drive-letter checks, and one shell for a filesystem operation.
+- Use a council only when the user or project policy explicitly requests multiple independent opinions; preserve raw evidence and do not manufacture consensus.

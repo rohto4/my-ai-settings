@@ -126,3 +126,7 @@ cast call <token_address> "decimals()(uint8)" --rpc-url <rpc>
 - Use `Decimal`, `BigInt`, or equivalent exact math, not float
 - Re-query decimals after bridging or wrapper changes
 - Normalize internal accounting consistently before comparison or pricing
+
+## Operating contract
+
+- On Windows, use PowerShell-compatible examples and LiteralPath for fixtures; verify chain, contract address, and observed decimals before normalization.

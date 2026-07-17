@@ -1,0 +1,4 @@
+interface:
+  display_name: "Django Celery"
+  short_description: "Django Celery：該当技術の実装精度と検証効率を高める"
+  default_prompt: "$django-celery を使い、Django Celeryに関する依頼を同梱domain guideに基づいて実施・検証してください。"

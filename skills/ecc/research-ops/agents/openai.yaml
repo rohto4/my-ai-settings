@@ -1,0 +1,4 @@
+interface:
+  display_name: "Research Ops"
+  short_description: "Research current facts with explicit evidence boundaries."
+  default_prompt: "Use $research-ops to answer this current question with dated evidence and labeled inference."

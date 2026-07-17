@@ -7,7 +7,7 @@ description: Orchestrate multi-agent coding tasks via Claude DevFleet — plan p
 
 ## When to Use
 
-Use this skill when you need to dispatch multiple Claude Code agents to work on coding tasks in parallel. Each agent runs in an isolated git worktree with full tooling.
+Use this skill when you need to dispatch multiple coding agents to work on coding tasks in parallel. Each agent runs in an isolated git worktree with full tooling.
 
 Requires a running Claude DevFleet instance connected via MCP:
 ```bash
@@ -100,3 +100,11 @@ DevFleet runs up to 3 concurrent agents by default (configurable via `DEVFLEET_M
 - Mission dependencies form a DAG — do not create circular dependencies.
 - Each agent runs in an isolated git worktree and auto-merges on completion. If a merge conflict occurs, the changes remain on the agent's worktree branch for manual resolution.
 - When manually creating missions, always set `auto_dispatch=true` if you want them to trigger automatically when dependencies complete. Without this flag, missions stay in `draft` status.
+
+## Operating contract
+
+- Keep diagnosis read-only. Obtain explicit approval immediately before push, deploy, send, publish, remote update, destructive cleanup, or another external mutation.
+- Do not start subagents or parallel agents by default; use them only when the user or project policy explicitly requests delegation.
+- On Windows, use PowerShell equivalents, LiteralPath for filesystem targets, explicit drive-letter checks, and one shell for a filesystem operation.
+- Use only when the user or project policy explicitly requests parallel agents and an approved DevFleet capability is already available.
+- Show the mission DAG before dispatch. Do not auto-merge, push, or delete worktrees; return each mission result for review.

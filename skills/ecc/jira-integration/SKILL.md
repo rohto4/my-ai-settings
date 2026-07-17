@@ -26,7 +26,7 @@ Install the `mcp-atlassian` MCP server. This exposes Jira tools directly to your
 - Python 3.10+
 - `uvx` (from `uv`), installed via your package manager or the official `uv` installation documentation
 
-**Add to your MCP config** (e.g., `~/.claude.json` → `mcpServers`):
+**Add to the current Codex MCP configuration** using the repository-approved config path and current runtime documentation. Inspect the existing configuration read-only first; do not overwrite unrelated servers or expose environment-variable values.
 
 ```json
 {
@@ -290,3 +290,7 @@ Coverage: XX%
 - Use @mentions if you need input from others
 - Check linked issues to understand full feature scope before starting
 - If acceptance criteria are vague, ask for clarification before writing code
+
+## Operational Safety, Recovery, And Completion
+
+- On Windows, use the repository's PowerShell equivalents. Resolve paths with `Resolve-Path -LiteralPath` or `Get-Item -LiteralPath`, preserve drive letters and spaces, and keep discovery and any later mutation in the same shell.

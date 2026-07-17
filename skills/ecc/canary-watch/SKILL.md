@@ -70,7 +70,7 @@ info:      # log only
 When a critical threshold is crossed:
 - Desktop notification (macOS/Linux)
 - Optional: Slack/Discord webhook
-- Log to `~/.claude/canary-watch.log`
+- Log to a repository-approved path such as `logs/canary-watch.log`
 
 ## Output
 
@@ -96,3 +96,10 @@ Pair with:
 - `/browser-qa` for pre-deploy verification
 - Hooks: add as a PostToolUse hook on `git push` to auto-check after deploys
 - CI: run in GitHub Actions after deploy step
+
+## Operating contract
+
+- Start external paths with a fixture, fake, sandbox, or dry-run. Put real tokens, live APIs, deployment, and production writes behind a separate gate.
+- Keep diagnosis read-only. Obtain explicit approval immediately before push, deploy, send, publish, remote update, destructive cleanup, or another external mutation.
+- On Windows, use PowerShell equivalents, LiteralPath for filesystem targets, explicit drive-letter checks, and one shell for a filesystem operation.
+- Write observations only to a repository-approved log or task artifact; do not use runtime-private shadow paths.

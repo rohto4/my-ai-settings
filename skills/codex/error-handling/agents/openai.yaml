@@ -1,0 +1,4 @@
+interface:
+  display_name: "Error Handling"
+  short_description: "Error Handling：原因特定を速め、復旧までの試行錯誤を減らす"
+  default_prompt: "$error-handling を使い、Error Handlingに関する依頼を同梱domain guideに基づいて実施・検証してください。"

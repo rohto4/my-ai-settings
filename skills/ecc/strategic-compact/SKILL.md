@@ -58,3 +58,8 @@ Return one of:
 - Unnecessary: context pressure is not material and compaction would disrupt useful continuity.
 
 Use the current Codex surface for compaction when available. Do not install hooks, write global settings, or claim that a local script enforces compaction unless that mechanism was explicitly configured and verified.
+
+## Operational Safety, Recovery, And Completion
+
+- On Windows, use the repository's PowerShell equivalents. Resolve paths with `Resolve-Path -LiteralPath` or `Get-Item -LiteralPath`, preserve drive letters and spaces, and keep discovery and any later mutation in the same shell.
+- Keep diagnosis read-only and prefer local fixtures, fake services, and dry-runs. Treat real tokens, live APIs, deploys, sends, pushes, or remote writes as separate actions requiring explicit approval immediately before execution.

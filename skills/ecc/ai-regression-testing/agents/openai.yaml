@@ -1,0 +1,4 @@
+interface:
+  display_name: "AI Regression Testing"
+  short_description: "Turn concrete AI-assisted defects into regression proof."
+  default_prompt: "Use $ai-regression-testing to reproduce this defect, add the smallest regression test, and verify the fix safely."

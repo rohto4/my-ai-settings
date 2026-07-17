@@ -1,6 +1,6 @@
 ---
 name: ai-regression-testing
-description: Regression testing strategies for AI-assisted development. Sandbox-mode API testing without database dependencies, automated bug-check workflows, and patterns to catch AI blind spots where the same model writes and reviews code.
+description: Add regression evidence for defects or risky paths changed with AI assistance. Use after a concrete bug, contract mismatch, sandbox/production divergence, or repeated reviewer blind spot; do not use as a generic coverage-percentage exercise.
 ---
 
 # AI Regression Testing
@@ -9,11 +9,19 @@ Testing patterns specifically designed for AI-assisted development, where the sa
 
 ## When to Activate
 
-- AI agent (Claude Code, Cursor, Codex) has modified API routes or backend logic
+- An AI-assisted change modified API routes, backend logic, or another contract boundary
 - A bug was found and fixed — need to prevent re-introduction
 - Project has a sandbox/mock mode that can be leveraged for DB-free testing
 - Running `/bug-check` or similar review commands after code changes
 - Multiple code paths exist (sandbox vs production, feature flags, etc.)
+
+## Boundaries
+
+- Read the target PJ's instructions, current task, existing test style, and the exact bug evidence before editing.
+- In review/audit mode stay read-only. A test or fix changes the repository only when the request authorizes implementation.
+- Default to fake HTTP, fake LLM, sandbox data, and isolated test storage. Real credentials, live APIs, shared databases, external writes, deployment, and timer enablement are separate explicit gates.
+- Do not write tokens, cookies, credentials, or production payloads into fixtures, commands, snapshots, logs, or the repository.
+- On resume, recover state from `AGENTS.md`, `PROJECT.md`, and the task file rather than conversation summary alone.
 
 ## The Core Problem
 
@@ -193,10 +201,9 @@ describe("GET /api/user/messages (conversation list)", () => {
 
 ## Integrating Tests into Bug-Check Workflow
 
-### Custom Command Definition
+### Repository-local Bug-Check Checklist
 
 ```markdown
-<!-- .claude/commands/bug-check.md -->
 # Bug Check
 
 ## Step 1: Automated Tests (mandatory, cannot skip)
@@ -382,3 +389,9 @@ No bug in /api/user/notifications  → Don't write test (yet)
 - Skip sandbox path testing because "it's just mock data"
 - Write integration tests when unit tests suffice
 - Aim for coverage percentage — aim for regression prevention
+
+## Stop and Completion
+
+Stop when the failing behavior cannot be reproduced, expected behavior is not authoritative, the test requires unapproved live data, or the fix would change a public contract without its owner. Hand off the smallest reproduction, observed failure, affected paths, and next safe test.
+
+Complete only when the regression test failed for the intended reason before the fix, passes after the fix, relevant existing tests pass, and sandbox/production or feature-flag parity is checked where applicable. Keep active evidence in the task record and move only finished proof to the completion log.

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Deep Research"
+  short_description: "複数ソースを検証し、根拠・限界付きの調査報告を作成"
+  default_prompt: "Use $deep-research to investigate this topic across multiple sources and produce a cited report with evidence gaps."

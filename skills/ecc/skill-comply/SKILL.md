@@ -1,56 +1,55 @@
 ---
 name: skill-comply
-description: Visualize whether skills, rules, and agent definitions are actually followed — auto-generates scenarios at 3 prompt strictness levels, runs agents, classifies behavioral sequences, and reports compliance rates with full tool call timelines
+description: Evaluate whether a skill, rule, or agent definition is followed by designing prompt-independent scenarios and comparing observable behavior with an explicit specification. Use when the user asks for compliance evidence or a behavioral regression check; do not use to invoke unsupported agent CLIs, hidden hooks, or unapproved external runs.
 ---
 
-# skill-comply: Automated Compliance Measurement
+# Skill Compliance Evaluation
 
-Measures whether coding agents actually follow skills, rules, or agent definitions by:
-1. Auto-generating expected behavioral sequences (specs) from any .md file
-2. Auto-generating scenarios with decreasing prompt strictness (supportive → neutral → competing)
-3. Running `claude -p` and capturing tool call traces via stream-json
-4. Classifying tool calls against spec steps using LLM (not regex)
-5. Checking temporal ordering deterministically
-6. Generating self-contained reports with spec, prompts, and timelines
+Measure whether an instruction changes observable behavior, including when the test prompt does not restate the instruction. Treat the target file, repository policy, and visible execution evidence as the sources of truth.
 
 ## Supported Targets
 
-- **Skills** (`skills/*/SKILL.md`): Workflow skills like search-first, TDD guides
-- **Rules** (`rules/common/*.md`): Mandatory rules like testing.md, security.md, git-workflow.md
-- **Agent definitions** (`agents/*.md`): Whether an agent gets invoked when expected (internal workflow verification not yet supported)
+- Skills such as `skills/*/SKILL.md`
+- Repository rules and operational policies
+- Agent definitions whose activation or output is externally observable
 
-## When to Activate
+Do not claim compliance for hidden internal routing or unavailable traces. Report those checks as unverified.
 
-- User runs `/skill-comply <path>`
-- User asks "is this rule actually being followed?"
-- After adding new rules/skills, to verify agent compliance
-- Periodically as part of quality maintenance
+## Workflow
 
-## Usage
+1. Read the target and the repository's `AGENTS.md`, `PROJECT.md`, and current task record.
+2. Convert mandatory behavior into ordered, observable steps. Separate required, optional, prohibited, stop, and completion conditions.
+3. Create three concrete scenarios:
+   - supportive: the prompt reinforces the instruction;
+   - neutral: the prompt does not mention it;
+   - competing: the prompt creates pressure to skip it without authorizing a violation.
+4. Stop after the scenario/spec draft by default. Show the target, prompts, expected evidence, external effects, credentials, and cost before any run.
+5. Run scenarios only when the user or repository contract authorizes the exact execution path. Prefer fake inputs, read-only tools, and isolated fixtures. Do not install dependencies, invoke a separate agent process, or send data externally without explicit approval.
+6. Capture only evidence visible in the current environment: tool calls, commentary, file diffs, test output, and final responses. Do not infer hidden reasoning.
+7. Classify each required step as observed, contradicted, or unverified. Check ordering separately from presence.
+8. Report per-scenario results, shared failure modes, evidence paths, and the narrowest recommended instruction or test change.
 
-```bash
-# Full run
-uv run python -m scripts.run ~/.claude/rules/common/testing.md
+## Output Contract
 
-# Dry run (no cost, spec + scenarios only)
-uv run python -m scripts.run --dry-run ~/.claude/skills/search-first/SKILL.md
+Include:
 
-# Custom models
-uv run python -m scripts.run --gen-model haiku --model sonnet <path>
-```
+- target revision or content hash;
+- behavioral specification;
+- the three scenario prompts;
+- evidence and classification for every step;
+- temporal-order findings;
+- limitations and unverified surfaces;
+- recommended repository-enforced checks when prose alone is insufficient.
 
-## Key Concept: Prompt Independence
+Do not present a percentage without the underlying step results and evidence.
 
-Measures whether a skill/rule is followed even when the prompt doesn't explicitly support it.
+## Bundled Legacy Harness
 
-## Report Contents
+The bundled `scripts/`, `prompts/`, `fixtures/`, and `pyproject.toml` preserve an upstream harness built around a different agent CLI and model aliases. They are provenance resources, not a supported Codex execution path. Do not run them until a separately reviewed adapter replaces the process invocation, trace schema, model routing, and enforcement recommendations with capabilities verified in the current environment.
 
-Reports are self-contained and include:
-1. Expected behavioral sequence (auto-generated spec)
-2. Scenario prompts (what was asked at each strictness level)
-3. Compliance scores per scenario
-4. Tool call timelines with LLM classification labels
+## Operational Safety, Recovery, And Completion
 
-### Advanced (optional)
-
-For users familiar with hooks, reports also include hook promotion recommendations for steps with low compliance. This is informational — the main value is the compliance visibility itself.
+- On Windows, resolve paths with `Resolve-Path -LiteralPath` or `Get-Item -LiteralPath`, preserve drive letters and spaces, and keep discovery and any later mutation in the same PowerShell process.
+- Keep evaluation read-only by default. Gate credentials, paid model calls, external writes, dependency installation, and subprocess agent execution separately and immediately before execution.
+- Stop when authority, required evidence, or external impact is unclear. Hand off the exact scope, checks, results, artifacts, blockers, and next decision.
+- At start and after compaction, session transfer, or handoff, reread repository `AGENTS.md`, `PROJECT.md`, and the current `docs/imp` task from disk. Claim completion only with recorded evidence and remaining unverified scope.

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Homelab Network Setup"
+  short_description: "Homelab Network Setup：設定漏れを減らし、導入を再現しやすくする"
+  default_prompt: "$homelab-network-setup を使い、Homelab Network Setupに関する依頼を同梱domain guideに基づいて実施・検証してください。"

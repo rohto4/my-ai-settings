@@ -1,6 +1,6 @@
 ---
 name: nanoclaw-repl
-description: Operate and extend NanoClaw v2, ECC's zero-dependency session-aware REPL built on claude -p.
+description: Operate or extend the NanoClaw v2 session-aware REPL and `scripts/claw.js`. Use when working on NanoClaw sessions, commands, persistence, or REPL behavior; do not use for generic shell or REPL work, unrelated agent settings, or application code.
 ---
 
 # NanoClaw REPL

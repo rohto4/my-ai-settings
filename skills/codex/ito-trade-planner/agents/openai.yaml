@@ -1,0 +1,4 @@
+interface:
+  display_name: "Ito Trade Planner"
+  short_description: "Ito Trade Planner：着手順と完了条件を明確にし、手戻りを減らす"
+  default_prompt: "$ito-trade-planner を使い、Ito Trade Plannerに関する依頼を同梱domain guideに基づいて実施・検証してください。"

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Windows Desktop E2e"
+  short_description: "Windows Desktop E2e：成果物の品質と一貫性を高める"
+  default_prompt: "$windows-desktop-e2e を使い、Windows Desktop E2eに関する依頼を同梱domain guideに基づいて実施・検証してください。"

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Competitive Report Structure"
+  short_description: "Competitive Report Structure：成果物の品質と一貫性を高める"
+  default_prompt: "$competitive-report-structure を使い、Competitive Report Structureに関する依頼を同梱domain guideに基づいて実施・検証してください。"

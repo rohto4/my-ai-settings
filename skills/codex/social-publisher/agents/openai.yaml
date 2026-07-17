@@ -1,0 +1,4 @@
+interface:
+  display_name: "Social Publisher"
+  short_description: "Social Publisher：公開時の操作漏れを減らし、配備を安定させる"
+  default_prompt: "$social-publisher を使い、Social Publisherに関する依頼を同梱domain guideに基づいて実施・検証してください。"

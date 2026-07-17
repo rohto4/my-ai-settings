@@ -1,6 +1,6 @@
 ---
 name: dotnet-patterns
-description: Idiomatic C# and .NET patterns, conventions, dependency injection, async/await, and best practices for building robust, maintainable .NET applications.
+description: Apply idiomatic C# and .NET patterns for implementation and review in an existing application. Use for dependency injection, async, data access, API, and maintainability work. Do not use for test-only tasks, non-.NET architecture, or changing the pinned SDK without repository authority.
 ---
 
 # .NET Development Patterns
@@ -318,3 +318,7 @@ public async Task<ProcessResult> ProcessPaymentAsync(
 | `dynamic` in business logic | Use generics or explicit types |
 | Mutable `static` state | Use DI scoping or `ConcurrentDictionary` |
 | `string.Format` in loops | Use `StringBuilder` or interpolated string handlers |
+
+## Operating contract
+
+- Use for implementation or review inside an existing C# or .NET application. Do not use for test-only work, architecture outside .NET, or changing the pinned SDK without repository authority.

@@ -1,6 +1,6 @@
 ---
 name: search-first
-description: Search existing code, tools, libraries, and established patterns before building custom behavior. Use when reuse or current facts may change the approach.
+description: Search existing code, tools, libraries, and established patterns before building custom behavior. Use when reuse or current ecosystem facts may change the approach; do not use to reopen an approved choice or for a trivial local edit with an explicit owner and pattern.
 ---
 
 # Search First
@@ -8,6 +8,8 @@ description: Search existing code, tools, libraries, and established patterns be
 Decide whether to reuse, adopt, wrap, compose, or build only after checking the current repository and relevant external ecosystem.
 
 Use `documentation-lookup` when the target library is already known and only its current API is uncertain. Use `oss-adoption-planning` when adoption changes product ownership, data authority, operations, or exit strategy.
+
+Do not use this skill to reopen an approved implementation choice or for a purely local edit whose owner and pattern are already explicit. It recommends reuse or adoption; it does not itself authorize installation, external writes, deployment, or account changes.
 
 ## 1. Define the need
 
@@ -74,6 +76,12 @@ Stars, download counts, and permissive licenses are supporting signals, not adop
 
 For adoption, name the pinned version, official evidence date, integration boundary, validation spike, and rollback or removal path. Do not install or modify the repository until the user request authorizes implementation.
 
+When an authorized spike touches an external API, start with fake HTTP, a sandbox, or dry-run. Keep real tokens, live writes, push, deploy, and external updates behind a separate explicit gate. Do not start subagents or parallel agents unless the user or the target PJ's rules explicitly require them.
+
+On Windows, keep path checks and file operations in PowerShell, use `-LiteralPath`, verify resolved drive-letter paths before recursive move/delete, and do not pass enumerated paths across shells.
+
 ## Output
 
 Lead with the recommendation, then show repository findings, candidate comparison, rejected options, current-source links, implementation impact, and the test that would validate the choice.
+
+The search is complete when the local owner has been checked, current primary evidence covers the viable candidates, the recommendation names its evidence date and exit path, and unresolved adoption risks are explicit. For long-running work, recover state from `AGENTS.md`, `PROJECT.md`, and the PJ task file rather than conversation summary alone.

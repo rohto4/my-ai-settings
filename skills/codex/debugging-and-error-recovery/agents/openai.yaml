@@ -1,0 +1,4 @@
+interface:
+  display_name: "Debugging And Error Recovery"
+  short_description: "Debugging And Error Recovery：復旧までの試行錯誤と再発リスクを減らす"
+  default_prompt: "$debugging-and-error-recovery を使い、Debugging And Error Recoveryに関する依頼を同梱domain guideに基づいて実施・検証してください。"

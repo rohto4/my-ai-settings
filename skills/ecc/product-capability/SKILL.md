@@ -1,6 +1,6 @@
 ---
 name: product-capability
-description: Translate product intent into explicit capabilities, invariants, interfaces, constraints, and unresolved decisions. Use before multi-module implementation planning.
+description: Translate accepted product intent into capabilities, invariants, interfaces, constraints, and unresolved decisions before multi-module planning. Use when product intent is stable but engineering behavior is implicit; do not use for unsettled discovery, file-level implementation plans, or code execution.
 ---
 
 # Product Capability

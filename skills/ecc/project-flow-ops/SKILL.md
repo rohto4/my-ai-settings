@@ -1,110 +1,106 @@
 ---
 name: project-flow-ops
-description: Triage and coordinate execution across repository tasks, issues, and pull requests. Use for backlog control, active-work linkage, and delivery-state reconciliation.
+description: Reconcile execution state across canonical task records, issues, pull requests, and available planning tools. Use for backlog triage, duplicate detection, work linkage, blockers, and delivery state; do not mutate code or external status without explicit scope and approval.
 ---
 
 # Project Flow Ops
 
-This skill turns disconnected GitHub issues, PRs, and Linear tasks into one execution flow.
+Turn disconnected project records into one evidence-backed execution view. Preserve each project's chosen source of truth instead of imposing a vendor workflow.
 
-Use it when the problem is coordination, not coding.
+## Restore the project model
 
-## When to Use
+1. Read the actual `AGENTS.md`, `PROJECT.md`, prescribed initialization files, current task record, and relevant completion or decision records before querying external trackers.
+2. After compaction, session transfer, or handoff, reread them from disk. Do not resume from a conversation summary alone.
+3. Identify the project's declared authorities for planned work, completed evidence, public issue state, code review, ownership, and scheduling. Do not assume GitHub is public truth or Linear is internal truth unless the project says so.
+4. If sources conflict, apply the documented precedence. Otherwise report the conflict and pause before synchronizing it.
 
-- Triage open PR or issue backlogs
-- Decide what belongs in Linear vs what should remain GitHub-only
-- Link active GitHub work to internal execution lanes
-- Classify PRs into merge, port/rebuild, close, or park
-- Audit whether review comments, CI failures, or stale issues are blocking execution
+## Detect provider capabilities
 
-## Operating Model
+- Discover the available code-host, issue, pull-request, CI, and planning-provider tools and whether each operation is read-only or write-capable.
+- Use provider-neutral concepts—work item, change request, review, check, owner, lane, status, dependency—and map them to the selected provider only after capability detection.
+- Do not install a plugin, configure an account, or require Linear, GitHub, or a Claude-specific surface as a side effect of this skill.
+- Never expose tokens, Cookies, credentials, private issue contents, or authenticated response bodies in prompts, artifacts, repositories, command lines, or logs.
+- For local Windows evidence, use PowerShell, `rg`, `Get-Content -LiteralPath`, and explicit drive-letter paths. Preserve the project's shell and path conventions.
 
-- **GitHub** is the public and community truth
-- **Linear** is the internal execution truth for active scheduled work
-- Not every GitHub issue needs a Linear issue
-- Create or update Linear only when the work is:
-  - active
-  - delegated
-  - scheduled
-  - cross-functional
-  - important enough to track internally
+## Default to a read-only audit
 
-## Core Workflow
+Read and classify before changing anything. Treat create, close, reopen, merge, comment, assign, label, link, move, schedule, reprioritize, or status transition in any provider as an external write.
 
-### 1. Read the public surface first
+Before a write:
 
-Gather:
+1. show the provider, stable item ID, current state, proposed new state, and reason;
+2. show all linked items affected and how duplicate or conflict handling works;
+3. provide a fake payload, reconciliation table, or dry-run when possible;
+4. state the external effect, notification risk, idempotency or duplicate guard, and rollback path;
+5. obtain explicit approval for the exact target and effect.
 
-- GitHub issue or PR state
-- author and branch status
-- review comments
-- CI status
-- linked issues
+Approval for triage or read-only analysis is not approval to post, merge, close, or synchronize. Never mirror all items mechanically.
 
-### 2. Classify the work
+## Workflow
 
-Every item should end up in one of these states:
+### 1. Define scope and authorities
 
-| State | Meaning |
-|-------|---------|
-| Merge | self-contained, policy-compliant, ready |
-| Port/Rebuild | useful idea, but should be manually re-landed inside ECC |
-| Close | wrong direction, stale, unsafe, or duplicated |
-| Park | potentially useful, but not scheduled now |
+Set the repository, project lane, item types, time window, inclusion rules, and intended decision. Record which system owns each field instead of choosing one global master.
 
-### 3. Decide whether Linear is warranted
+### 2. Gather evidence
 
-Create or update Linear only if:
+Read the minimum required state:
 
-- execution is actively planned
-- multiple repos or workstreams are involved
-- the work needs internal ownership or sequencing
-- the issue is part of a larger program lane
+- canonical project task and completion records;
+- work-item status, owner, labels, dependencies, and linked change requests;
+- full change diff when merge readiness is in scope;
+- review comments, approvals, CI or check results, branch state, and merge policy;
+- planning-provider lane, priority, schedule, and ownership when applicable.
 
-Do not mirror everything mechanically.
+Never classify merge readiness from title, summary, trust, or one provider's status alone.
 
-### 4. Keep the two systems consistent
+### 3. Build a deduplicated item map
 
-When work is active:
+Match stable IDs and explicit links first, then repository, branch, title, scope, and evidence. Separate:
 
-- GitHub issue/PR should say what is happening publicly
-- Linear should track owner, priority, and execution lane internally
+- one work item represented in multiple systems;
+- related but independently deliverable work;
+- stale or superseded records;
+- true duplicates;
+- conflicts requiring an owner decision.
 
-When work ships or is rejected:
+Do not collapse items based only on similar titles.
 
-- post the public resolution back to GitHub
-- mark the Linear task accordingly
+### 4. Classify against project policy
 
-## Review Rules
+Use the project's own states when defined. Otherwise propose a small neutral set such as ready, needs change, blocked, close, or park. For every classification, cite the diff, review, check, dependency, policy, or decision evidence that supports it.
 
-- Never merge from title, summary, or trust alone; use the full diff
-- External-source features should be rebuilt inside ECC when they are valuable but not self-contained
-- CI red means classify and fix or block; do not pretend it is merge-ready
-- If the real blocker is product direction, say so instead of hiding behind tooling
+### 5. Propose reconciliation
 
-## Output Format
+Create a dry-run table of exact updates. Keep public communication, internal planning, code-host lifecycle, and canonical project task records as separate actions. If active work needs cross-links, specify both link directions and an idempotency key or existing-link check.
 
-Return:
+### 6. Apply approved updates and verify
+
+Execute only approved rows. Re-read each changed item and verify status, links, owner, labels, comments, and notifications where exposed. Do not merge a change request or close work merely because a tracking update succeeded.
+
+## Output
 
 ```text
-PUBLIC STATUS
-- issue / PR state
-- CI / review state
+SOURCE OF TRUTH
+- project authorities and provider mapping
 
-CLASSIFICATION
-- merge / port-rebuild / close / park
-- one-paragraph rationale
+ITEM MAP
+- stable IDs / links / duplicate or conflict status
 
-LINEAR ACTION
-- create / update / no Linear item needed
-- project / lane if applicable
+ASSESSMENT
+- classification / blockers / evidence
 
-NEXT OPERATOR ACTION
-- exact next move
+ACTIONS
+- read-only findings / proposed dry-run / approved writes performed
+
+EVIDENCE AND NEXT STEP
+- provider readback / unavailable checks / rollback / next owner action
 ```
 
-## Good Use Cases
+## Stop, handoff, and completion
 
-- "Audit the open PR backlog and tell me what to merge vs rebuild"
-- "Map GitHub issues into our ECC 1.x and ECC 2.0 program lanes"
-- "Check whether this needs a Linear issue or should stay GitHub-only"
+Stop before mutation when authority is ambiguous, linked items conflict, the full diff or required checks are unavailable, provider permissions are unclear, approval is missing, a write would notify unintended people, or a secret or private content could escape its boundary. Product-direction blockers must be named rather than hidden behind tooling status.
+
+For context pressure or handoff, record the source-of-truth map, scope, deduplicated item table, evidence already read, classifications, approval and write state, unresolved conflicts, and next read-only action. Then follow the project's compaction-recovery order.
+
+Complete only when every in-scope item has an evidence-backed classification, duplicates and conflicts are explicit, approved writes are confirmed by provider readback, unapproved writes remain proposals, project task state and completion evidence remain separated, and no notification, external change, or secret exposure occurred outside scope.

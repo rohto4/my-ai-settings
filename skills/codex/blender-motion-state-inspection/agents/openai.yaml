@@ -1,0 +1,4 @@
+interface:
+  display_name: "Blender Motion State Inspection"
+  short_description: "Blender Motion State Inspection：専門判断の精度を高め、調査の手戻りを減らす"
+  default_prompt: "$blender-motion-state-inspection を使い、Blender Motion State Inspectionに関する依頼を同梱domain guideに基づいて実施・検証してください。"
