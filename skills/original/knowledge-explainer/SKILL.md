@@ -1,14 +1,17 @@
 ---
 name: knowledge-explainer
-description: Route a request for a knowledge explanation to the appropriate diagram-image or standalone-HTML workflow when the requested output form is not yet specified.
+description: Route and coordinate knowledge-explanation artifacts across diagram images, HTML information structure, and the user's preferred HTML visual style. Use when the output form is unspecified, when creating a knowledge HTML from scratch, or when a request may need structure-only, style-only, or sequential structure-then-style work.
 ---
 
 # Knowledge Explainer Router
 
-Choose one specialized skill before producing an artifact.
+Choose the artifact type and add the selected skills to the working plan before editing.
 
-- Use `$knowledge-diagram-image` when the reader needs one stable overview, a responsibility boundary, or a real flow at a glance.
-- Use `$knowledge-explainer-html` when the reader needs comparison, progressive detail, links, status, filters, or multiple reading depths.
-- Ask the user to choose only when both forms are equally suitable and the output form would materially change the result.
+- Use `$knowledge-diagram-image` for one stable overview, a responsibility boundary, or an actual information/data flow at a glance.
+- For a new standalone HTML, use `$knowledge-explainer-html` first and `$knowledge-html-style` second. Complete the structural pass before the style pass.
+- For an existing HTML structure-only revision, use `$knowledge-explainer-html` alone.
+- For an existing HTML visual-only revision, use `$knowledge-html-style` alone and preserve content, sections, and behavior.
+- For an existing HTML request that changes both structure and appearance, use the same sequential order as a new HTML.
+- Ask the user to choose only when image and HTML are equally suitable and the form materially changes the result.
 
-Do not make both by default. Preserve the source boundary in either workflow.
+Do not create both image and HTML by default. Preserve the source boundary in every workflow.

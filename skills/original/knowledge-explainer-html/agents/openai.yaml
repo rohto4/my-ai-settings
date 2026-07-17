@@ -1,4 +1,4 @@
 interface:
-  display_name: "Knowledge Explainer HTML"
-  short_description: "Create an interactive HTML knowledge explanation"
-  default_prompt: "Use $knowledge-explainer-html to explain this knowledge as a standalone interactive HTML."
+  display_name: "Knowledge HTML Structure"
+  short_description: "Design knowledge HTML structure and interactions"
+  default_prompt: "Use $knowledge-explainer-html to design the information structure and interactions for this standalone knowledge HTML."

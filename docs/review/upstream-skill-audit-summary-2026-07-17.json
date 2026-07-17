@@ -1,41 +1,94 @@
 {
-  "generated_at": "2026-07-17T08:19:10.388Z",
+  "generated_at": "2026-07-17T12:00:57.186Z",
   "report_date": "2026-07-17",
   "audit_units": 968,
   "repository_counts": {
     "addyosmani-agent-skills": 24,
     "ecc-everything-claude-code": 278,
+    "obra-superpowers": 14,
     "openai-plugins": 608,
-    "openai-skills": 44,
-    "obra-superpowers": 14
+    "openai-skills": 44
+  },
+  "reading_priority_counts": {
+    "S": 27,
+    "A": 58,
+    "B": 141,
+    "C": 742
+  },
+  "importance_counts": {
+    "高": 87,
+    "中": 206,
+    "低": 675
+  },
+  "difficulty_counts": {
+    "高": 499,
+    "中": 378,
+    "低": 91
+  },
+  "frequency_counts": {
+    "高": 66,
+    "中": 227,
+    "低": 675
+  },
+  "skill_attribute_counts": {
+    "成果品質": 485,
+    "手順・運用": 203,
+    "言語・FW専用": 168,
+    "その他・専門": 112
+  },
+  "assessment_source_counts": {
+    "active対応評価": 18,
+    "静的推定": 769,
+    "ECC既存評価": 181
   },
   "priority_counts": {
-    "P0": 105,
     "P1": 605,
     "P2": 246,
+    "P0": 105,
     "P3": 12
   },
   "recommendation_counts": {
     "merge_compare_with_active": 193,
-    "evaluate_as_plugin_bundle": 453,
     "candidate_for_adaptation": 114,
     "use_installed_plugin": 35,
-    "reference_only_license": 84,
-    "reference_only_deprecated": 44,
     "compare_duplicate_sources": 9,
+    "evaluate_as_plugin_bundle": 453,
+    "reference_only_deprecated": 44,
+    "reference_only_license": 84,
     "evaluate_plugin_if_needed": 32,
     "exclude_fixture": 4
   },
+  "adoption_disposition_counts": {
+    "retire": 810,
+    "continue": 149,
+    "select": 9
+  },
+  "adoption_disposition_by_reading_priority": {
+    "S": {
+      "retire": 17,
+      "continue": 10
+    },
+    "A": {
+      "retire": 44,
+      "select": 2,
+      "continue": 12
+    },
+    "B": {
+      "continue": 94,
+      "select": 6,
+      "retire": 41
+    },
+    "C": {
+      "select": 1,
+      "retire": 708,
+      "continue": 33
+    }
+  },
   "license_category_counts": {
     "permissive": 861,
-    "unknown": 2,
     "restricted": 94,
+    "unknown": 2,
     "conditional": 11
-  },
-  "user_fit_counts": {
-    "high": 754,
-    "medium": 161,
-    "specialized": 53
   },
   "exact_active_overlaps": 181,
   "any_active_overlaps": 201,
@@ -43,7 +96,7 @@
   "external_mutation_without_approval": 273,
   "missing_resources": 0,
   "active_metrics": {
-    "total": 192,
+    "total": 193,
     "claude_specific": 32,
     "over_500_lines": 17
   },
@@ -168,7 +221,9 @@
   "superpowers_packaging_overlap": 14,
   "outputs": {
     "csv": "docs/review/upstream-skill-improvement-proposals-2026-07-17.csv",
-    "html": "docs/review/upstream-skill-improvement-proposals-2026-07-17.html"
+    "html": "docs/review/upstream-skill-improvement-proposals-2026-07-17.html",
+    "skill_previews": "runtime/skill-previews/2026-07-17",
+    "skill_preview_count": 968
   },
   "validation": {
     "expected_audit_units": 968,
@@ -176,6 +231,70 @@
     "unique_ids": 968,
     "csv_round_trip_rows": 968,
     "html_audit_rows": 968,
+    "complete_reading_assessments": 968,
+    "invalid_reading_assessment_ids": [],
+    "complete_adoption_dispositions": 968,
+    "invalid_adoption_disposition_ids": [],
+    "adoption_disposition_total": 968,
+    "adoption_rank_total_mismatches": [],
+    "max_proposal_summary_length": 78,
+    "overlong_proposal_summary_ids": [],
+    "missing_source_file_ids": [],
+    "complete_usage_summaries": 968,
+    "empty_usage_summary_ids": [],
+    "japanese_usage_summaries": 968,
+    "non_japanese_usage_summary_ids": [],
+    "max_usage_summary_length": 61,
+    "complete_effect_summaries": 968,
+    "empty_effect_summary_ids": [],
+    "japanese_effect_summaries": 968,
+    "non_japanese_effect_summary_ids": [],
+    "max_effect_summary_length": 27,
+    "unique_skill_preview_urls": 968,
+    "missing_skill_preview_ids": [],
+    "invalid_skill_preview_ids": [],
+    "local_skill_preview_links": 995,
+    "raw_skill_md_links": 0,
+    "usage_cells": 995,
+    "usage_effect_lines": 995,
+    "tag_filter_buttons": 3231,
+    "sortable_headers": 11,
+    "independent_axis_cells": 2985,
+    "risk_tag_cells": 968,
+    "detail_cells": 968,
+    "legacy_combined_axis_labels": 0,
+    "column_filter_rows": 1,
+    "column_filter_controls": 11,
+    "title_header_columns": 12,
+    "filter_header_columns": 12,
+    "top_header_columns": 11,
+    "clickable_value_filters": 7744,
+    "legacy_filter_bands": 0,
+    "top_reading_rows": 27,
+    "read_state_buttons": 995,
+    "top_read_state_buttons": 27,
+    "legacy_read_state_labels": 0,
+    "report_title_breaks": 0,
+    "overview_titles": 1,
+    "improvement_guide_titles": 1,
+    "improvement_guide_notes": 1,
+    "adoption_disposition_attributes": 995,
+    "continuing_disposition_attributes": 159,
+    "retired_disposition_attributes": 827,
+    "selecting_disposition_attributes": 9,
+    "adoption_summary_rows": 5,
+    "adoption_summary_header_columns": 5,
+    "reading_priority_metrics": 0,
+    "gray_out_summary_columns": 0,
+    "focus_continuing_buttons": 1,
+    "show_selecting_only_buttons": 1,
+    "overview_risk_strips": 0,
+    "overview_risk_explanations": 0,
+    "selecting_only_filter_conditions": 1,
+    "overview_half_layouts": 1,
+    "overview_metric_four_column_grids": 1,
+    "overview_step_three_column_grids": 1,
+    "equal_adoption_status_width_rules": 1,
     "missing_fragment_targets": [],
     "embedded_javascript_syntax": "passed"
   }

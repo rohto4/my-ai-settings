@@ -1,5 +1,125 @@
 # 完了記録
 
+## AI-SET-REVIEW-11: overviewのrisk説明帯削除と正本選定待ちfilter
+
+- 完了日: 2026-07-17
+- overview: 「riskは別軸」から始まるP0〜P3の説明帯を削除し、余ったgrid areaも除去した。行ごとのrisk値、risk列、risk filter、summary内のP0〜P3集計データは維持した。
+- filter: おすすめ適用後エリアへ「正本選定待ちだけ表示（9件）」toggleを追加した。先読み表と全968件表の非該当行を隠し、全件表の表示件数へ反映する。再clickまたは一覧の「解除」で元に戻る。
+- 既存操作: 継続利用以外のgray-out、列filter、cell filter、tag filter、sort、読書状態を維持した。選定待ちtoggleは既存filterとAND条件で併用できる。
+- 検証: 監査/CSV/HTML行968、正本選定待ち9件、toggle 1、絞り込み条件1、overview risk説明帯0、risk説明文0、埋込JavaScript構文pass、generatorの`node --check` pass。
+
+## AI-SET-SKILL-03: knowledge-html-styleの空間効率規則
+
+- 完了日: 2026-07-17
+- 正本運用: `AGENTS.md`へ、最新版は常に`G:\devwork\ai-settings`に置き、Cドライブへは即時利用または明示配布時だけ同期する規則を追加した。READMEにも入口を置き、既存の「skill変更後は必ず同期」という表現を条件付き同期へ補正した。
+- density pass: `knowledge-html-style`へ、情報を削る前に余白・大きすぎる文字・冗長wrapperを削る、viewportを面積予算として扱う、短い兄弟群をwide画面で並列化する、同格列を同幅にする、短いcellだけfixed layoutにする、可読限界でresponsiveに戻す、という判断順を追加した。
+- canonical CSS: compactな1行title、`review-summary-split`、4列既定の`review-metric-grid`、3列既定の`review-guidance-grid`、compact unit、`review-equal-peer-table`とkey/total/peerのcol幅、1250px/800pxのresponsive fallbackを追加した。
+- metadata: description、`agents/openai.yaml`、`skills-registry.csv`を空間効率まで含む内容へ更新した。SKILL本文は58行で、詳細なCSSはassetへ分離した。
+- 検証: `Test-AgentSet.ps1`はskills 193、profile 30、recommended 15、error 0。CSS brace 63/63、density rule、4 utility、受入済みreview HTMLの50/50・4列・3列・同格26%・埋込JavaScriptをすべて確認し、`git diff --check`もpassした。公式`quick_validate.py`はbundled PythonにPyYAMLがなく実行不可だった。
+- forward test境界: 既存subagent 2件へ汚染なしの新規HTMLを渡したが、いずれも成果物生成前に長時間停止したため中断し、fixtureは削除した。未完のforward testを成功扱いせず、受入済み実artifactの回帰検証を完了根拠とした。
+- 配布: 今回は即時利用依頼ではないためCドライブへ同期していない。source/runtimeのSKILL SHA-256不一致を確認し、Gドライブ正本だけが新しい状態を維持した。
+
+## AI-SET-REVIEW-10: overviewの左右圧縮layout
+
+- 完了日: 2026-07-17
+- layout: 全体概要を左右50%のgridにし、4つのmetricを左半分の4列、3つの手順を右半分の3列へ配置した。集計table、gray-out操作、risk帯は全幅のまま維持した。
+- 列幅: おすすめ適用後tableをfixed layoutにし、読む順10%、全体12%、継続利用／実質廃止／正本選定待ちを各26%へ統一した。
+- responsive: 1250px以下はmetricと手順を上下へ戻し、800px以下はmetric 2列、手順1列とした。
+- 変更境界: section、文言、件数、table列、gray-out、filter、sort、読書状態、paletteを変更していない。
+- 検証: 50% overview grid 1、metric 4列rule 1、手順3列rule 1、状態3列同幅rule 1、監査行968、埋込JavaScript構文pass、`node --check` pass。
+
+## AI-SET-REVIEW-09: overviewの不要項目削除
+
+- 完了日: 2026-07-17
+- 変更: 全体概要のmetricから「読む順 S」カードを削除し、おすすめ適用後tableから「グレーアウト対象」列を削除した。
+- 保持: ランク別の全体／継続利用／実質廃止／正本選定待ち、gray-out buttonと対象819件の注記、先読み27件、全968件、filter、sort、読書状態、既存styleを維持した。
+- 検証: overview「読む順 S」metric 0、グレーアウト対象列0、集計table 5列、集計行5、監査行968、埋込JavaScript構文pass、`node --check` pass。
+
+## AI-SET-REVIEW-08: おすすめ適用後の継続・実質廃止集計
+
+- 完了日: 2026-07-17
+- 分類: `candidate_for_adaptation`と`use_installed_plugin`を継続利用、`compare_duplicate_sources`を正本選定待ち、残りを実質廃止とした。これは上流監査行を独立skillとして残すかの分類で、実ファイルの削除ではない。
+- 集計: Sは全27／継続10／実質廃止17／選定待ち0、Aは58／12／44／2、Bは141／94／41／6、Cは742／33／708／1。合計は968／149／810／9で、gray-out対象は実質廃止と選定待ちの819件。
+- 表示: 全体概要へランク別のcompact tableと定義注記を追加した。CSVへ`adoption_disposition`と日本語列、summary JSONへ全体・ランク別集計を追加した。
+- 操作: 「継続利用以外をグレーアウト」buttonで、先に読む27件と全968件の`retire`／`select`行だけをgray-outする。再押下で解除し、既存filter、sort、読書状態は変更しない。
+- style: 既存のdark navy/teal、強い罫線、低角丸、高密度tableを維持し、継続・廃止・選定待ちをgreen/red/yellowで区別した。gray-out行はhover時に可読性を戻す。
+- 検証: 監査/CSV/HTML行968、3状態分類968、ランク別合計不一致0、先読み込み属性995、継続属性159、実質廃止属性827、選定待ち属性9、集計行5、button 1、sortable header 11、埋込JavaScript構文pass、`node --check`と`git diff --check` pass。読み取り専用subagentによる定義・全968行・button影響範囲の独立確認も問題0。
+
+## AI-SET-REVIEW-07: header・概要案内・読書状態の補正
+
+- 完了日: 2026-07-17
+- header: titleを「上流skill全件 読む順レビュー」の1行にし、`BIZ UDPGothic`、最大1.55rem、太さ700へ変更した。既存のdark high-contrast themeとtable書式は維持した。
+- overview: section titleを汎用的な「全体概要」へ変更した。3番目の案内は1行目「改善要約を読む」、2行目「調整をする場合コメントを入力」へ変更した。
+- 読書状態: 先に読む27件のskill列直前へ「未読／検討中／読了」toggleを追加した。同じskillの先読み行と全件行は同じlocalStorage keyを使い、一方の操作を両方へ即時反映する。
+- 変更境界: 母集団968件、評価値、使用場面／効果、列filter、cell filter、sort、Markdown previewを変更していない。
+- 検証: 監査/CSV/HTML行968、先読み27、読書状態button 995、先読みbutton 27、先読みheader 11列、title内改行0、旧「検討済」状態名0、overview/案内文各1、sortable header 11、埋込JavaScript構文pass。
+
+## AI-SET-REVIEW-06: 使用場面／効果の2段表示
+
+- 完了日: 2026-07-17
+- 列: 先読み27件と全968件の列名を「使用場面／効果」へ変更した。1行目は既存の日本語使用場面、2行目は`効果:`として、品質向上、risk低減、手戻り削減、判断・復旧高速化などの期待効果を表示する。
+- 生成: 主要skillは個別効果を定義し、残りはsecurity、review、test、debug、deploy、research、plan、design、migration、docs、monitor、setup、build、operationと属性から日本語効果を生成する。CSVへ`effect_summary`を追加し、Markdown previewにも使用場面と効果を併記した。
+- 変更境界: 列位置と390px幅を維持し、2つの行を個別ellipsis表示にした。section、filter、sort、読書状態、既存anchor、Markdown preview linkは維持した。
+- 検証: 使用場面968、効果968、日本語不足・空欄各0、効果最大27文字。usage cell 995、effect line 995、preview 968、header 12列一致、sortable header 11、埋込JavaScript構文pass。
+
+## AI-SET-REVIEW-05: 使用場面の日本語化
+
+- 完了日: 2026-07-17
+- 表示: 読む順Sの主要skillは個別の自然な日本語へ置換し、残りはskill名の技術語を保ちながら、設計・検証・調査・運用・導入などの用途別に「〜するとき」の日本語短文を生成するよう変更した。
+- 保持: 英語frontmatter descriptionはcell titleと根拠/詳細に残し、列位置、1行ellipsis、使用場面sort、section、style、filter、読書状態、Markdown previewを変更していない。
+- 検証: 全968件の使用場面に日本語を確認し、空欄0、最大61文字。先読み27件と全968件のusage cell 995、preview 968、raw SKILL.md link 0、title/filter header 12列一致、sortable header 11、埋込JavaScript構文pass。
+
+## AI-SET-REVIEW-04: SKILL Markdownプレビューと使用場面列
+
+- 完了日: 2026-07-17
+- Markdown preview: 全968件の原文SKILL.mdを安全にescapeして、見出し、list、code block、table、linkを整形するlocal HTMLを `runtime/skill-previews/2026-07-17/` に生成した。skill名linkはraw `.md` ではなくこのpreviewを別タブで開き、previewからreview該当行・原文・固定commitへ戻れる。
+- 配備境界: Codexでlocal `.md` をnative previewへ渡す公開schemeは確認できなかったため、server不要でCodex内ブラウザが既に表示できるlocal HTMLを採用した。preview 968ファイル・13,534,417 bytesはruntime派生物としてGit管理外にし、監査commandで再生成する。
+- 使用場面列: frontmatter descriptionの`Use when` / `Load when`等を優先して最大141文字へ短文化し、先に読む27件と全968件のskill列直後へ1行・ellipsis表示で追加した。full descriptionはcell titleと詳細内に保持した。
+- 既存機能: section、dark high-contrast style、読書状態、列filter、cell click filter、tag filterを維持し、使用場面を11個目のsort対象にした。全件表のtitle/filter headerは12列で一致する。
+- 検証: 監査/CSV/HTML行968、usage summary 968、usage cell 995、unique preview 968、欠落・不正preview 0、raw SKILL.md link 0、preview link 995、sortable header 11、column filter 11、click filter 7,744、埋込JavaScript構文pass、generator `node --check` pass、`git diff --check` pass。preview内のcode blockは678件、tableは419件で整形を確認した。
+
+## AI-SET-SKILL-02: HTML構造skillと好みのstyle skillの分離
+
+- 完了日: 2026-07-17
+- 責務分離: `knowledge-explainer-html`を情報構造・interaction専用へ変更し、`knowledge-html-style`を高contrast・高密度review-tableのvisual専用skillとして新設した。style単独ではsection、文言、data、挙動を変更しない。
+- 順序制御: `knowledge-explainer`を司令塔とし、新規HTMLと構造＋style変更では`knowledge-explainer-html` → `knowledge-html-style`の順に適用する。構造だけ、既存HTMLのstyleだけでは該当skillだけを使う。構造skillにも新規作成時のstyle後続契約を置き、直接発火時の抜けを防いだ。
+- style正本: `knowledge-html-style/assets/dense-review-theme.css`へ、上流skill全件reviewで確立した濃紺/青緑、白本文、黄link、強い罫線、低角丸、shadowなし、13/12/11pxの文字密度、列filter、active/focus/完了状態を固定した。
+- metadata/台帳: 3skillの`agents/openai.yaml`と`skills-registry.csv`、`skill-lineage.csv`を更新した。active母集団は193件、originalは4件。
+- 独立test: structure-onlyはstyle token 0のままoverview、独立列、header直下filter、sort、cell filter、detailsを生成した。style-onlyは入力の文言、section順、data、anchor、JavaScript一致を保ち、classとcanonical CSSだけを追加した。順次適用成果物はcanonical CSS、review class、overview/comparison/details、anchor、JavaScript構文、外部assetなしを確認した。
+- 検証: `Test-AgentSet.ps1 -ProfilePath`はskills 193、profile 30、recommended 15、error 0。公式`quick_validate.py`は実行PythonにPyYAMLがなく起動不可だったため依存を追加せず、repo validatorとforward-testを完了証拠とした。
+- 配備: `Sync-AgentSkills.ps1 -WhatIf`後に193件を`C:\Users\unibe\.codex\skills`へ同期した。3skillのSKILL/metadata/style assetはsource/destination SHA-256不一致0、manifest skill_count 193。
+
+## AI-SET-REVIEW-03: 列対応フィルターとコントラスト改善
+
+- 完了日: 2026-07-17
+- 変更境界: セクション構成、掲載内容、読む流れは維持し、表の列、filter操作、配色だけを変更した。
+- 列: 先に読むS全27件表も、重要度・頻度・難易度を独立列へ変更した。全件表と合わせて独立評価cellは2,985件、旧結合ラベルは0件。
+- 列filter: 全件表の独立filter帯を廃止し、table headerの2段目へ読書状態、読む順、検索/source、重要度、頻度、難易度、属性、扱い、risk、解除を対応配置した。column filter controlは11件、旧filter帯は0件。
+- click filter: 読む順、source、重要度、頻度、難易度、属性、扱い、riskの値をbutton化した。同じ値の再clickで解除し、header filterと選択状態を同期する。対象buttonは全968行で7,744件。
+- contrast: panel背景をさらに暗くし、本文を白、link/詳細入口を反対色の黄、補助文字を明るい青灰へ変更した。contrast比は本文16.58、link 11.95、補助文字11.43、表見出し8.75、control 18.57。
+- 自動検証: 生成/CSV/HTML行968、sortable header 10、tag filter 3,231、column filter row 1、fragment欠落0、埋込JavaScript構文pass。
+- browser確認: 開いているlocal HTML tabの再読み込みはBrowserの`file://` URL policyで拒否された。別surfaceや迂回手段は使わず、ユーザー側の再読み込みを目視確認境界とした。
+
+## AI-SET-REVIEW-02: 全件表の高密度化と列ソート
+
+- 完了日: 2026-07-17
+- 変更境界: 既存セクション、掲載内容、読む流れは維持し、全968件表の列構造、操作、CSS書式だけを変更した。
+- 表列: 行内で重複していた「重要度 / 頻度 / 難易度」ラベルを廃止し、3指標を非改行の独立列にした。risk/tagと根拠・詳細も別列とし、表は横スクロール可能な最小幅1,900pxにした。
+- sort: 読書状態、読む順、skill/source、重要度、頻度、難易度、属性、扱い、改善要約、risk/tagの10見出しをクリックして昇順・降順を切り替えられるようにした。読む順は初期状態を降順とした。
+- 表示: 既存の設計書化review表を参照し、dark navy/teal、罫線中心、低角丸、shadowなし、小さい文字と余白の高密度CSSへ変更した。検討済みの強いgray-out、filter、tag絞り込み、localStorage状態は維持した。
+- 自動検証: 生成行968、独立評価cell 2,904、risk/tag cell 968、詳細cell 968、sortable header 10、旧結合ラベル0、fragment欠落0、埋込JavaScript構文pass。
+
+## AI-SET-REVIEW-01: 上流skill全件レビューの読む順評価
+
+- 完了日: 2026-07-17
+- 読む順評価: 全968件へ重要度・難易度・使用頻度、属性（成果品質 / 手順・運用 / 言語・FW専用 / その他・専門）、読む順S/A/B/Cを付与した。ECC既存評価181件、active対応評価18件を引き継ぎ、残る769件は静的推定とした。使用頻度は実測起動回数ではない。
+- 集計: 読む順S 27件、A 58件、B 141件、C 742件。先に読む入口はS全27件をそのまま表示し、S件数の変化へ自動追従する。P0～P3は読む価値から分離し、riskとして残した。
+- HTML: 3指標・属性・扱い・risk・sourceのfilter、クリック絞り込みtag、local SKILL.mdリンク、読書状態を実装した。検討済みは強いgray-outへ変更し、旧fit表示は削除した。
+- 改善要約: 表示する提案を最大78文字へ短文化し、詳細提案は展開内へ移した。`hookify-rules`は68文字で、詳細412文字の17%になった。
+- tag: MIT、再配布不可/license要確認、Claude前提、Codex前提、250行未満、250行以上、500行以上、検証手順あり/なしを意味説明付きbuttonにした。tag filter buttonは3,231件。
+- 自動検証: 期待/生成/ID/CSV再読/HTML行/評価完備は各968件、local source欠落0、local SKILL.md link 988、fragment欠落0、埋込JavaScript構文pass、短文90文字超0。
+- ブラウザ確認: Codex内ブラウザの自動操作はlocal `file://` URL policyで拒否された。HTMLからlocal SKILL.mdへのlink生成は静的検証済みだが、Codex native Markdown previewとしての表示は未確認であり、専用schemeは使用していない。
+
 ## AI-SET-REPO-02: 高評価な上流skillの隔離配置・来歴整備・全件改善レビュー
 
 - 完了日: 2026-07-17

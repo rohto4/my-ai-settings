@@ -1,0 +1,4 @@
+interface:
+  display_name: "Knowledge HTML Style"
+  short_description: "Apply dense, space-efficient HTML review styling"
+  default_prompt: "Use $knowledge-html-style to restyle this knowledge HTML for high contrast, compact spacing, balanced viewport use, and equal peer-column widths without changing its content or behavior."

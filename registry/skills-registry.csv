@@ -1,4 +1,5 @@
 skill_name,source_kind,created_at,created_by,updated_at,updated_by,lifecycle,profiles,validation,notes
 knowledge-diagram-image,local,2026-07-17,Codex GPT-5.6 Sol,2026-07-17,Codex GPT-5.6 Sol,active,global-all,Test-AgentSet passed,知識解説の一枚図解画像用
-knowledge-explainer,local,2026-07-17,Codex GPT-5.6 Sol,2026-07-17,Codex GPT-5.6 Sol,active,global-all,Test-AgentSet passed,形式未指定時の入口・振り分け用
-knowledge-explainer-html,local,2026-07-17,Codex GPT-5.6 Sol,2026-07-17,Codex GPT-5.6 Sol,active,global-all,Test-AgentSet passed,知識解説のスタンドアロンHTML用
+knowledge-explainer,local,2026-07-17,Codex GPT-5.6 Sol,2026-07-17,Codex GPT-5.6 Sol,active,global-all,Test-AgentSet and split workflow tests passed,画像・HTMLおよび構造→style順次適用の司令塔
+knowledge-explainer-html,local,2026-07-17,Codex GPT-5.6 Sol,2026-07-17,Codex GPT-5.6 Sol,active,global-all,Test-AgentSet and structure-only test passed,知識HTMLの情報構造・interaction専用
+knowledge-html-style,local,2026-07-17,Codex GPT-5.6 Sol,2026-07-17,Codex GPT-5.6 Sol,active,global-all,Test-AgentSet and accepted-artifact regression passed,高contrast・高密度・空間効率review-table style専用
