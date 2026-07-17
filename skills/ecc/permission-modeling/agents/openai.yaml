@@ -1,0 +1,4 @@
+interface:
+  display_name: "Permission Modeling"
+  short_description: "Define roles, capabilities, scopes, delegation, and audit."
+  default_prompt: "Use $permission-modeling to define the permission model for this capability."

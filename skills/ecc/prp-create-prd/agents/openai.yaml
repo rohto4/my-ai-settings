@@ -1,0 +1,4 @@
+interface:
+  display_name: "PRP Create PRD"
+  short_description: "Ground PRDs in evidence and explicit decisions."
+  default_prompt: "Use $prp-create-prd to turn this product idea into a grounded PRD."

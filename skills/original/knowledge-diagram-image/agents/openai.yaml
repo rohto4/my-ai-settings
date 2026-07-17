@@ -1,0 +1,4 @@
+interface:
+  display_name: "Knowledge Diagram Image"
+  short_description: "Create a precise Japanese knowledge diagram image"
+  default_prompt: "Use $knowledge-diagram-image to explain this knowledge as a Japanese diagram image."

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Expand Answer"
+  short_description: "Add decision context without expanding scope."
+  default_prompt: "Use $expand-answer to deepen the previous answer around tradeoffs and risks."

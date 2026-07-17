@@ -1,0 +1,4 @@
+interface:
+  display_name: "Frontend Patterns"
+  short_description: "Design React and Next.js boundaries and UI behavior."
+  default_prompt: "Use $frontend-patterns to design or review this React or Next.js frontend boundary."

@@ -1,0 +1,9 @@
+# Inherit the model and service tier from the user's current Codex config so
+# this reusable set does not pin a model slug that will become stale.
+model_reasoning_effort = "high"
+plan_mode_reasoning_effort = "xhigh"
+model_verbosity = "medium"
+personality = "pragmatic"
+
+# Approval, sandbox, network, MCP, and connector policies are intentionally
+# not set here. They belong to the target repository or the user's policy.

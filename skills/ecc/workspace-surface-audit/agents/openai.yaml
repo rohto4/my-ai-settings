@@ -1,0 +1,4 @@
+interface:
+  display_name: "Workspace Surface Audit"
+  short_description: "Audit current Codex tools, settings, and missing surfaces."
+  default_prompt: "Use $workspace-surface-audit to verify which Codex capabilities are available in this workspace."

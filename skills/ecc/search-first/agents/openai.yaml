@@ -1,0 +1,4 @@
+interface:
+  display_name: "Search First"
+  short_description: "Compare reuse, adoption, wrapping, and custom build options."
+  default_prompt: "Use $search-first to determine whether this capability should be reused, adopted, wrapped, or built."

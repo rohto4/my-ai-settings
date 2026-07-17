@@ -1,0 +1,4 @@
+interface:
+  display_name: "Monorepo Boundary Review"
+  short_description: "Review ownership, dependencies, and extraction boundaries."
+  default_prompt: "Use $monorepo-boundary-review to assess the boundaries affected by this feature."

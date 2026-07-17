@@ -1,0 +1,4 @@
+interface:
+  display_name: "Database Migrations"
+  short_description: "Plan safe schema and data migrations with recovery."
+  default_prompt: "Use $database-migrations to plan a safe schema or stored-data migration, including runner mode, compatibility, recovery, and production approval gates."

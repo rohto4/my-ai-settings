@@ -1,0 +1,4 @@
+interface:
+  display_name: "Documentation Lookup"
+  short_description: "Retrieve current primary documentation for known targets."
+  default_prompt: "Use $documentation-lookup to verify the current official behavior of this library or API."

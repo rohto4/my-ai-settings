@@ -1,0 +1,4 @@
+interface:
+  display_name: "Strategic Compact"
+  short_description: "Prepare durable recovery state before compaction."
+  default_prompt: "Use $strategic-compact to prepare this task for safe context compaction."

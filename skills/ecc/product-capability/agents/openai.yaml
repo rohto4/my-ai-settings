@@ -1,0 +1,4 @@
+interface:
+  display_name: "Product Capability"
+  short_description: "Turn product intent into an engineering capability contract."
+  default_prompt: "Use $product-capability to define the invariants and interfaces for this capability."

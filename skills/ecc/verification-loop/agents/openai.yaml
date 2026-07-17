@@ -1,0 +1,4 @@
+interface:
+  display_name: "Verification Loop"
+  short_description: "Prove changes with project-scoped verification."
+  default_prompt: "Use $verification-loop to verify this change against its acceptance criteria."

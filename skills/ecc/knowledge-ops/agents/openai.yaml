@@ -1,0 +1,4 @@
+interface:
+  display_name: "Knowledge Operations"
+  short_description: "Route project and cross-project knowledge safely."
+  default_prompt: "Use $knowledge-ops to classify and store this information in the correct source of truth."

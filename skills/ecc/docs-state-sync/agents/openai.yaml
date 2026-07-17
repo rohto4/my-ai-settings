@@ -1,0 +1,4 @@
+interface:
+  display_name: "Docs State Sync"
+  short_description: "Sync specs, tasks, decisions, records, and handoffs."
+  default_prompt: "Use $docs-state-sync to update the affected project documents after this change."

@@ -1,0 +1,81 @@
+{
+  "schema_version": 1,
+  "name": "pj-general-large-web-product",
+  "description": "Default skill profile for a large, design-first Web product monorepo with separated product, architecture, data, operations, task, decision, and handoff documentation.",
+  "mother_set_baseline": 181,
+  "skill_groups": {
+    "foundation": [
+      "architecture-decision-records",
+      "context-budget",
+      "strategic-compact",
+      "product-capability",
+      "project-flow-ops",
+      "docs-state-sync"
+    ],
+    "repository": [
+      "coding-standards",
+      "codebase-onboarding",
+      "repo-scan",
+      "workspace-surface-audit"
+    ],
+    "implementation": [
+      "documentation-lookup",
+      "api-design",
+      "backend-patterns",
+      "frontend-patterns",
+      "postgres-patterns",
+      "database-migrations"
+    ],
+    "quality": [
+      "tdd-workflow",
+      "verification-loop",
+      "e2e-testing",
+      "security-review",
+      "safety-guard"
+    ],
+    "research": [
+      "search-first",
+      "research-ops"
+    ],
+    "delivery": [
+      "git-workflow",
+      "terminal-ops"
+    ],
+    "large_project": [
+      "monorepo-boundary-review",
+      "permission-modeling",
+      "knowledge-ops"
+    ],
+    "prp_workflow": [
+      "prp-create-plan",
+      "prp-implement-plan"
+    ]
+  },
+  "recommended_additions": {
+    "discovery": [
+      "product-lens",
+      "deep-research",
+      "prp-create-prd",
+      "oss-adoption-planning"
+    ],
+    "implementation": [
+      "hexagonal-architecture",
+      "api-connector-builder",
+      "frontend-design",
+      "nextjs-turbopack",
+      "browser-qa"
+    ],
+    "ai_quality": [
+      "agentic-engineering",
+      "ai-regression-testing"
+    ],
+    "delivery": [
+      "deployment-patterns",
+      "docker-patterns"
+    ],
+    "maintenance": [
+      "skill-stocktake",
+      "expand-answer"
+    ]
+  }
+}

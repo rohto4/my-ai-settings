@@ -1,0 +1,4 @@
+interface:
+  display_name: "Codebase Onboarding"
+  short_description: "Map an unfamiliar repository for safe first changes."
+  default_prompt: "Use $codebase-onboarding to map this repository and identify the safest first change."

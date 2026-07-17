@@ -1,0 +1,4 @@
+interface:
+  display_name: "Backend Patterns"
+  short_description: "Select backend boundaries, consistency, and recovery patterns."
+  default_prompt: "Use $backend-patterns to design the backend ownership, consistency, failure, and operations model."

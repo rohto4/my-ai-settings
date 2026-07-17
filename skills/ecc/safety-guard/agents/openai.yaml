@@ -1,0 +1,4 @@
+interface:
+  display_name: "Safety Guard"
+  short_description: "Guard high-risk actions with real scope and approvals."
+  default_prompt: "Use $safety-guard to scope and verify this high-risk operation before execution."

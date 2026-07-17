@@ -1,0 +1,4 @@
+interface:
+  display_name: "PRP Implement Plan"
+  short_description: "Execute plans with validation and state sync."
+  default_prompt: "Use $prp-implement-plan to execute this plan through verified completion."

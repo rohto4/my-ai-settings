@@ -1,0 +1,4 @@
+interface:
+  display_name: "Repository Scan"
+  short_description: "Audit source ownership, vendored code, and structural risk."
+  default_prompt: "Use $repo-scan to inventory this repository and identify ownership or structural risks."

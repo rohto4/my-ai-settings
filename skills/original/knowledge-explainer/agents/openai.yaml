@@ -1,0 +1,4 @@
+interface:
+  display_name: "Knowledge Explainer"
+  short_description: "知識を画像またはHTMLで分かりやすく解説する"
+  default_prompt: "Use $knowledge-explainer to turn this knowledge into a clear diagram image or standalone HTML."

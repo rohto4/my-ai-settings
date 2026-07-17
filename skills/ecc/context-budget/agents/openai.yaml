@@ -1,0 +1,4 @@
+interface:
+  display_name: "Context Budget"
+  short_description: "Audit context cost, overlap, and profile pressure."
+  default_prompt: "Use $context-budget to audit this task context and recommend reversible reductions."

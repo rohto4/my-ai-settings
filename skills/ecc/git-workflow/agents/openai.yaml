@@ -1,0 +1,4 @@
+interface:
+  display_name: "Git Workflow"
+  short_description: "Choose safe repository-specific Git and delivery workflows."
+  default_prompt: "Use $git-workflow to inspect the worktree and choose the safest repository-specific Git workflow."

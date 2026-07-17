@@ -1,0 +1,4 @@
+interface:
+  display_name: "Risk-Based Test Workflow"
+  short_description: "Design and prove changes with focused test evidence"
+  default_prompt: "Use $tdd-workflow to select tests and verify this change with risk-based evidence."

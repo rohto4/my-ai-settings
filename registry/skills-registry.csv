@@ -1,0 +1,4 @@
+skill_name,source_kind,created_at,created_by,updated_at,updated_by,lifecycle,profiles,validation,notes
+knowledge-diagram-image,local,2026-07-17,Codex GPT-5.6 Sol,2026-07-17,Codex GPT-5.6 Sol,active,global-all,Test-AgentSet passed,知識解説の一枚図解画像用
+knowledge-explainer,local,2026-07-17,Codex GPT-5.6 Sol,2026-07-17,Codex GPT-5.6 Sol,active,global-all,Test-AgentSet passed,形式未指定時の入口・振り分け用
+knowledge-explainer-html,local,2026-07-17,Codex GPT-5.6 Sol,2026-07-17,Codex GPT-5.6 Sol,active,global-all,Test-AgentSet passed,知識解説のスタンドアロンHTML用

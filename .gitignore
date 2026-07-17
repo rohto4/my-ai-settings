@@ -1,0 +1,15 @@
+# Runtime-derived deployment evidence
+runtime/
+
+# Read-only upstream clones; only the local operating note is tracked
+/upstream/*
+!/upstream/README.md
+
+# Secrets and local overrides
+*.local.json
+.env
+.env.*
+
+# Editor / OS state
+.vscode/
+Thumbs.db

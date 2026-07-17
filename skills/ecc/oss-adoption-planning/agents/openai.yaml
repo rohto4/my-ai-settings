@@ -1,0 +1,4 @@
+interface:
+  display_name: "OSS Adoption Planning"
+  short_description: "Stage reversible OSS adoption with explicit contracts."
+  default_prompt: "Use $oss-adoption-planning to plan a reversible adoption of this OSS."
