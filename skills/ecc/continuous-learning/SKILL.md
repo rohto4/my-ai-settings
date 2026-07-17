@@ -1,122 +1,121 @@
 ---
 name: continuous-learning
-description: Automatically extract reusable patterns from Claude Code sessions and save them as learned skills for future use.
+description: Capture reviewable learning candidates from Codex turn completion and curate validated lessons into the correct durable source. Use when installing a conservative Stop hook, reviewing locally queued outcomes, extracting a lesson from a correction or resolved failure, or deciding whether a lesson belongs in AGENTS.md, project docs, a skill, or nowhere.
 ---
 
-# Continuous Learning Skill
+# Continuous Learning
 
-Automatically evaluates Claude Code sessions on end to extract reusable patterns that can be saved as learned skills.
+Use a conservative two-stage workflow: capture a local candidate, then let a human review the
+lesson before changing durable guidance. Never auto-create or auto-enable skills from raw chat data.
 
-## When to Activate
+## Storage and evidence boundary
 
-- Setting up automatic pattern extraction from Claude Code sessions
-- Configuring the Stop hook for session evaluation
-- Reviewing or curating learned skills in `~/.claude/skills/learned/`
-- Adjusting extraction thresholds or pattern categories
-- Comparing v1 (this) vs v2 (instinct-based) approaches
+The bundled Stop hook uses only documented Codex fields:
 
-## Status
+- `session_id`
+- `turn_id`
+- `cwd`
+- `model`
+- `stop_hook_active`
+- `last_assistant_message`
 
-This v1 skill is still supported, but `continuous-learning-v2` is the preferred path for new installs. Keep v1 when you explicitly want the simpler Stop-hook extraction flow or need compatibility with older learned-skill workflows.
+It does not parse `transcript_path`; that path is convenient, but its file format is not a stable
+hook interface.
 
-## How It Works
+Candidates are stored outside repositories under:
 
-This skill runs as a **Stop hook** at the end of each session:
-
-1. **Session Evaluation**: Checks if session has enough messages (default: 10+)
-2. **Pattern Detection**: Identifies extractable patterns from the session
-3. **Skill Extraction**: Saves useful patterns to `~/.claude/skills/learned/`
-
-## Configuration
-
-Edit `config.json` to customize:
-
-```json
-{
-  "min_session_length": 10,
-  "extraction_threshold": "medium",
-  "auto_approve": false,
-  "learned_skills_path": "~/.claude/skills/learned/",
-  "patterns_to_detect": [
-    "error_resolution",
-    "user_corrections",
-    "workarounds",
-    "debugging_techniques",
-    "project_specific"
-  ],
-  "ignore_patterns": [
-    "simple_typos",
-    "one_time_fixes",
-    "external_api_issues"
-  ]
-}
+```text
+%CODEX_HOME%\continuous-learning\candidates\
 ```
 
-## Pattern Types
+or under `%USERPROFILE%\.codex\continuous-learning\candidates\` when `CODEX_HOME` is unset.
+The hook is disabled by default in `config.json` so installation alone never starts retaining turn
+content. `CODEX_CONTINUOUS_LEARNING=1` enables it for the current process and is useful for a
+disposable test without editing the runtime copy.
 
-| Pattern | Description |
-|---------|-------------|
-| `error_resolution` | How specific errors were resolved |
-| `user_corrections` | Patterns from user corrections |
-| `workarounds` | Solutions to framework/library quirks |
-| `debugging_techniques` | Effective debugging approaches |
-| `project_specific` | Project-specific conventions |
+## Install the optional Stop hook
 
-## Hook Setup
-
-Add to your `~/.claude/settings.json`:
+1. Resolve this skill's absolute runtime path and a Node.js 18+ executable. On Windows, if `node`
+   is absent from `PATH`, use the workspace dependency runtime discovery and put the verified
+   absolute `node.exe` path in `commandWindows`; do not install or guess a runtime path.
+2. Review `config.json`. Enabling capture means the final assistant message is retained locally
+   after basic secret redaction and length limiting.
+3. Add an absolute command to the user-level `hooks.json` or a trusted project's
+   `.codex/hooks.json`:
 
 ```json
 {
   "hooks": {
-    "Stop": [{
-      "matcher": "*",
-      "hooks": [{
-        "type": "command",
-        "command": "~/.claude/skills/continuous-learning/evaluate-session.sh"
-      }]
-    }]
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node /absolute/path/to/continuous-learning/hooks/stop-candidate.mjs",
+            "commandWindows": "\"C:\\absolute\\node.exe\" \"C:\\absolute\\continuous-learning\\hooks\\stop-candidate.mjs\"",
+            "timeout": 10,
+            "statusMessage": "Capturing a learning candidate"
+          }
+        ]
+      }
+    ]
   }
 }
 ```
 
-## Why Stop Hook?
+4. Prefer one hook representation per config layer.
+5. Use `/hooks` in Codex CLI to inspect and trust the exact non-managed hook definition.
+6. Send a disposable test turn with a temporary `CODEX_HOME`, then verify one candidate and its
+   redaction before enabling capture in normal work.
 
-- **Lightweight**: Runs once at session end
-- **Non-blocking**: Doesn't add latency to every message
-- **Complete context**: Has access to full session transcript
+The hook exits with valid JSON and does not continue or block the turn. It skips recursive Stop
+continuations when `stop_hook_active` is true.
 
-## Related
+The hook redacts common token/password forms, truncates long text, and hashes only the redacted,
+stored form for deduplication. It cannot prove that arbitrary prose contains no personal or
+confidential information. Keep capture disabled when a message may contain unknown secret formats
+or personal data; use the manual extraction workflow instead.
 
-- [The Longform Guide](https://x.com/affaanmustafa/status/2014040193557471352) - Section on continuous learning
-- `/learn` command - Manual pattern extraction mid-session
+## Review candidates
 
----
+For each candidate:
 
-## Comparison Notes (Research: Jan 2025)
+1. Verify the source project and date.
+2. Reconstruct the claim from current repository evidence; do not trust the captured message alone.
+3. Classify the lesson:
+   - repeatable correction;
+   - verified failure and fix;
+   - stable project convention;
+   - temporary workaround;
+   - one-off result or noise.
+4. Reject candidates that contain secrets, personal data, unverified causal claims, or only a
+   one-time outcome.
+5. Draft one short trigger, one action, evidence, and scope.
+6. Ask for confirmation before changing a durable source.
 
-### vs Homunculus
+## Choose the durable destination
 
-Homunculus v2 takes a more sophisticated approach:
+Use the narrowest source that owns the rule:
 
-| Feature | Our Approach | Homunculus v2 |
-|---------|--------------|---------------|
-| Observation | Stop hook (end of session) | PreToolUse/PostToolUse hooks (100% reliable) |
-| Analysis | Main context | Background agent (Haiku) |
-| Granularity | Full skills | Atomic "instincts" |
-| Confidence | None | 0.3-0.9 weighted |
-| Evolution | Direct to skill | Instincts → cluster → skill/command/agent |
-| Sharing | None | Export/import instincts |
+| Lesson | Destination |
+| --- | --- |
+| Required repository convention | `AGENTS.md` or checked-in project docs |
+| Active implementation state | `docs/imp/*` task source |
+| Reusable multi-step workflow | Existing canonical skill or a new reviewed skill |
+| Personal recall that need not be enforced | Codex memory controls, not this hook |
+| Temporary or weakly supported observation | Keep pending or reject |
 
-**Key insight from homunculus:**
-> "v1 relied on skills to observe. Skills are probabilistic—they fire ~50-80% of the time. v2 uses hooks for observation (100% reliable) and instincts as the atomic unit of learned behavior."
+Do not write directly into `~/.codex/memories/`; Codex owns that generated store. Do not publish a
+candidate to `G:\knowledge-vault` without first following that vault's write policy.
 
-### Potential v2 Enhancements
+## Manual extraction without the hook
 
-1. **Instinct-based learning** - Smaller, atomic behaviors with confidence scoring
-2. **Background observer** - Haiku agent analyzing in parallel
-3. **Confidence decay** - Instincts lose confidence if contradicted
-4. **Domain tagging** - code-style, testing, git, debugging, etc.
-5. **Evolution path** - Cluster related instincts into skills/commands
+When the user explicitly asks to learn from the current work, skip capture and review the current
+conversation plus repository evidence directly. Present the proposed trigger, action, evidence,
+scope, and destination. Write only after approval.
 
-See: `docs/continuous-learning-v2-spec.md` for full spec.
+## Completion
+
+Report the candidate reviewed, disposition, durable destination, evidence checked, files changed,
+validation performed, and any rejected or pending item. State explicitly when no durable lesson was
+found.

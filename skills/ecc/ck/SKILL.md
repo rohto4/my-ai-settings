@@ -1,143 +1,138 @@
 ---
 name: ck
-description: Persistent per-project memory for Claude Code. Auto-loads project context on session start, tracks sessions with git activity, and writes to native memory. Commands run deterministic Node.js scripts — behavior is consistent across model versions.
+description: Keep explicit, project-scoped working context across Codex sessions with deterministic Node.js commands and an optional documented SessionStart hook. Use when registering a project, saving or resuming handoff state, listing tracked projects, checking stale context, or installing the ck hook without relying on transcript internals or Codex-generated memories.
 ---
 
-# ck — Context Keeper
+# Context Keeper
 
-You are the **Context Keeper** assistant. When the user invokes any `/ck:*` command,
-run the corresponding Node.js script and present its stdout to the user verbatim.
-Scripts live at: `~/.claude/skills/ck/commands/` (expand `~` with `$HOME`).
+Keep a small user-owned context record for each project. Treat repository docs such as
+`AGENTS.md`, `PROJECT.md`, and `docs/imp/*` as the authoritative project state; use ck as a
+portable briefing and handoff aid, not as their replacement.
 
----
+## Resolve runtime paths
 
-## Data Layout
+Resolve `<skill-dir>` from this loaded `SKILL.md`. Do not assume the canonical G-drive copy has
+already been synchronized to the runtime.
 
+Use the current Node.js 18+ executable. On Windows, prefer the bundled Codex Node runtime when
+`node` is unavailable on `PATH`.
+
+Before piping non-ASCII JSON from Windows PowerShell 5.1 to Node, set the native-process encoding
+for that shell session. Otherwise Japanese text is replaced with `?` before ck receives it:
+
+```powershell
+$utf8NoBom = [System.Text.UTF8Encoding]::new($false)
+$OutputEncoding = $utf8NoBom
+[Console]::OutputEncoding = $utf8NoBom
 ```
-~/.claude/ck/
-├── projects.json              ← path → {name, contextDir, lastUpdated}
-└── contexts/<name>/
-    ├── context.json           ← SOURCE OF TRUTH (structured JSON, v2)
-    └── CONTEXT.md             ← generated view — do not hand-edit
+
+Use `ConvertTo-Json -Compress` and pipe the resulting string from the same PowerShell process.
+Do not hand-build JSON with shell escaping.
+
+ck stores its own state under:
+
+```text
+%CODEX_HOME%\ck\                    # when CODEX_HOME is set
+%USERPROFILE%\.codex\ck\            # default on Windows
+~/.codex/ck/                         # default on macOS/Linux
+├── projects.json
+├── current-session.json
+└── contexts/<project>/
+    ├── context.json                 # source of truth
+    └── CONTEXT.md                   # generated view
 ```
 
----
+Do not write into `~/.codex/memories/`; Codex owns that generated store.
 
-## Commands
+## Actions
 
-### `/ck:init` — Register a Project
-```bash
-node "$HOME/.claude/skills/ck/commands/init.mjs"
+### Register the current project
+
+1. Run `node "<skill-dir>/commands/init.mjs"` from the project root.
+2. Show the detected name, description, stack, goal, constraints, and repository.
+3. Let the user correct the draft.
+4. After confirmation, pipe the exact JSON to `node "<skill-dir>/commands/save.mjs" --init`.
+
+Required JSON fields are `name` and `path`. Pass arrays for `stack` and `constraints`.
+
+### Save a session checkpoint
+
+Summarize only durable state from the current work:
+
+- `summary`: one sentence
+- `leftOff`: exact file, feature, or decision point
+- `nextSteps`: ordered concrete actions
+- `decisions`: objects with `what` and `why`
+- `blockers`: unresolved blockers only
+- `goal`: include only when it changed
+
+Show the draft and obtain confirmation before piping JSON to
+`node "<skill-dir>/commands/save.mjs"`.
+
+### Resume, inspect, or list
+
+- Resume: `node "<skill-dir>/commands/resume.mjs" [name-or-number]`
+- Quick snapshot: `node "<skill-dir>/commands/info.mjs" [name-or-number]`
+- Portfolio: `node "<skill-dir>/commands/list.mjs"`
+
+Display stdout without inventing missing state. After resume, reread the target repository's
+actual initialization and task files before continuing work.
+
+### Forget a project
+
+This recursively removes one ck context directory. First resolve and display the project, then
+obtain explicit confirmation naming that project. Execute only after confirmation:
+
+```text
+node "<skill-dir>/commands/forget.mjs" <name-or-number> --confirm <registered-name>
 ```
-The script outputs JSON with auto-detected info. Present it as a confirmation draft:
-```
-Here's what I found — confirm or edit anything:
-Project:     <name>
-Description: <description>
-Stack:       <stack>
-Goal:        <goal>
-Do-nots:     <constraints or "None">
-Repo:        <repo or "none">
-```
-Wait for user approval. Apply any edits. Then pipe confirmed JSON to save.mjs --init:
-```bash
-echo '<confirmed-json>' | node "$HOME/.claude/skills/ck/commands/save.mjs" --init
-```
-Confirmed JSON schema: `{"name":"...","path":"...","description":"...","stack":["..."],"goal":"...","constraints":["..."],"repo":"..." }`
 
----
+The script independently checks the confirmation and verifies that the resolved deletion target
+stays under the ck contexts directory.
 
-### `/ck:save` — Save Session State
-**This is the only command requiring LLM analysis.** Analyze the current conversation:
-- `summary`: one sentence, max 10 words, what was accomplished
-- `leftOff`: what was actively being worked on (specific file/feature/bug)
-- `nextSteps`: ordered array of concrete next steps
-- `decisions`: array of `{what, why}` for decisions made this session
-- `blockers`: array of current blockers (empty array if none)
-- `goal`: updated goal string **only if it changed this session**, else omit
+### Migrate legacy ck data
 
-Show a draft summary to the user: `"Session: '<summary>' — save this? (yes / edit)"`
-Wait for confirmation. Then pipe to save.mjs:
-```bash
-echo '<json>' | node "$HOME/.claude/skills/ck/commands/save.mjs"
-```
-JSON schema (exact): `{"summary":"...","leftOff":"...","nextSteps":["..."],"decisions":[{"what":"...","why":"..."}],"blockers":["..."]}`
-Display the script's stdout confirmation verbatim.
+Always preview with `node "<skill-dir>/commands/migrate.mjs" --dry-run`. Run without
+`--dry-run` only after reviewing the preview. Migration backs up legacy metadata.
 
----
+## Optional SessionStart hook
 
-### `/ck:resume [name|number]` — Full Briefing
-```bash
-node "$HOME/.claude/skills/ck/commands/resume.mjs" [arg]
-```
-Display output verbatim. Then ask: "Continue from here? Or has anything changed?"
-If user reports changes → run `/ck:save` immediately.
+Codex supports `SessionStart` with `startup`, `resume`, `clear`, and `compact` sources. The bundled
+hook reads only documented fields (`session_id`, `cwd`, `source`) and returns
+`hookSpecificOutput.additionalContext`; it does not parse the transcript.
 
----
-
-### `/ck:info [name|number]` — Quick Snapshot
-```bash
-node "$HOME/.claude/skills/ck/commands/info.mjs" [arg]
-```
-Display output verbatim. No follow-up question.
-
----
-
-### `/ck:list` — Portfolio View
-```bash
-node "$HOME/.claude/skills/ck/commands/list.mjs"
-```
-Display output verbatim. If user replies with a number or name → run `/ck:resume`.
-
----
-
-### `/ck:forget [name|number]` — Remove a Project
-First resolve the project name (run `/ck:list` if needed).
-Ask: `"This will permanently delete context for '<name>'. Are you sure? (yes/no)"`
-If yes:
-```bash
-node "$HOME/.claude/skills/ck/commands/forget.mjs" [name]
-```
-Display confirmation verbatim.
-
----
-
-### `/ck:migrate` — Convert v1 Data to v2
-```bash
-node "$HOME/.claude/skills/ck/commands/migrate.mjs"
-```
-For a dry run first:
-```bash
-node "$HOME/.claude/skills/ck/commands/migrate.mjs" --dry-run
-```
-Display output verbatim. Migrates all v1 CONTEXT.md + meta.json files to v2 context.json.
-Originals are backed up as `meta.json.v1-backup` — nothing is deleted.
-
----
-
-## SessionStart Hook
-
-The hook at `~/.claude/skills/ck/hooks/session-start.mjs` must be registered in
-`~/.claude/settings.json` to auto-load project context on session start:
+Add one absolute command to either the user-level `hooks.json` or a trusted project's
+`.codex/hooks.json`. Substitute verified absolute paths:
 
 ```json
 {
   "hooks": {
     "SessionStart": [
-      { "hooks": [{ "type": "command", "command": "node \"~/.claude/skills/ck/hooks/session-start.mjs\"" }] }
+      {
+        "matcher": "startup|resume|clear|compact",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node /absolute/path/to/ck/hooks/session-start.mjs",
+            "commandWindows": "\"C:\\absolute\\node.exe\" \"C:\\absolute\\ck\\hooks\\session-start.mjs\"",
+            "timeout": 10,
+            "statusMessage": "Loading ck project context"
+          }
+        ]
+      }
     ]
   }
 }
 ```
 
-The hook injects ~100 tokens per session (compact 5-line summary). It also detects
-unsaved sessions, git activity since last save, and goal mismatches vs CLAUDE.md.
+Prefer one hook representation per config layer. In Codex CLI, use `/hooks` to inspect the source
+and trust the exact non-managed hook definition before expecting it to run. Project hooks load only
+for trusted projects.
 
----
+## Boundaries
 
-## Rules
-- Always expand `~` as `$HOME` in Bash calls.
-- Commands are case-insensitive: `/CK:SAVE`, `/ck:save`, `/Ck:Save` all work.
-- If a script exits with code 1, display its stdout as an error message.
-- Never edit `context.json` or `CONTEXT.md` directly — always use the scripts.
-- If `projects.json` is malformed, tell the user and offer to reset it to `{}`.
+- Never infer state absent from `context.json` or current repository files.
+- Never hand-edit `CONTEXT.md`; regenerate it through the commands.
+- Never treat `transcript_path` as a stable schema.
+- Never modify runtime hooks, global config, or C-drive skills without explicit deployment intent.
+- Report the command, target path, and readback evidence after every write.

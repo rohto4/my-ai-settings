@@ -1,6 +1,6 @@
 ---
 name: permission-modeling
-description: Model actors, resources, capabilities, scopes, delegation, deny rules, lifecycle, and audit evidence before implementing multi-user authorization.
+description: Model actors, resources, capabilities, scopes, delegation, deny rules, lifecycle, and audit evidence. Use when designing multi-user or multi-tenant authorization.
 ---
 
 # Permission Modeling

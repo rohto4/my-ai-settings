@@ -1,0 +1,4 @@
+interface:
+  display_name: "Context Keeper"
+  short_description: "Codexセッション間のPJ文脈を明示保存・復元"
+  default_prompt: "Use $ck to save or resume the current project's explicit working context."

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Configure Codex Skills"
+  short_description: "正本profileを選定・検証し安全に配備"
+  default_prompt: "Use $configure-ecc to review and configure the appropriate Codex skill profile for this project."

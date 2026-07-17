@@ -22,23 +22,20 @@ import os
 import subprocess
 import sys
 import re
+import time
 import urllib.request
+from contextlib import contextmanager
 from pathlib import Path
 from datetime import datetime, timedelta, timezone
 from collections import defaultdict
 from typing import Optional
 
-try:
-    import fcntl
-    _HAS_FCNTL = True
-except ImportError:
-    _HAS_FCNTL = False  # Windows — skip file locking
-
 # ─────────────────────────────────────────────
 # Configuration
 # ─────────────────────────────────────────────
 
-HOMUNCULUS_DIR = Path.home() / ".claude" / "homunculus"
+CODEX_HOME = Path(os.environ.get("CODEX_HOME") or (Path.home() / ".codex")).expanduser().resolve()
+HOMUNCULUS_DIR = CODEX_HOME / "continuous-learning-v2"
 PROJECTS_DIR = HOMUNCULUS_DIR / "projects"
 REGISTRY_FILE = HOMUNCULUS_DIR / "projects.json"
 
@@ -121,6 +118,36 @@ def _yaml_quote(value: str) -> str:
     return f'"{escaped}"'
 
 
+@contextmanager
+def _exclusive_file_lock(lock_path: Path, timeout_seconds: float = 3.0):
+    """Acquire a small cross-platform lock without optional dependencies."""
+    deadline = time.monotonic() + timeout_seconds
+    descriptor = None
+    lock_path.parent.mkdir(parents=True, exist_ok=True)
+    while descriptor is None:
+        try:
+            descriptor = os.open(str(lock_path), os.O_CREAT | os.O_EXCL | os.O_WRONLY, 0o600)
+        except FileExistsError:
+            try:
+                if time.time() - lock_path.stat().st_mtime > 30:
+                    lock_path.unlink()
+            except FileNotFoundError:
+                pass
+            if time.monotonic() >= deadline:
+                raise TimeoutError(f"Timed out waiting for state lock: {lock_path}")
+            time.sleep(0.025)
+    try:
+        yield
+    finally:
+        try:
+            os.close(descriptor)
+        finally:
+            try:
+                lock_path.unlink()
+            except FileNotFoundError:
+                pass
+
+
 # ─────────────────────────────────────────────
 # Project Detection (Python equivalent of detect-project.sh)
 # ─────────────────────────────────────────────
@@ -129,8 +156,8 @@ def detect_project() -> dict:
     """Detect current project context. Returns dict with id, name, root, project_dir."""
     project_root = None
 
-    # 1. CLAUDE_PROJECT_DIR env var
-    env_dir = os.environ.get("CLAUDE_PROJECT_DIR")
+    # 1. Optional explicit Codex project directory
+    env_dir = os.environ.get("CODEX_PROJECT_DIR")
     if env_dir and os.path.isdir(env_dir):
         project_root = env_dir
 
@@ -217,37 +244,29 @@ def _update_registry(pid: str, pname: str, proot: str, premote: str) -> None:
     """
     REGISTRY_FILE.parent.mkdir(parents=True, exist_ok=True)
     lock_path = REGISTRY_FILE.parent / f".{REGISTRY_FILE.name}.lock"
-    lock_fd = None
-
     try:
-        # Acquire advisory lock to serialize read-modify-write
-        if _HAS_FCNTL:
-            lock_fd = open(lock_path, "w")
-            fcntl.flock(lock_fd, fcntl.LOCK_EX)
+        with _exclusive_file_lock(lock_path):
+            try:
+                with open(REGISTRY_FILE, encoding="utf-8") as f:
+                    registry = json.load(f)
+            except (FileNotFoundError, json.JSONDecodeError):
+                registry = {}
 
-        try:
-            with open(REGISTRY_FILE, encoding="utf-8") as f:
-                registry = json.load(f)
-        except (FileNotFoundError, json.JSONDecodeError):
-            registry = {}
+            registry[pid] = {
+                "name": pname,
+                "root": proot,
+                "remote": premote,
+                "last_seen": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
+            }
 
-        registry[pid] = {
-            "name": pname,
-            "root": proot,
-            "remote": premote,
-            "last_seen": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
-        }
-
-        tmp_file = REGISTRY_FILE.parent / f".{REGISTRY_FILE.name}.tmp.{os.getpid()}"
-        with open(tmp_file, "w", encoding="utf-8") as f:
-            json.dump(registry, f, indent=2)
-            f.flush()
-            os.fsync(f.fileno())
-        os.replace(tmp_file, REGISTRY_FILE)
-    finally:
-        if lock_fd is not None:
-            fcntl.flock(lock_fd, fcntl.LOCK_UN)
-            lock_fd.close()
+            tmp_file = REGISTRY_FILE.parent / f".{REGISTRY_FILE.name}.tmp.{os.getpid()}.{time.time_ns()}"
+            with open(tmp_file, "w", encoding="utf-8") as f:
+                json.dump(registry, f, indent=2)
+                f.flush()
+                os.fsync(f.fileno())
+            os.replace(tmp_file, REGISTRY_FILE)
+    except TimeoutError as error:
+        print(f"Warning: {error}; registry update skipped", file=sys.stderr)
 
 
 def load_registry() -> dict:
@@ -1092,7 +1111,7 @@ def cmd_projects(args) -> int:
 
     if not registry:
         print("No projects registered yet.")
-        print("Projects are auto-detected when you use Claude Code in a git repo.")
+        print("Projects are auto-detected when you use Codex in a git repo.")
         return 0
 
     print(f"\n{'='*60}")

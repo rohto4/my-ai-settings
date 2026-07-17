@@ -149,6 +149,11 @@ $profileDiscoveryCharacters = 0
 if ($ProfilePath) {
     $resolvedProfile = (Resolve-Path -LiteralPath $ProfilePath).Path
     $profile = Get-Content -Raw -Encoding UTF8 -LiteralPath $resolvedProfile | ConvertFrom-Json
+    if (-not ($profile.PSObject.Properties.Name -contains 'mother_set_baseline')) {
+        $errors.Add('Profile is missing mother_set_baseline')
+    } elseif ([int]$profile.mother_set_baseline -ne $records.Count) {
+        $errors.Add("Profile mother_set_baseline is $($profile.mother_set_baseline); current mother set is $($records.Count)")
+    }
     $profileSkills = @($profile.skill_groups.PSObject.Properties | ForEach-Object { $_.Value })
     $profileSkillCount = $profileSkills.Count
 

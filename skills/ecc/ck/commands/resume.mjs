@@ -12,12 +12,12 @@ import { existsSync } from 'fs';
 import { resolveContext, renderBriefingBox } from './shared.mjs';
 
 const arg = process.argv[2];
-const cwd = process.env.PWD || process.cwd();
+const cwd = process.cwd();
 
 const resolved = resolveContext(arg, cwd);
 if (!resolved) {
   const hint = arg ? `No project matching "${arg}".` : 'This directory is not registered.';
-  console.log(`${hint} Run /ck:init to register it.`);
+  console.log(`${hint} Use $ck to register it.`);
   process.exit(1);
 }
 

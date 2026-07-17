@@ -1,5 +1,29 @@
 # 完了記録
 
+## AI-SET-SKILL-06: profile主要skillのメニュー整備とruntime配布
+
+- 完了日: 2026-07-18
+- UI metadata: `pj-general-large-web-product`のcore 30件・recommended 15件を監査し、既存44件はdisplay name、25〜64文字のshort description、`$skill-name`入りdefault promptが整合していた。欠落していた`frontend-design`へ`agents/openai.yaml`を追加し、主要45件をすべてメニュー表示可能にした。全母集団では181 / 307件がUI metadataを持つ。
+- 自動発火: メニュー情報はUI専用で、自動選択は`SKILL.md` frontmatterのdescriptionを使う境界を維持した。利用場面の記載がなかった`api-design`、`frontend-patterns`、`security-review`、`git-workflow`、`permission-modeling`、`prp-implement-plan`の6件だけを短文化しつつtriggerを追加した。
+- context予算: 単純追記ではprofile discoveryが8,472 / 8,000文字になったため不採用とし、重複語を削って7,977 / 8,000文字へ戻した。profile validationはskills 307、core 30、recommended 15、errors 0、既存warnings 24。
+- 配布: `Sync-AgentSkills.ps1 -WhatIf`で307操作を確認後、Gドライブ正本の全307skillを`C:\Users\unibe\.codex\skills`へ同期した。同名skillは完全置換し、`.system`は保持した。母集団外skillは現時点で0件だった。
+- readback: manifestは`verification=full-tree-sha256`、skills 307、source/destination file count・tree hash不一致0、staging残骸0。profile 45件の`SKILL.md`と`agents/openai.yaml`はsource/runtime SHA-256不一致0。
+- validator境界: `skill-creator`の`quick_validate.py`はbundled PythonにPyYAMLがなく起動できなかった。依存を追加せず、repo validator、45件のmetadata専用監査、runtime hash readback、`git diff --check`を検証境界とした。
+
+## AI-SET-SKILL-05: blocker 4件のCodexネイティブ化
+
+- 完了日: 2026-07-18
+- 仕様根拠: 現行Codexの公式hook仕様で`SessionStart`、`Stop`、`PreToolUse`、`PostToolUse`、`PreCompact`、`PostCompact`とdocumented input/outputを確認した。transcriptのfile formatはstable contractではないため解析対象にせず、`hooks.json` / `commandWindows` / trust / `hookSpecificOutput.additionalContext`へ合わせた。
+- `ck`: repo docsを正本とするproject-scoped handoffへ変更し、documented `SessionStart` hookだけを利用する。日本語だけのproject名はpath hash由来の安全なslugへfallbackし、PowerShell 5.1のUTF-8 pipe手順を追加した。register、resume context、明示確認付きforget、日本語保持を一時`CODEX_HOME`で確認した。
+- `configure-ecc`: 旧upstream installerを廃止し、このrepoのinventory、profile validation、空directory export、明示的runtime syncを案内するskillへ変更した。profileは選択・export用で、runtime syncは307件の母集団全体であることを明記した。`mother_set_baseline`を307へ更新し、validatorで将来の不一致をerrorにした。
+- `continuous-learning`: transcript自動解析とskill自動生成を廃止し、既定OFFのStop候補captureとhuman reviewへ変更した。documented fieldsだけを読み、再帰Stopを抑止し、message hashはraw本文でなくredaction後の保存本文から生成する。既定OFF、明示ON、redaction、hash、malformed inputを一時`CODEX_HOME`で確認した。
+- `continuous-learning-v2`: Pre/Post tool hookをpayload非保存のmetadata観測へ変更した。session/turn/tool-use IDはhash参照、project root/remote/full cwdは保存せず、sensitive key名も伏せる。invalid configはfail-closed、Node hookとPython registryはWindowsを含むexclusive lockとatomic JSON replacementを使う。24並行hook、12並行CLI、payload/secret/path非保持を確認した。
+- 配備command: `Sync-AgentSkills.ps1`は同名runtime directoryへのoverlay copyをやめ、staging tree検証、旧directory退避、完全置換、source/destination file count・tree SHA-256照合へ変更した。母集団外skillと`.system`は変更しない。一時runtimeで旧resourceが消えること、manifest照合一致を確認し、実runtimeへは307件の`-WhatIf`だけを実行した。
+- target結果: 旧完了記録`AI-SET-SKILL-04`のblocked 4件はhistorical snapshotとして残す。現行進捗はsource 968 / 968、manual review 0、target 358 / 358、`integrated=253`、`no_change_needed=105`、blocked 0である。
+- 検証: 4skillのNode syntax、Python AST、target legacy表現scan、`git diff --check`がpassした。`Test-AgentSet.ps1`はskills 307、profile 30、recommended 15、discovery 7,950 / 8,000、errors 0、既存warning 24。target監査はsource 968、target 358、local target 294、installed plugin target 7で整合した。
+- validator境界: 公式`quick_validate.py`はbundled PythonにPyYAMLがなく、同梱pytestもpytest未導入のため実行できなかった。依存を追加せず、repo validator、構文検査、独立forward test、実runtime相当の一時directory testを完了証拠とした。
+- 配布: Gドライブ正本だけを更新した。ユーザーから即時配布の指定はないため、`C:\Users\unibe\.codex\skills`への実同期は行っていない。
+
 ## AI-SET-SKILL-04: 上流skill全件の推奨処理を一括適用
 
 - 完了日: 2026-07-17

@@ -13,11 +13,13 @@ import { randomBytes } from 'crypto';
 
 // ─── Paths ────────────────────────────────────────────────────────────────────
 
-export const CK_HOME          = resolve(homedir(), '.claude', 'ck');
+export const CODEX_HOME       = process.env.CODEX_HOME
+  ? resolve(process.env.CODEX_HOME)
+  : resolve(homedir(), '.codex');
+export const CK_HOME          = resolve(CODEX_HOME, 'ck');
 export const CONTEXTS_DIR     = resolve(CK_HOME, 'contexts');
 export const PROJECTS_FILE    = resolve(CK_HOME, 'projects.json');
 export const CURRENT_SESSION  = resolve(CK_HOME, 'current-session.json');
-export const SKILL_FILE       = resolve(homedir(), '.claude', 'skills', 'ck', 'SKILL.md');
 
 // ─── JSON I/O ─────────────────────────────────────────────────────────────────
 
@@ -180,18 +182,6 @@ export function gitSummary(projectPath, sinceDate) {
   return `${commits} commit${commits !== 1 ? 's' : ''}`;
 }
 
-// ─── Native memory path encoding ──────────────────────────────────────────────
-
-export function encodeProjectPath(absolutePath) {
-  // "/Users/sree/dev/app" -> "-Users-sree-dev-app"
-  return absolutePath.replace(/\//g, '-');
-}
-
-export function nativeMemoryDir(absolutePath) {
-  const encoded = encodeProjectPath(absolutePath);
-  return resolve(homedir(), '.claude', 'projects', encoded, 'memory');
-}
-
 // ─── Rendering ────────────────────────────────────────────────────────────────
 
 /** Render the human-readable CONTEXT.md from context.json */
@@ -216,7 +206,7 @@ export function renderContextMd(ctx) {
   lines.push(ctx.goal || '_Not set._');
   lines.push(``);
   lines.push(`## Where I Left Off`);
-  lines.push(latest?.leftOff || '_Not yet recorded. Run /ck:save after your first session._');
+  lines.push(latest?.leftOff || '_Not yet recorded. Use $ck after your first session._');
   lines.push(``);
   lines.push(`## Next Steps`);
   if (latest?.nextSteps?.length) {
@@ -269,7 +259,7 @@ export function renderContextMd(ctx) {
   return lines.join('\n');
 }
 
-/** Render the bordered briefing box used by /ck:resume */
+/** Render the bordered briefing box used by the resume action. */
 export function renderBriefingBox(ctx, _meta = {}) {
   const latest = ctx.sessions?.[ctx.sessions.length - 1] || {};
   const W = 57;
@@ -316,7 +306,7 @@ export function renderBriefingBox(ctx, _meta = {}) {
   return lines.join('\n');
 }
 
-/** Render compact info block used by /ck:info */
+/** Render the compact info block. */
 export function renderInfoBlock(ctx) {
   const latest = ctx.sessions?.[ctx.sessions.length - 1] || {};
   const sep = '─'.repeat(44);
@@ -343,7 +333,7 @@ export function renderInfoBlock(ctx) {
   return lines.join('\n');
 }
 
-/** Render ASCII list table used by /ck:list */
+/** Render the ASCII project list table. */
 export function renderListTable(entries, cwd, _todayStr) {
   // entries: [{name, contextDir, path, context, lastUpdated}]
   // Sorted alphabetically by contextDir before calling

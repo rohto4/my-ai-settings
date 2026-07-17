@@ -368,7 +368,7 @@ function applyTargetManifest(state, manifestPath, allowPartial, suppliedManifest
     const targetPath = normalizeTarget(update.target_path ?? update.target);
     const target = state.targets[targetPath];
     if (!target) throw new Error(`Unknown target: ${targetPath}`);
-    if (!['ready', 'in_progress'].includes(target.status)) throw new Error(`Only ready targets can be advanced: ${targetPath} / ${target.status}`);
+    if (!['ready', 'in_progress', 'blocked'].includes(target.status)) throw new Error(`Only ready, in-progress, or resolved blocked targets can be advanced: ${targetPath} / ${target.status}`);
     if (!['in_progress', 'integrated', 'no_change_needed', 'blocked'].includes(update.status)) throw new Error(`Invalid target status: ${targetPath} / ${update.status}`);
     const summary = String(update.integration_summary ?? '').trim();
     const verification = String(update.verification ?? '').trim();
@@ -388,7 +388,7 @@ function applyTargetResultBatch(state, resultPath, allowPartial) {
   if (!Array.isArray(results)) throw new Error('Target result file must contain an array.');
   const pendingResults = results.filter((result) => {
     const target = state.targets[normalizeTarget(result.target_path ?? result.target)];
-    return target && ['ready', 'in_progress'].includes(target.status);
+    return target && ['ready', 'in_progress', 'blocked'].includes(target.status);
   }).slice(0, 10);
   if (pendingResults.length === 0) throw new Error(`No ready target remains in result file: ${resultPath}`);
   applyTargetManifest(state, '', allowPartial, pendingResults);

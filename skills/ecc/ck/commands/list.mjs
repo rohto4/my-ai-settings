@@ -10,12 +10,12 @@
 
 import { readProjects, loadContext, today, renderListTable } from './shared.mjs';
 
-const cwd = process.env.PWD || process.cwd();
+const cwd = process.cwd();
 const projects = readProjects();
 const entries = Object.entries(projects);
 
 if (entries.length === 0) {
-  console.log('No projects registered. Run /ck:init to get started.');
+  console.log('No projects registered. Use $ck to get started.');
   process.exit(1);
 }
 

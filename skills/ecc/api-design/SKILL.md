@@ -1,6 +1,6 @@
 ---
 name: api-design
-description: Design or review REST API contracts, including resources, status and error semantics, queries, auth boundaries, idempotency, compatibility, and observability.
+description: Design or review REST API resources, errors, queries, auth, idempotency, compatibility, and observability. Use when defining a service API boundary.
 ---
 
 # REST API Contract Design

@@ -1,366 +1,149 @@
 ---
 name: configure-ecc
-description: Interactive installer for Everything Claude Code — guides users through selecting and installing skills and rules to user-level or project-level directories, verifies paths, and optionally optimizes installed files.
+description: Configure this repository's Codex skill mother set and profiles using its canonical validation, export, and runtime-sync commands. Use when selecting skills for a project, creating or revising a profile, validating the active set, exporting a project candidate, or explicitly deploying the G-drive canonical skills to the C-drive Codex runtime.
 ---
 
-# Configure Everything Claude Code (ECC)
+# Configure the Codex skill set
 
-An interactive, step-by-step installation wizard for the Everything Claude Code project. Uses `AskUserQuestion` to guide users through selective installation of skills and rules, then verifies correctness and offers optimization.
+Configure the active AI settings through the repository's own profile and command contracts. Do
+not clone a fresh upstream ECC repository or install directly from it: `skills/ecc/` is an edited
+source group, while `skills/codex/` and `skills/original/` are equally valid parts of the mother set.
 
-## When to Activate
+## Establish the canonical repository
 
-- User says "configure ecc", "install ecc", "setup everything claude code", or similar
-- User wants to selectively install skills or rules from this project
-- User wants to verify or fix an existing ECC installation
-- User wants to optimize installed skills or rules for their project
+1. Use the repository path supplied by the user. On this machine the expected canonical root is
+   `G:\devwork\ai-settings`.
+2. Verify the resolved absolute path and read `AGENTS.md`, `PROJECT.md`, `README.md`, and the
+   relevant `docs/imp/*` task before changing a profile or deploying anything.
+3. Treat `C:\Users\unibe\.codex\skills` as a derived runtime, never as an editing source.
 
-## Prerequisites
+Stop if the repository cannot be identified or if the requested destination conflicts with its
+`AGENTS.md` rules.
 
-This skill must be accessible to Claude Code before activation. Two ways to bootstrap:
-1. **Via Plugin**: `/plugin install ecc@ecc` — the plugin loads this skill automatically
-2. **Manual**: Copy only this skill to `~/.claude/skills/configure-ecc/SKILL.md`, then activate by saying "configure ecc"
+## Choose the operation
 
----
+Classify the request into one or more explicit operations:
 
-## Step 0: Clone ECC Repository
+- inspect or validate the mother set;
+- create or revise a profile;
+- export a profile to an empty candidate directory;
+- synchronize the full mother set to the local Codex runtime.
 
-Before any installation, clone the latest ECC source to `/tmp`:
+Profile edits and exports do not authorize runtime synchronization. A request to inspect or
+recommend skills does not authorize any write.
 
-```bash
-rm -rf /tmp/everything-claude-code
-git clone https://github.com/affaan-m/everything-claude-code.git /tmp/everything-claude-code
+## Inspect before selecting
+
+Build the current inventory from the filesystem instead of a hard-coded category list:
+
+```powershell
+Get-ChildItem -LiteralPath .\skills -Directory |
+  ForEach-Object { Get-ChildItem -LiteralPath $_.FullName -Directory } |
+  Where-Object { Test-Path -LiteralPath (Join-Path $_.FullName 'SKILL.md') } |
+  Sort-Object Name
 ```
 
-Set `ECC_ROOT=/tmp/everything-claude-code` as the source for all subsequent copy operations.
+For each candidate, read its frontmatter description first. Read the body or direct references
+only when its trigger is still ambiguous. Select the smallest set that covers the project's actual
+work; do not install a skill merely because its technology appears somewhere in the repository.
 
-If the clone fails (network issues, etc.), use `AskUserQuestion` to ask the user to provide a local path to an existing ECC clone.
+Check for:
 
----
+- duplicate names across groups;
+- trigger overlap and a clearer canonical skill;
+- language or framework skills that match the real stack;
+- workflow and quality skills that match the team's process;
+- project-local skills that should remain in that project instead of the central profile.
 
-## Step 1: Choose Installation Level
+## Create or revise a profile
 
-Use `AskUserQuestion` to ask the user where to install:
+Use the existing profile schema:
 
-```
-Question: "Where should ECC components be installed?"
-Options:
-  - "User-level (~/.claude/)" — "Applies to all your Claude Code projects"
-  - "Project-level (.claude/)" — "Applies only to the current project"
-  - "Both" — "Common/shared items user-level, project-specific items project-level"
-```
-
-Store the choice as `INSTALL_LEVEL`. Set the target directory:
-- User-level: `TARGET=~/.claude`
-- Project-level: `TARGET=.claude` (relative to current project root)
-- Both: `TARGET_USER=~/.claude`, `TARGET_PROJECT=.claude`
-
-Create the target directories if they don't exist:
-```bash
-mkdir -p $TARGET/skills $TARGET/rules
-```
-
----
-
-## Step 2: Select & Install Skills
-
-### 2a: Choose Scope (Core vs Niche)
-
-Default to **Core (recommended for new users)** — copy `.agents/skills/*` plus `skills/search-first/` for research-first workflows. This bundle covers engineering, evals, verification, security, strategic compaction, frontend design, and Anthropic cross-functional skills (article-writing, content-engine, market-research, frontend-slides).
-
-Use `AskUserQuestion` (single select):
-```
-Question: "Install core skills only, or include niche/framework packs?"
-Options:
-  - "Core only (recommended)" — "tdd, e2e, evals, verification, research-first, security, frontend patterns, compacting, cross-functional Anthropic skills"
-  - "Core + selected niche" — "Add framework/domain-specific skills after core"
-  - "Niche only" — "Skip core, install specific framework/domain skills"
-Default: Core only
+```json
+{
+  "schema_version": 1,
+  "name": "profile-name",
+  "description": "Intended project and operating boundary",
+  "mother_set_baseline": 0,
+  "skill_groups": {
+    "foundation": ["skill-name"]
+  },
+  "recommended_additions": {
+    "optional": ["another-skill"]
+  }
+}
 ```
 
-If the user chooses niche or core + niche, continue to category selection below and only include those niche skills they pick.
+Rules:
 
-### 2b: Choose Skill Categories
+- `skill_groups` is the profile's initial selection for validation and export;
+  `recommended_additions` is advisory. Runtime synchronization is a separate operation and always
+  deploys the full mother set, not this selection.
+- Set `mother_set_baseline` to the current inventory count. The validator rejects stale baselines.
+- Use each skill name once.
+- Every selected name must exist in exactly one mother-set group.
+- Keep the discovery description budget within the validator limit.
+- Explain additions and removals in terms of trigger, usage frequency, and expected effect.
 
-There are 7 selectable category groups below. The detailed confirmation lists that follow cover 45 skills across 8 categories, plus 1 standalone template. Use `AskUserQuestion` with `multiSelect: true`:
+Record non-trivial profile work in `docs/imp/imp-tasks.md`, and move completed evidence to
+`docs/imp/imp-comp.md` according to repository rules.
 
-```
-Question: "Which skill categories do you want to install?"
-Options:
-  - "Framework & Language" — "Django, Laravel, Spring Boot, Go, Python, Java, Frontend, Backend patterns"
-  - "Database" — "PostgreSQL, ClickHouse, JPA/Hibernate patterns"
-  - "Workflow & Quality" — "TDD, verification, learning, security review, compaction"
-  - "Research & APIs" — "Deep research, Exa search, Claude API patterns"
-  - "Social & Content Distribution" — "X/Twitter API, crossposting alongside content-engine"
-  - "Media Generation" — "fal.ai image/video/audio alongside VideoDB"
-  - "Orchestration" — "dmux multi-agent workflows"
-  - "All skills" — "Install every available skill"
-```
+## Validate
 
-### 2c: Confirm Individual Skills
+Run the mother-set validator with the target profile:
 
-For each selected category, print the full list of skills below and ask the user to confirm or deselect specific ones. If the list exceeds 4 items, print the list as text and use `AskUserQuestion` with an "Install all listed" option plus "Other" for the user to paste specific names.
-
-**Category: Framework & Language (21 skills)**
-
-| Skill | Description |
-|-------|-------------|
-| `backend-patterns` | Backend architecture, API design, server-side best practices for Node.js/Express/Next.js |
-| `coding-standards` | Universal coding standards for TypeScript, JavaScript, React, Node.js |
-| `django-patterns` | Django architecture, REST API with DRF, ORM, caching, signals, middleware |
-| `django-security` | Django security: auth, CSRF, SQL injection, XSS prevention |
-| `django-tdd` | Django testing with pytest-django, factory_boy, mocking, coverage |
-| `django-verification` | Django verification loop: migrations, linting, tests, security scans |
-| `laravel-patterns` | Laravel architecture patterns: routing, controllers, Eloquent, queues, caching |
-| `laravel-security` | Laravel security: auth, policies, CSRF, mass assignment, rate limiting |
-| `laravel-tdd` | Laravel testing with PHPUnit and Pest, factories, fakes, coverage |
-| `laravel-verification` | Laravel verification: linting, static analysis, tests, security scans |
-| `frontend-patterns` | React, Next.js, state management, performance, UI patterns |
-| `frontend-slides` | Zero-dependency HTML presentations, style previews, and PPTX-to-web conversion |
-| `golang-patterns` | Idiomatic Go patterns, conventions for robust Go applications |
-| `golang-testing` | Go testing: table-driven tests, subtests, benchmarks, fuzzing |
-| `java-coding-standards` | Java coding standards for Spring Boot: naming, immutability, Optional, streams |
-| `python-patterns` | Pythonic idioms, PEP 8, type hints, best practices |
-| `python-testing` | Python testing with pytest, TDD, fixtures, mocking, parametrization |
-| `springboot-patterns` | Spring Boot architecture, REST API, layered services, caching, async |
-| `springboot-security` | Spring Security: authn/authz, validation, CSRF, secrets, rate limiting |
-| `springboot-tdd` | Spring Boot TDD with JUnit 5, Mockito, MockMvc, Testcontainers |
-| `springboot-verification` | Spring Boot verification: build, static analysis, tests, security scans |
-
-**Category: Database (3 skills)**
-
-| Skill | Description |
-|-------|-------------|
-| `clickhouse-io` | ClickHouse patterns, query optimization, analytics, data engineering |
-| `jpa-patterns` | JPA/Hibernate entity design, relationships, query optimization, transactions |
-| `postgres-patterns` | PostgreSQL query optimization, schema design, indexing, security |
-
-**Category: Workflow & Quality (8 skills)**
-
-| Skill | Description |
-|-------|-------------|
-| `continuous-learning` | Legacy v1 Stop-hook session pattern extraction; prefer `continuous-learning-v2` for new installs |
-| `continuous-learning-v2` | Instinct-based learning with confidence scoring, evolves into skills, agents, and optional legacy command shims |
-| `eval-harness` | Formal evaluation framework for eval-driven development (EDD) |
-| `iterative-retrieval` | Progressive context refinement for subagent context problem |
-| `security-review` | Security checklist: auth, input, secrets, API, payment features |
-| `strategic-compact` | Suggests manual context compaction at logical intervals |
-| `tdd-workflow` | Enforces TDD with 80%+ coverage: unit, integration, E2E |
-| `verification-loop` | Verification and quality loop patterns |
-
-**Category: Business & Content (5 skills)**
-
-| Skill | Description |
-|-------|-------------|
-| `article-writing` | Long-form writing in a supplied voice using notes, examples, or source docs |
-| `content-engine` | Multi-platform social content, scripts, and repurposing workflows |
-| `market-research` | Source-attributed market, competitor, fund, and technology research |
-| `investor-materials` | Pitch decks, one-pagers, investor memos, and financial models |
-| `investor-outreach` | Personalized investor cold emails, warm intros, and follow-ups |
-
-**Category: Research & APIs (3 skills)**
-
-| Skill | Description |
-|-------|-------------|
-| `deep-research` | Multi-source deep research using firecrawl and exa MCPs with cited reports |
-| `exa-search` | Neural search via Exa MCP for web, code, company, and people research |
-| `claude-api` | Anthropic Claude API patterns: Messages, streaming, tool use, vision, batches, Agent SDK |
-
-**Category: Social & Content Distribution (2 skills)**
-
-| Skill | Description |
-|-------|-------------|
-| `x-api` | X/Twitter API integration for posting, threads, search, and analytics |
-| `crosspost` | Multi-platform content distribution with platform-native adaptation |
-
-**Category: Media Generation (2 skills)**
-
-| Skill | Description |
-|-------|-------------|
-| `fal-ai-media` | Unified AI media generation (image, video, audio) via fal.ai MCP |
-| `video-editing` | AI-assisted video editing for cutting, structuring, and augmenting real footage |
-
-**Category: Orchestration (1 skill)**
-
-| Skill | Description |
-|-------|-------------|
-| `dmux-workflows` | Multi-agent orchestration using dmux for parallel agent sessions |
-
-**Standalone**
-
-| Skill | Description |
-|-------|-------------|
-| `docs/examples/project-guidelines-template.md` | Template for creating project-specific skills |
-
-### 2d: Execute Installation
-
-For each selected skill, copy the entire skill directory:
-```bash
-cp -r $ECC_ROOT/skills/<skill-name> $TARGET/skills/
+```powershell
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\commands\Test-AgentSet.ps1 `
+  -ProfilePath .\profiles\<profile-name>\profile.json
 ```
 
-Note: `continuous-learning` and `continuous-learning-v2` have extra files (config.json, hooks, scripts) — ensure the entire directory is copied, not just SKILL.md.
+Do not continue to export or deployment when the validator reports an error. Explain warnings that
+affect the chosen profile; do not hide mother-set warnings that are unrelated to this operation.
 
----
+## Export a profile candidate
 
-## Step 3: Select & Install Rules
+Export only to an absent or empty directory. Verify the absolute destination stays within the
+user-approved scope, then preview:
 
-Use `AskUserQuestion` with `multiSelect: true`:
-
-```
-Question: "Which rule sets do you want to install?"
-Options:
-  - "Common rules (Recommended)" — "Language-agnostic principles: coding style, git workflow, testing, security, etc. (8 files)"
-  - "TypeScript/JavaScript" — "TS/JS patterns, hooks, testing with Playwright (5 files)"
-  - "Python" — "Python patterns, pytest, black/ruff formatting (5 files)"
-  - "Go" — "Go patterns, table-driven tests, gofmt/staticcheck (5 files)"
+```powershell
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\commands\Export-AgentProfile.ps1 `
+  -ProfilePath .\profiles\<profile-name>\profile.json `
+  -DestinationRoot <absolute-empty-destination> `
+  -WhatIf
 ```
 
-Execute installation:
-```bash
-# Common rules (flat copy into rules/)
-cp -r $ECC_ROOT/rules/common/* $TARGET/rules/
+Run again without `-WhatIf` only when the user requested the export and the preview matches. The
+command refuses to overwrite a non-empty destination.
 
-# Language-specific rules (flat copy into rules/)
-cp -r $ECC_ROOT/rules/typescript/* $TARGET/rules/   # if selected
-cp -r $ECC_ROOT/rules/python/* $TARGET/rules/        # if selected
-cp -r $ECC_ROOT/rules/golang/* $TARGET/rules/        # if selected
+## Synchronize the runtime
+
+Synchronize only when the user explicitly asks to use or distribute the updated skills now.
+
+1. Run the target profile validation.
+2. Preview the full mother-set synchronization:
+
+```powershell
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\commands\Sync-AgentSkills.ps1 -WhatIf
 ```
 
-**Important**: If the user selects any language-specific rules but NOT common rules, warn them:
-> "Language-specific rules extend the common rules. Installing without common rules may result in incomplete coverage. Install common rules too?"
+3. Report that this is a **full mother-set deployment**, not a profile deployment. Synchronization
+   completely replaces same-named runtime skill directories so removed legacy resources cannot
+   survive, while preserving `.system` and mother-set-external skills.
+4. Obtain confirmation if the request did not already explicitly authorize runtime deployment.
+5. Run without `-WhatIf`.
+6. Read back `.tool-set-agent-skills.json` and compare source/destination file counts and full-tree
+   hashes for the changed skills. The `SKILL.md` hash remains for quick inspection.
 
----
+Never edit the C-drive runtime copy to fix a failed sync. Correct the G-drive source, validate, and
+repeat the preview.
 
-## Step 4: Post-Installation Verification
+## Completion report
 
-After installation, perform these automated checks:
+Report:
 
-### 4a: Verify File Existence
-
-List all installed files and confirm they exist at the target location:
-```bash
-ls -la $TARGET/skills/
-ls -la $TARGET/rules/
-```
-
-### 4b: Check Path References
-
-Scan all installed `.md` files for path references:
-```bash
-grep -rn "~/.claude/" $TARGET/skills/ $TARGET/rules/
-grep -rn "../common/" $TARGET/rules/
-grep -rn "skills/" $TARGET/skills/
-```
-
-**For project-level installs**, flag any references to `~/.claude/` paths:
-- If a skill references `~/.claude/settings.json` — this is usually fine (settings are always user-level)
-- If a skill references `~/.claude/skills/` or `~/.claude/rules/` — this may be broken if installed only at project level
-- If a skill references another skill by name — check that the referenced skill was also installed
-
-### 4c: Check Cross-References Between Skills
-
-Some skills reference others. Verify these dependencies:
-- `django-tdd` may reference `django-patterns`
-- `laravel-tdd` may reference `laravel-patterns`
-- `springboot-tdd` may reference `springboot-patterns`
-- `continuous-learning-v2` references `~/.claude/homunculus/` directory
-- `python-testing` may reference `python-patterns`
-- `golang-testing` may reference `golang-patterns`
-- `crosspost` references `content-engine` and `x-api`
-- `deep-research` references `exa-search` (complementary MCP tools)
-- `fal-ai-media` references `videodb` (complementary media skill)
-- `x-api` references `content-engine` and `crosspost`
-- Language-specific rules reference `common/` counterparts
-
-### 4d: Report Issues
-
-For each issue found, report:
-1. **File**: The file containing the problematic reference
-2. **Line**: The line number
-3. **Issue**: What's wrong (e.g., "references ~/.claude/skills/python-patterns but python-patterns was not installed")
-4. **Suggested fix**: What to do (e.g., "install python-patterns skill" or "update path to .claude/skills/")
-
----
-
-## Step 5: Optimize Installed Files (Optional)
-
-Use `AskUserQuestion`:
-
-```
-Question: "Would you like to optimize the installed files for your project?"
-Options:
-  - "Optimize skills" — "Remove irrelevant sections, adjust paths, tailor to your tech stack"
-  - "Optimize rules" — "Adjust coverage targets, add project-specific patterns, customize tool configs"
-  - "Optimize both" — "Full optimization of all installed files"
-  - "Skip" — "Keep everything as-is"
-```
-
-### If optimizing skills:
-1. Read each installed SKILL.md
-2. Ask the user what their project's tech stack is (if not already known)
-3. For each skill, suggest removals of irrelevant sections
-4. Edit the SKILL.md files in-place at the installation target (NOT the source repo)
-5. Fix any path issues found in Step 4
-
-### If optimizing rules:
-1. Read each installed rule .md file
-2. Ask the user about their preferences:
-   - Test coverage target (default 80%)
-   - Preferred formatting tools
-   - Git workflow conventions
-   - Security requirements
-3. Edit the rule files in-place at the installation target
-
-**Critical**: Only modify files in the installation target (`$TARGET/`), NEVER modify files in the source ECC repository (`$ECC_ROOT/`).
-
----
-
-## Step 6: Installation Summary
-
-Clean up the cloned repository from `/tmp`:
-
-```bash
-rm -rf /tmp/everything-claude-code
-```
-
-Then print a summary report:
-
-```
-## ECC Installation Complete
-
-### Installation Target
-- Level: [user-level / project-level / both]
-- Path: [target path]
-
-### Skills Installed ([count])
-- skill-1, skill-2, skill-3, ...
-
-### Rules Installed ([count])
-- common (8 files)
-- typescript (5 files)
-- ...
-
-### Verification Results
-- [count] issues found, [count] fixed
-- [list any remaining issues]
-
-### Optimizations Applied
-- [list changes made, or "None"]
-```
-
----
-
-## Troubleshooting
-
-### "Skills not being picked up by Claude Code"
-- Verify the skill directory contains a `SKILL.md` file (not just loose .md files)
-- For user-level: check `~/.claude/skills/<skill-name>/SKILL.md` exists
-- For project-level: check `.claude/skills/<skill-name>/SKILL.md` exists
-
-### "Rules not working"
-- Rules are flat files, not in subdirectories: `$TARGET/rules/coding-style.md` (correct) vs `$TARGET/rules/common/coding-style.md` (incorrect for flat install)
-- Restart Claude Code after installing rules
-
-### "Path reference errors after project-level install"
-- Some skills assume `~/.claude/` paths. Run Step 4 verification to find and fix these.
-- For `continuous-learning-v2`, the `~/.claude/homunculus/` directory is always user-level — this is expected and not an error.
+- operation and absolute source/destination;
+- profile skill and recommendation counts;
+- validation errors and relevant warnings;
+- preview result and whether a write actually occurred;
+- manifest/hash readback for runtime deployment;
+- unresolved choices or explicit statement that none remain.

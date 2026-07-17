@@ -1,6 +1,6 @@
 ---
 name: git-workflow
-description: Choose repository-safe Git workflows for worktrees, branches, commits, PRs, integration, conflicts, releases, recovery, and history-changing operations.
+description: Choose safe Git workflows for worktrees, branches, commits, PRs, merges, releases, recovery, and history changes. Use for repository history operations.
 ---
 
 # Git Workflow

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Continuous Learning v2"
+  short_description: "Codex hook証拠からPJ別instinctを育成"
+  default_prompt: "Use $continuous-learning-v2 to review recent evidence and draft a project-scoped instinct."

@@ -2,7 +2,7 @@
   "schema_version": 1,
   "name": "pj-general-large-web-product",
   "description": "Default skill profile for a large, design-first Web product monorepo with separated product, architecture, data, operations, task, decision, and handoff documentation.",
-  "mother_set_baseline": 181,
+  "mother_set_baseline": 307,
   "skill_groups": {
     "foundation": [
       "architecture-decision-records",

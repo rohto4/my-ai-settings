@@ -1,6 +1,6 @@
 ---
 name: prp-implement-plan
-description: Execute an accepted PRP plan through bounded changes, immediate validation, state synchronization, and a completion report while preserving unrelated work.
+description: Execute an accepted PRP plan with bounded changes, validation, state synchronization, and a completion report. Use when implementing an approved plan.
 ---
 
 # PRP Implement Plan

@@ -1,6 +1,6 @@
 ---
 name: frontend-patterns
-description: Design or review React and Next.js boundaries, state and data flow, forms, UI states, accessibility, performance, and responsive behavior.
+description: Design React and Next.js boundaries, state, data flow, forms, accessibility, performance, and responsive behavior. Use for UI architecture and implementation.
 ---
 
 # React / Next.js Frontend Boundaries

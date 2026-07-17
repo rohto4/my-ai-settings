@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /**
  * ck — Context Keeper v2
- * init.mjs — auto-detect project info and output JSON for Claude to confirm
+ * init.mjs — auto-detect project info and output JSON for the user to confirm
  *
  * Usage: node init.mjs
  * stdout: JSON with auto-detected project info
@@ -12,7 +12,7 @@ import { readFileSync, existsSync } from 'fs';
 import { resolve, basename } from 'path';
 import { readProjects } from './shared.mjs';
 
-const cwd = process.env.PWD || process.cwd();
+const cwd = process.cwd();
 const projects = readProjects();
 
 const output = {
@@ -97,13 +97,13 @@ if (gitConfig) {
   if (repoMatch) output.repo = repoMatch[1].trim();
 }
 
-// ── CLAUDE.md ─────────────────────────────────────────────────────────────────
-const claudeMd = readFile('CLAUDE.md');
-if (claudeMd) {
-  const goal = extractSection(claudeMd, 'Current Goal');
+// ── PROJECT.md ────────────────────────────────────────────────────────────────
+const projectMd = readFile('PROJECT.md');
+if (projectMd) {
+  const goal = extractSection(projectMd, 'Current Goal') || extractSection(projectMd, '目的');
   if (goal && !output.goal) output.goal = goal.split('\n')[0].trim();
 
-  const doNot = extractSection(claudeMd, 'Do Not Do');
+  const doNot = extractSection(projectMd, 'Do Not Do') || extractSection(projectMd, '安全境界');
   if (doNot) {
     const bullets = doNot.split('\n')
       .filter(l => /^[-*]\s+/.test(l))
@@ -111,13 +111,13 @@ if (claudeMd) {
     output.constraints = bullets;
   }
 
-  const stack = extractSection(claudeMd, 'Tech Stack');
+  const stack = extractSection(projectMd, 'Tech Stack') || extractSection(projectMd, '技術スタック');
   if (stack && output.stack.length === 0) {
     output.stack = stack.split(/[,\n]/).map(s => s.replace(/^[-*]\s+/, '').trim()).filter(Boolean);
   }
 
   // Description from first section or "What This Is"
-  const whatItIs = extractSection(claudeMd, 'What This Is') || extractSection(claudeMd, 'About');
+  const whatItIs = extractSection(projectMd, 'What This Is') || extractSection(projectMd, 'About') || extractSection(projectMd, '目的');
   if (whatItIs && !output.description) output.description = whatItIs.split('\n')[0].trim();
 }
 

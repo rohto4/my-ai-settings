@@ -1,8 +1,7 @@
 #!/usr/bin/env node
 /**
  * ck — Context Keeper v2
- * save.mjs — write session data to context.json, regenerate CONTEXT.md,
- *             and write a native memory entry.
+ * save.mjs — write session data to context.json and regenerate CONTEXT.md.
  *
  * Usage (regular save):
  *   echo '<json>' | node save.mjs
@@ -16,16 +15,16 @@
  * exit 0: success  exit 1: error
  */
 
-import { readFileSync, mkdirSync, writeFileSync } from 'fs';
-import { resolve } from 'path';
+import { createHash } from 'crypto';
+import { readFileSync } from 'fs';
 import {
   readProjects, writeProjects, loadContext, saveContext,
-  today, shortId, gitSummary, nativeMemoryDir,
+  today, shortId, gitSummary,
   CURRENT_SESSION,
 } from './shared.mjs';
 
 const isInit = process.argv.includes('--init');
-const cwd    = process.env.PWD || process.cwd();
+const cwd    = process.cwd();
 
 // ── Read JSON from stdin ──────────────────────────────────────────────────────
 let input;
@@ -55,6 +54,9 @@ if (isInit) {
 
   // Derive contextDir (lowercase, spaces→dashes, deduplicate)
   let contextDir = name.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
+  if (!contextDir) {
+    contextDir = `project-${createHash('sha256').update(String(projectPath)).digest('hex').slice(0, 12)}`;
+  }
   let suffix = 2;
   const existingDirs = Object.values(projects).map(p => p.contextDir);
   while (existingDirs.includes(contextDir) && projects[projectPath]?.contextDir !== contextDir) {
@@ -86,7 +88,7 @@ if (isInit) {
   writeProjects(projects);
 
   console.log(`✓ Project '${name}' registered.`);
-  console.log(`  Use /ck:save to save session state and /ck:resume to reload it next time.`);
+  console.log(`  Use $ck to save session state and reload it next time.`);
   process.exit(0);
 }
 
@@ -97,7 +99,7 @@ const projects = readProjects();
 const projectEntry = projects[cwd];
 
 if (!projectEntry) {
-  console.log("This project isn't registered yet. Run /ck:init first.");
+  console.log("This project isn't registered yet. Use $ck to register it first.");
   process.exit(1);
 }
 
@@ -156,54 +158,6 @@ saveContext(contextDir, context);
 // Update projects.json timestamp
 projects[cwd].lastUpdated = today();
 writeProjects(projects);
-
-// ── Write to native memory ────────────────────────────────────────────────────
-try {
-  const memDir = nativeMemoryDir(cwd);
-  mkdirSync(memDir, { recursive: true });
-
-  const memFile = resolve(memDir, `ck_${today()}_${sessionId.slice(0, 8)}.md`);
-  const decisionsBlock = session.decisions.length
-    ? session.decisions.map(d => `- **${d.what}**: ${d.why || ''}`).join('\n')
-    : '- None this session';
-  const nextBlock = session.nextSteps.length
-    ? session.nextSteps.map((s, i) => `${i + 1}. ${s}`).join('\n')
-    : '- None recorded';
-  const blockersBlock = session.blockers.length
-    ? session.blockers.map(b => `- ${b}`).join('\n')
-    : '- None';
-
-  const memContent = [
-    `---`,
-    `name: Session ${today()} — ${session.summary}`,
-    `description: Key decisions and outcomes from ck session ${sessionId.slice(0, 8)}`,
-    `type: project`,
-    `source: ck`,
-    `sessionId: ${sessionId}`,
-    `---`,
-    ``,
-    `# Session: ${session.summary}`,
-    ``,
-    `## Decisions`,
-    decisionsBlock,
-    ``,
-    `## Left Off`,
-    session.leftOff || '—',
-    ``,
-    `## Next Steps`,
-    nextBlock,
-    ``,
-    `## Blockers`,
-    blockersBlock,
-    ``,
-    ...(gitActivity ? [`## Git Activity`, gitActivity, ``] : []),
-  ].join('\n');
-
-  writeFileSync(memFile, memContent, 'utf8');
-} catch (e) {
-  // Non-fatal — native memory write failure should not block the save
-  process.stderr.write(`ck: warning — could not write native memory entry: ${e.message}\n`);
-}
 
 console.log(`✓ Saved. Session: ${sessionId.slice(0, 8)}`);
 if (gitActivity) console.log(`  Git: ${gitActivity}`);

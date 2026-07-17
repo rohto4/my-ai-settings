@@ -1,0 +1,4 @@
+interface:
+  display_name: "Frontend Design"
+  short_description: "明確な視覚方針で高品質かつ独自性のあるWeb画面を設計・実装"
+  default_prompt: "Use $frontend-design to create a distinctive production-grade interface for this request."

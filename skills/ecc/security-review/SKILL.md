@@ -1,6 +1,6 @@
 ---
 name: security-review
-description: Review scoped security-sensitive changes across trust, identity, tenancy, input, secrets, data, dependencies, abuse resistance, and auditability.
+description: Review trust, identity, tenancy, input, secrets, data, dependencies, abuse resistance, and auditability. Use when a change crosses a security boundary.
 ---
 
 # Security Review

@@ -22,7 +22,7 @@ powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\commands\Export-AgentP
 
 `Export-AgentProfile.ps1` は既存ファイルを上書きしません。出力先が空でない場合は停止します。
 
-`Test-AgentSet.ps1` は、skill本文に加えて標準resourceディレクトリへのlocal link、active resource内のClaude固有運用、dependencyを変更するnpm command、500行超、UI metadata、profile参照、profile初期一覧の概算文字数も報告します。既定の概算上限は8,000文字で、`-ProfileDiscoveryBudget`で検証値を変更できます。
+`Test-AgentSet.ps1` は、skill本文に加えて標準resourceディレクトリへのlocal link、active resource内のClaude固有運用、dependencyを変更するnpm command、500行超、UI metadata、profile参照、mother-set baseline、profile初期一覧の概算文字数も報告します。既定の概算上限は8,000文字で、`-ProfileDiscoveryBudget`で検証値を変更できます。
 
 ### Sync the entire mother set to active Codex skills
 
@@ -30,7 +30,7 @@ powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\commands\Export-AgentP
 powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\commands\Sync-AgentSkills.ps1
 ```
 
-`skills/ecc/`、`skills/codex/`、`skills/original/` を唯一の編集正本として再帰的に列挙し、実行時は全skillを `C:\Users\unibe\.codex\skills\<skill-name>\` へflatにコピーする。groupをまたぐ同名skillがあれば安全のため停止する。同期先の `.system` や母集団にないskillは削除しない。旧版が作った同名の二重入れ子だけは、母集団側に同名子directoryがないことを確認してから除去する。同期後は `.tool-set-agent-skills.json` にsource、group、日時、件数、各`SKILL.md`のhashを残す。まず`-WhatIf`で対象を確認できる。
+`skills/ecc/`、`skills/codex/`、`skills/original/` を唯一の編集正本として再帰的に列挙し、実行時は全skillを `C:\Users\unibe\.codex\skills\<skill-name>\` へflatに同期する。これはprofile選択ではなく母集団全体の配備である。groupをまたぐ同名skillがあれば停止する。同名runtime directoryはstaging copyのtree hashを検証してから完全置換し、正本から削除された旧resourceを残さない。同期先の `.system` や母集団にないskillは変更しない。同期後は `.tool-set-agent-skills.json` にsource、group、日時、件数、各`SKILL.md`のhash、source/destinationのfile countとtree hashを残す。まず`-WhatIf`で対象を確認できる。
 
 ## Replaced prompt commands
 

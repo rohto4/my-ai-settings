@@ -1,0 +1,4 @@
+interface:
+  display_name: "Continuous Learning"
+  short_description: "Codexの結果から検証済み学習候補を育成"
+  default_prompt: "Use $continuous-learning to extract and review a durable lesson from the current work."

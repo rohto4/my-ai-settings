@@ -3,20 +3,19 @@
  * ck — Context Keeper v2
  * forget.mjs — remove a project's context and registry entry
  *
- * Usage: node forget.mjs [name|number]
+ * Usage: node forget.mjs [name|number] --confirm [registered-name]
  * stdout: confirmation or error
  * exit 0: success  exit 1: not found
  *
- * Note: SKILL.md instructs Claude to ask "Are you sure?" before calling this script.
- * This script is the "do it" step — no confirmation prompt here.
+ * Requires an explicit confirmation value matching the registered project.
  */
 
 import { rmSync } from 'fs';
-import { resolve } from 'path';
+import { resolve, sep } from 'path';
 import { resolveContext, readProjects, writeProjects, CONTEXTS_DIR } from './shared.mjs';
 
 const arg = process.argv[2];
-const cwd = process.env.PWD || process.cwd();
+const cwd = process.cwd();
 
 const resolved = resolveContext(arg, cwd);
 if (!resolved) {
@@ -27,8 +26,20 @@ if (!resolved) {
 
 const { name, contextDir, projectPath } = resolved;
 
+const confirmIndex = process.argv.indexOf('--confirm');
+const confirmation = confirmIndex >= 0 ? process.argv[confirmIndex + 1] || '' : '';
+if (![name, contextDir].some(value => value?.toLowerCase() === confirmation.toLowerCase())) {
+  console.log(`ck: refusing to remove '${name}' without --confirm '${name}'.`);
+  process.exit(1);
+}
+
 // Remove context directory
 const contextDirPath = resolve(CONTEXTS_DIR, contextDir);
+const contextsRoot = resolve(CONTEXTS_DIR);
+if (!contextDirPath.startsWith(`${contextsRoot}${sep}`)) {
+  console.log(`ck: refusing deletion outside contexts root: ${contextDirPath}`);
+  process.exit(1);
+}
 try {
   rmSync(contextDirPath, { recursive: true, force: true });
 } catch (e) {

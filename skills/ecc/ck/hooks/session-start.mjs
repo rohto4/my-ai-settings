@@ -8,9 +8,9 @@
  *
  * Features:
  * - Compact 5-line summary for registered projects
- * - Unsaved session detection → "Last session wasn't saved. Run /ck:save."
+ * - Unsaved session detection with an explicit $ck save reminder
  * - Git activity since last session
- * - Goal mismatch detection vs CLAUDE.md
+ * - Goal mismatch detection vs PROJECT.md
  * - Mini portfolio for unregistered directories
  */
 
@@ -19,10 +19,12 @@ import { resolve } from 'path';
 import { homedir } from 'os';
 import { spawnSync } from 'child_process';
 
-const CK_HOME         = resolve(homedir(), '.claude', 'ck');
+const CODEX_HOME      = process.env.CODEX_HOME
+  ? resolve(process.env.CODEX_HOME)
+  : resolve(homedir(), '.codex');
+const CK_HOME         = resolve(CODEX_HOME, 'ck');
 const PROJECTS_FILE   = resolve(CK_HOME, 'projects.json');
 const CURRENT_SESSION = resolve(CK_HOME, 'current-session.json');
-const SKILL_FILE      = resolve(homedir(), '.claude', 'skills', 'ck', 'SKILL.md');
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
@@ -59,33 +61,31 @@ function gitLogSince(projectPath, sinceDate) {
   } catch { return null; }
 }
 
-function extractClaudeMdGoal(projectPath) {
-  const p = resolve(projectPath, 'CLAUDE.md');
+function extractProjectGoal(projectPath) {
+  const p = resolve(projectPath, 'PROJECT.md');
   if (!existsSync(p)) return null;
   try {
     const md = readFileSync(p, 'utf8');
-    const m = md.match(/## Current Goal\n([\s\S]*?)(?=\n## |$)/);
+    const m = md.match(/## (?:Current Goal|目的)\n([\s\S]*?)(?=\n## |$)/);
     return m ? m[1].trim().split('\n')[0].trim() : null;
   } catch { return null; }
 }
 
 // ─── Session ID from stdin ────────────────────────────────────────────────────
 
-function readSessionId() {
+function readHookInput() {
   try {
     const raw = readFileSync(0, 'utf8');
-    return JSON.parse(raw).session_id || null;
-  } catch { return null; }
+    return JSON.parse(raw);
+  } catch { return {}; }
 }
 
 // ─── Main ─────────────────────────────────────────────────────────────────────
 
 function main() {
-  const cwd = process.env.PWD || process.cwd();
-  const sessionId = readSessionId();
-
-  // Load skill (always inject — now only ~50 lines)
-  const skill = existsSync(SKILL_FILE) ? readFileSync(SKILL_FILE, 'utf8') : '';
+  const input = readHookInput();
+  const cwd = input.cwd || process.cwd();
+  const sessionId = input.session_id || null;
 
   const projects = readJson(PROJECTS_FILE) || {};
   const entry = projects[cwd];
@@ -104,8 +104,6 @@ function main() {
   } catch { /* non-fatal */ }
 
   const parts = [];
-  if (skill) parts.push(skill);
-
   // ── REGISTERED PROJECT ────────────────────────────────────────────────────
   if (entry?.contextDir) {
     const contextFile = resolve(CK_HOME, 'contexts', entry.contextDir, 'context.json');
@@ -130,7 +128,7 @@ function main() {
         // Check if previous session ID exists in sessions array
         const alreadySaved = context.sessions?.some(s => s.id === prevSession.sessionId);
         if (!alreadySaved) {
-          summaryLines.push(`WARNING Last session wasn't saved — run /ck:save to capture it`);
+          summaryLines.push(`WARNING Last session wasn't saved — use $ck to capture it`);
         }
       }
 
@@ -139,11 +137,11 @@ function main() {
       if (gitLine) summaryLines.push(`Git: ${gitLine}`);
 
       // ── Goal mismatch detection ───────────────────────────────────────────
-      const claudeMdGoal = extractClaudeMdGoal(cwd);
-      if (claudeMdGoal && context.goal &&
-          claudeMdGoal.toLowerCase().trim() !== context.goal.toLowerCase().trim()) {
-        summaryLines.push(`WARNING Goal mismatch — ck: "${context.goal.slice(0, 40)}" · CLAUDE.md: "${claudeMdGoal.slice(0, 40)}"`);
-        summaryLines.push(`   Run /ck:save with updated goal to sync`);
+      const projectGoal = extractProjectGoal(cwd);
+      if (projectGoal && context.goal &&
+          projectGoal.toLowerCase().trim() !== context.goal.toLowerCase().trim()) {
+        summaryLines.push(`WARNING Goal mismatch — ck: "${context.goal.slice(0, 40)}" · PROJECT.md: "${projectGoal.slice(0, 40)}"`);
+        summaryLines.push(`   Use $ck with the updated goal to synchronize it`);
       }
 
       parts.push([
@@ -153,7 +151,7 @@ function main() {
         summaryLines.join('\n'),
       ].join('\n'));
 
-      // Instruct Claude to display compact briefing at session start
+      // Ask Codex to display the compact briefing at session start.
       parts.push([
         `---`,
         `## ck: SESSION START`,
@@ -201,7 +199,7 @@ function main() {
     `  ${'─'.repeat(68)}`,
     ...miniRows,
     ``,
-    `Run /ck:list · /ck:resume <name> · /ck:init to register this folder`,
+    `Use $ck to list, resume, or register project context`,
   ].join('\n');
 
   parts.push([
@@ -220,5 +218,10 @@ function main() {
 
 const parts = main();
 if (parts.length > 0) {
-  console.log(JSON.stringify({ additionalContext: parts.join('\n\n---\n\n') }));
+  console.log(JSON.stringify({
+    hookSpecificOutput: {
+      hookEventName: 'SessionStart',
+      additionalContext: parts.join('\n\n---\n\n'),
+    },
+  }));
 }

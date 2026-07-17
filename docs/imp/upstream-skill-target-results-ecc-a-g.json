@@ -145,9 +145,9 @@
   },
   {
     "target_path": "skills/ecc/ck/",
-    "status": "blocked",
-    "integration_summary": "Codexのsession-start hook入力とruntime storage契約が確定しておらず、既存Node commands/hooksを安全に移植できない。",
-    "verification": "source mappingとdirect resourceのClaude固有前提を確認。未定義のCodex runtime契約を推測せずtarget編集を停止。"
+    "status": "integrated",
+    "integration_summary": "公式SessionStart契約へ移植し、CODEX_HOME配下の明示context、PROJECT.md照合、削除確認gateへ更新。Codex生成memoryとtranscript内部形式には依存しない。",
+    "verification": "Node syntax、temp CODEX_HOMEでregister→SessionStart context注入→誤確認拒否→正確認削除、Test-AgentSetをpass。"
   },
   {
     "target_path": "skills/ecc/claude-devfleet/",
@@ -193,9 +193,9 @@
   },
   {
     "target_path": "skills/ecc/configure-ecc/",
-    "status": "blocked",
-    "integration_summary": "Codex runtime配布はrepo commandが正本であり、旧Claude installerの対話・配置契約を推測で置換できない。",
-    "verification": "source mappingとdirect resourceのClaude固有前提を確認。未定義のCodex runtime契約を推測せずtarget編集を停止。"
+    "status": "integrated",
+    "integration_summary": "旧upstream installerを廃し、Gドライブ正本のinventory・profile選定・Test-AgentSet・Export/Sync WhatIf・manifest/hash readbackへ置換。",
+    "verification": "対象profile付きTest-AgentSetでSkills 307、Profile 30、Recommended 15、Errors 0を確認。"
   },
   {
     "target_path": "skills/ecc/connections-optimizer/",
@@ -229,15 +229,15 @@
   },
   {
     "target_path": "skills/ecc/continuous-learning/",
-    "status": "blocked",
-    "integration_summary": "CodexのStop hookとtranscript schemaが確定しておらず、既存shell hookと保存先を安全に置換できない。",
-    "verification": "source mappingとdirect resourceのClaude固有前提を確認。未定義のCodex runtime契約を推測せずtarget編集を停止。"
+    "status": "integrated",
+    "integration_summary": "公式Stop fieldだけを使うNode hookへ置換。既定無効、local候補queue、secret redaction、human review後だけ正本へ反映する二段階workflowに変更。",
+    "verification": "Node syntaxとtemp CODEX_HOME実行で候補生成、token非保持、redaction marker、valid JSON stdoutを確認。"
   },
   {
     "target_path": "skills/ecc/continuous-learning-v2/",
-    "status": "blocked",
-    "integration_summary": "Codexのsession hook・observer入力・永続storage契約が確定しておらず、直接resource群を安全に置換できない。",
-    "verification": "source mappingとdirect resourceのClaude固有前提を確認。未定義のCodex runtime契約を推測せずtarget編集を停止。"
+    "status": "integrated",
+    "integration_summary": "PreToolUse/PostToolUseの公式fieldを使うNode観測へ置換し、CODEX_HOME配下のPJ別storageとpayload非保存、明示reviewによるinstinct作成へ整理。旧shell/observer資源をactiveから除外。",
+    "verification": "Node syntax、payload secret非保持のhook実動、Python compile/CLI status/projects smoke、対象profile付きTest-AgentSetをpass。"
   },
   {
     "target_path": "skills/ecc/cost-aware-llm-pipeline/",
