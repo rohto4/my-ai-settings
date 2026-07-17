@@ -48,3 +48,12 @@ powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\commands\Update-SkillL
 ```
 
 group再配置やECC比較cloneのcommit更新後に、active母集団192件の来歴と現行ECC上流での同名有無を `registry/skill-lineage.csv` へ再生成する。過去取込時のcommitは不明のため推測で補完しない。
+
+### Audit every upstream skill and rebuild the review artifact
+
+```powershell
+C:\Users\unibe\.cache\codex-runtimes\codex-primary-runtime\dependencies\node\bin\node.exe `
+  .\commands\audit-upstream-skills.mjs
+```
+
+`registry/upstreams.csv`で固定したcloneを読み、独立採用単位ごとにlicense、安全境界、Codex/Windows適合性、active重複、上流間重複を検査する。結果は `docs/review/` のCSV・summary JSON・standalone HTMLへ出力する。clone本体やactive skill本文は変更しない。
