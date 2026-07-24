@@ -1,0 +1,4 @@
+interface:
+  display_name: "Design System"
+  short_description: "デザインsystemの生成・一貫性監査・style変更reviewを行う"
+  default_prompt: "$design-system を使い、対象UIのdesign systemを生成または監査し、具体的な改善点を示してください。"

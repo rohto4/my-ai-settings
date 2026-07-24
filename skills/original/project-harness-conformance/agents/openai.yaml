@@ -1,0 +1,4 @@
+interface:
+  display_name: "Project Harness Conformance"
+  short_description: "Validate harness profiles, policy, evidence, and negative cases"
+  default_prompt: "Use $project-harness-conformance to validate this project harness kit with deterministic preflight and conformance evidence."

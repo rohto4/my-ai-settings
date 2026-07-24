@@ -8,7 +8,7 @@
 
 ```powershell
 powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\commands\Test-AgentSet.ps1 `
-  -ProfilePath .\profiles\pj-general-large-web-product\profile.json
+  -ProfilePath .\profiles\codex-desktop-default\profile.json
 ```
 
 ### Export a profile to an empty candidate directory
@@ -24,13 +24,33 @@ powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\commands\Export-AgentP
 
 `Test-AgentSet.ps1` は、skill本文に加えて標準resourceディレクトリへのlocal link、active resource内のClaude固有運用、dependencyを変更するnpm command、500行超、UI metadata、profile参照、mother-set baseline、profile初期一覧の概算文字数も報告します。既定の概算上限は8,000文字で、`-ProfileDiscoveryBudget`で検証値を変更できます。
 
-### Sync the entire mother set to active Codex skills
+### Sync the active Codex Desktop profile
 
 ```powershell
 powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\commands\Sync-AgentSkills.ps1
 ```
 
-`skills/ecc/`、`skills/codex/`、`skills/original/` を唯一の編集正本として再帰的に列挙し、実行時は全skillを `C:\Users\unibe\.codex\skills\<skill-name>\` へflatに同期する。これはprofile選択ではなく母集団全体の配備である。groupをまたぐ同名skillがあれば停止する。同名runtime directoryはstaging copyのtree hashを検証してから完全置換し、正本から削除された旧resourceを残さない。同期先の `.system` や母集団にないskillは変更しない。同期後は `.tool-set-agent-skills.json` にsource、group、日時、件数、各`SKILL.md`のhash、source/destinationのfile countとtree hashを残す。まず`-WhatIf`で対象を確認できる。
+引数なしでは`profiles/codex-desktop-default/profile.json`の`skill_groups`だけを
+`C:\Users\unibe\.codex\skills\<skill-name>\`へflatに同期する。別profileを使う場合は
+`-ProfilePath`を指定する。
+
+```powershell
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\commands\Sync-AgentSkills.ps1 `
+  -ProfilePath .\profiles\harness-engineering\profile.json
+```
+
+前回manifestで管理していたskillのうち、新しいprofileに含まれないものだけをruntimeから縮退する。
+`.system`、plugin、manifest外のskillは変更しない。同名runtime directoryはstaging copyのtree
+hashを検証してから完全置換し、正本から削除された旧resourceを残さない。同期後のmanifestには
+profile、母集団件数、active件数、縮退件数、各skillのsource/destination tree hashを残す。
+まず`-WhatIf`で追加・更新・縮退対象を確認する。
+
+309件の母集団全体へ一時的に戻す場合だけ、明示的に`-FullMotherSet`を指定する。
+
+```powershell
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\commands\Sync-AgentSkills.ps1 `
+  -FullMotherSet
+```
 
 ## Replaced prompt commands
 

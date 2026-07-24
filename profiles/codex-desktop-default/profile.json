@@ -1,0 +1,92 @@
+{
+  "schema_version": 1,
+  "name": "codex-desktop-default",
+  "description": "Default active skill set for Codex Desktop. Covers repository work, Web product development, verification, research, knowledge delivery, and harness review while keeping the runtime catalog small enough for reliable implicit discovery.",
+  "mother_set_baseline": 309,
+  "skill_groups": {
+    "foundation": [
+      "architecture-decision-records",
+      "context-budget",
+      "strategic-compact",
+      "product-capability",
+      "project-flow-ops",
+      "docs-state-sync",
+      "configure-ecc",
+      "agent-introspection-debugging",
+      "intent-driven-development"
+    ],
+    "repository": [
+      "coding-standards",
+      "codebase-onboarding",
+      "repo-scan",
+      "workspace-surface-audit",
+      "code-review-and-quality"
+    ],
+    "implementation": [
+      "documentation-lookup",
+      "api-design",
+      "backend-patterns",
+      "frontend-patterns",
+      "postgres-patterns",
+      "database-migrations",
+      "hexagonal-architecture",
+      "api-connector-builder",
+      "nextjs-turbopack"
+    ],
+    "design_and_browser": [
+      "frontend-design",
+      "design-system",
+      "frontend-ui-engineering",
+      "browser-qa",
+      "browser-testing-with-devtools"
+    ],
+    "quality": [
+      "tdd-workflow",
+      "verification-loop",
+      "e2e-testing",
+      "security-review",
+      "safety-guard",
+      "agentic-engineering",
+      "ai-regression-testing",
+      "delivery-gate"
+    ],
+    "research": [
+      "search-first",
+      "research-ops",
+      "product-lens",
+      "deep-research",
+      "oss-adoption-planning",
+      "interview-me"
+    ],
+    "delivery": [
+      "git-workflow",
+      "terminal-ops",
+      "deployment-patterns",
+      "docker-patterns"
+    ],
+    "large_project": [
+      "monorepo-boundary-review",
+      "permission-modeling"
+    ],
+    "prp_workflow": [
+      "prp-create-plan",
+      "prp-create-prd",
+      "prp-implement-plan"
+    ],
+    "knowledge_delivery": [
+      "knowledge-ops",
+      "knowledge-diagram-image",
+      "knowledge-explainer",
+      "knowledge-explainer-html",
+      "knowledge-html-style"
+    ],
+    "harness": [
+      "project-harness-conformance",
+      "harness-review-customization"
+    ],
+    "maintenance": [
+      "skill-stocktake",
+      "expand-answer"
+    ]
+  }
+}

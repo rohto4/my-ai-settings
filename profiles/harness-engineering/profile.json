@@ -1,0 +1,48 @@
+{
+  "schema_version": 1,
+  "name": "harness-engineering",
+  "description": "Focused profile for designing, evaluating, reviewing, and customizing project harnesses without expanding runtime authority.",
+  "mother_set_baseline": 309,
+  "skill_groups": {
+    "foundation": [
+      "architecture-decision-records",
+      "context-budget",
+      "docs-state-sync"
+    ],
+    "harness": [
+      "agent-harness-construction",
+      "agent-architecture-audit",
+      "permission-modeling",
+      "safety-guard"
+    ],
+    "evaluation": [
+      "agent-eval",
+      "ai-regression-testing",
+      "project-harness-conformance"
+    ],
+    "customization": [
+      "harness-review-customization",
+      "intent-driven-development"
+    ],
+    "research": [
+      "documentation-lookup",
+      "deep-research"
+    ],
+    "delivery": [
+      "delivery-gate",
+      "browser-qa",
+      "accessibility"
+    ]
+  },
+  "recommended_additions": {
+    "governance": [
+      "gateguard",
+      "skill-comply",
+      "skill-stocktake"
+    ],
+    "knowledge_artifact": [
+      "knowledge-explainer-html",
+      "knowledge-html-style"
+    ]
+  }
+}

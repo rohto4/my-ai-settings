@@ -306,3 +306,5 @@ knowledge-diagram-image,original,local,local_original,private_local,,,,not_appli
 knowledge-explainer,original,local,local_original,private_local,,,,not_applicable,Created for this repository; see skills-registry.csv for authorship and dates.
 knowledge-explainer-html,original,local,local_original,private_local,,,,not_applicable,Created for this repository; see skills-registry.csv for authorship and dates.
 knowledge-html-style,original,local,local_original,private_local,,,,not_applicable,Created for this repository; see skills-registry.csv for authorship and dates.
+harness-review-customization,original,local,local_original,private_local,,,,not_applicable,Created in harness-imp for component-scoped review customization; see skills-registry.csv for validation and dates.
+project-harness-conformance,original,local,local_original,private_local,,,,not_applicable,Created in harness-imp for project harness conformance; see skills-registry.csv for validation and dates.

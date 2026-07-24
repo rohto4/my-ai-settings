@@ -1,13 +1,5 @@
 # 実装待ち
 
-## AI-SET-RELEASE-01: 改修版skill集をcommit・pushして運用開始する
-
-- 状態: 次セッションへhandoff（2026-07-18）
-- 目的: 検証・runtime同期済みの改修版skill集を、無関係な未追跡ファイルを混ぜずにcommit・pushし、新しいCodexタスクでskillメニューと明示呼び出しをsmoke testする。
-- 再開入口: `docs/imp/ai-settings-production-handoff-2026-07-18.md`
-- 完了条件: 意図した差分だけをcommitして`origin/main`へpushし、commit後のworking tree、remote追従、runtime manifest、主要skillの呼び出しを確認する。完了証拠を`imp-comp.md`へ移し、この項目と一時handoffを整理する。
-- 停止条件: 出所未確定の`docs/imp/knowledge-register.md`は、由来と採否を確認するまでstageしない。hookは別の明示依頼なしに追加・有効化しない。
-
 ## AI-SET-REPO-01: tool-setからAI設定を中央repoへ移管する
 
 - 状態: 初期集約済み・ユーザー精査待ち（2026-07-17）

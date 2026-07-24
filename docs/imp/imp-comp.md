@@ -1,5 +1,39 @@
 # 完了記録
 
+## AI-SET-RUNTIME-01: Codex Desktopのactive skillをprofile配備へ変更
+
+- 完了日: 2026-07-24
+- 原因: Codexへlocal 309件、system/pluginを含め約403件のskillを同時提示していたため、context予算の切り詰めで一部skillが候補から省略され、暗黙選択が不安定になっていた。profile画面の使用回数はlocal filesystem skillの暗黙利用を網羅する監査値としては扱わない。
+- 構成: 正本 `G:\devwork\ai-settings\skills` の309件は維持し、日常配備用 `profiles/codex-desktop-default/profile.json` に60件を選定した。実行側は60件、退役249件となり、active 60件はすべて `agents/openai.yaml` を持つ。
+- 同期: `Sync-AgentSkills.ps1` をprofile対応へ変更し、引数省略時も日常profileを使う。縮退対象は前回manifestに記録された管理skillだけとし、`.system`、plugin、manifest外skillを保持する。`-FullMotherSet` で309件へ復元できる。
+- 検証: `Test-AgentSet.ps1` はskills 309、profile 60、error 0。模擬runtimeで60→309→60を実行し、完全復元、再縮退、`.system`保持、staging残骸0を確認した。初回本番同期はmanaged 309から249件を退役した。整形後の最終再同期manifestはmode `profile`、mother set 309、managed before 60、retired 0、active 60、source/destination tree hash不一致0、`.system`保持、staging残骸0である。
+- 境界: hook、MCP、connector、secret、外部送信設定は変更していない。現在開いている長いtaskのskill catalogは再読込されないため、候補数削減と自動選択の実地確認は新規taskから行う。
+
+## AI-SET-SKILL-07: Harness conformance・review customization skillの正本化
+
+- 完了日: 2026-07-19
+- 追加: `skills/original/project-harness-conformance`と`skills/original/harness-review-customization`を追加した。前者はProfile/policy/evidence/positive-negative caseをread-onlyで監査し、後者はHTMLから戻ったcomponent ID付きcommentをauthority変更だけ停止するscope限定customizationへ変換する。
+- profile: `profiles/harness-engineering/profile.json`を新設し、既存の設計・権限・評価・HTML skillと2skillを狭いHarness用途へroutingした。`pj-general-large-web-product`の発見用集合は増やさず、母集団baselineだけ309へ更新した。
+- 検証: 2skillは公式`quick_validate.py`をPJ内一時PyYAMLでpassし、UTF-8 JSON/Text正規化、44 JSON・5 scenario・13 caseのread-only構造検査をcandidateとruntime実体の双方でpassした。`Test-AgentSet.ps1`はHarness profileが17 + recommended 5・6,498文字、pj-general profileが30 + recommended 15・7,977文字、いずれもskills 309・errors 0。既存母集団由来のwarnings 24は維持した。
+- 配布: `Sync-AgentSkills.ps1 -WhatIf`で309操作を確認後、正本309件をruntimeへ実同期した。manifestは`verification=full-tree-sha256`、skills 309、新規2skillはいずれも4ファイルでsource/destinationのtree hashが一致した。`project-harness-conformance`は`dcc573c7654c3b3d93d65d8a89766285b35a3ddbffd131d76b87e2bebcc99788`、`harness-review-customization`は`5d0b42c781617518480c252bee262b55742b1246f957bdf36ce882c4d56fc137`で、candidate / canonical / runtimeの3断面一致も独立確認した。
+- 境界: hook、MCP、network、credential、外部write、OS/managed policyは追加していない。`harness-imp`の参照キットは正本skillへ複製せず、横断再利用できるworkflowとscriptだけを移した。既存dirty worktreeを保持し、この作業ではcommit/pushを行わない。
+
+## AI-SET-OPS-01: skill追加・更新の短縮依頼を既定リリース化
+
+- 完了日: 2026-07-18
+- 運用: 「こういうskillがほしい、追加して」「$skillを更新して」は、正本更新、profile・secret検証、runtime同期、明示stage、commit・`origin/main`へのpush、readback、完了記録までを既定で含むよう`AGENTS.md`へ固定した。調査だけ、正本だけ、runtime非配布、commit/pushなしは明示的な留保として扱う。
+- 安全境界: hook、plugin・依存の新規導入、認証情報、外部送信は既定リリースに含めず、対象と承認が明示された場合だけ扱う。`knowledge-register.md`は由来と採否が確定するまでstageしない。
+- 利用入口: `README.md`に、そのまま使える短い依頼文と留保指定を追加した。
+
+## AI-SET-RELEASE-01: 改修版skill集の本番配備と通常利用確認
+
+- 完了日: 2026-07-18
+- release: 意図した48ファイルだけを明示的にstageし、commit `543f11a feat: productionize Codex skill set`を`origin/main`へpushした。push後のreadbackで`HEAD`と`origin/main`は同じcommitを指し、working treeの差分は出所・採否未確定の未追跡`docs/imp/knowledge-register.md`だけである。これはstage・commitしていない。
+- runtime: `C:\Users\unibe\.codex\skills`へ307 skillを完全同期済み。manifestは`skill_count=307`、`verification=full-tree-sha256`、source/destinationのfile count・tree hash不一致0、staging残骸0である。主要profile 45件の`SKILL.md`と`agents/openai.yaml`もsource/runtime SHA-256不一致0。
+- 利用可能性: 通常skillは新しいCodexタスクで、descriptionに基づく自動選択または`$skill-name`による明示呼び出しで利用する。UI menu metadataは全307件中181件、主要profileは45件すべてにある。runtimeから選んだskillを使うHTML比較デモも別PJで作成し、配備済みskillがGドライブの編集正本に依存せず読めることを補助確認した。
+- hook境界: 本番配備は通常skillの利用可能化を意味し、hookの自動登録・自動実行は含まない。`C:\Users\unibe\.codex\hooks.json`は既存のcompact復帰reminderのみを維持し、`ck`、`continuous-learning`、`continuous-learning-v2`のhookは未登録、`continuous-learning/config.json`は`enabled=false`のままである。これは未配備ではなく、event・保存内容・trustを別途明示承認してから有効化する安全境界である。
+- 検証境界: `Test-AgentSet.ps1`はskills 307、core 30、recommended 15、discovery 7,977 / 8,000、errors 0、既存warnings 24。target監査はsource 968 / 968、target 358 / 358、`integrated=253`、`no_change_needed=105`、blocked 0。`git diff --check`、Node syntax、Python AST、runtime manifest readbackをpassした。公式`quick_validate.py`はbundled PythonにPyYAMLがないため実行せず、依存追加もしなかった。
+
 ## AI-SET-SKILL-06: profile主要skillのメニュー整備とruntime配布
 
 - 完了日: 2026-07-18

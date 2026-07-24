@@ -27,7 +27,8 @@ Classify the request into one or more explicit operations:
 - inspect or validate the mother set;
 - create or revise a profile;
 - export a profile to an empty candidate directory;
-- synchronize the full mother set to the local Codex runtime.
+- synchronize the default or an explicitly selected profile to the local Codex runtime;
+- restore the full mother set only as an explicit diagnostic or recovery operation.
 
 Profile edits and exports do not authorize runtime synchronization. A request to inspect or
 recommend skills does not authorize any write.
@@ -77,8 +78,9 @@ Use the existing profile schema:
 Rules:
 
 - `skill_groups` is the profile's initial selection for validation and export;
-  `recommended_additions` is advisory. Runtime synchronization is a separate operation and always
-  deploys the full mother set, not this selection.
+  `recommended_additions` is advisory and is not deployed by profile synchronization.
+- Runtime synchronization uses `profiles/codex-desktop-default/profile.json` when no profile is
+  specified. Use `-ProfilePath` for another profile or `-FullMotherSet` for an explicit recovery.
 - Set `mother_set_baseline` to the current inventory count. The validator rejects stale baselines.
 - Use each skill name once.
 - Every selected name must exist in exactly one mother-set group.
@@ -120,19 +122,23 @@ command refuses to overwrite a non-empty destination.
 Synchronize only when the user explicitly asks to use or distribute the updated skills now.
 
 1. Run the target profile validation.
-2. Preview the full mother-set synchronization:
+2. Preview the default active-profile synchronization:
 
 ```powershell
 powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\commands\Sync-AgentSkills.ps1 -WhatIf
 ```
 
-3. Report that this is a **full mother-set deployment**, not a profile deployment. Synchronization
-   completely replaces same-named runtime skill directories so removed legacy resources cannot
-   survive, while preserving `.system` and mother-set-external skills.
+   For another profile, add `-ProfilePath .\profiles\<profile-name>\profile.json`. Use
+   `-FullMotherSet` only when the user explicitly requests all canonical skills in the runtime.
+3. Report the selected profile, active count, prior managed count, and retirement count.
+   Synchronization completely replaces same-named runtime skill directories so removed legacy
+   resources cannot survive. It retires only skills recorded by the previous runtime manifest and
+   preserves `.system`, plugins, and manifest-external skills.
 4. Obtain confirmation if the request did not already explicitly authorize runtime deployment.
 5. Run without `-WhatIf`.
-6. Read back `.tool-set-agent-skills.json` and compare source/destination file counts and full-tree
-   hashes for the changed skills. The `SKILL.md` hash remains for quick inspection.
+6. Read back `.tool-set-agent-skills.json`; verify deployment mode, profile, active count,
+   mother-set count, retirement count, and source/destination full-tree hashes. The `SKILL.md` hash
+   remains for quick inspection.
 
 Never edit the C-drive runtime copy to fix a failed sync. Correct the G-drive source, validate, and
 repeat the preview.

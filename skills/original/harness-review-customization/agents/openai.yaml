@@ -1,0 +1,4 @@
+interface:
+  display_name: "Harness Review Customization"
+  short_description: "Turn component review comments into bounded harness changes"
+  default_prompt: "Use $harness-review-customization to normalize these component review comments, identify decisions, and customize only the approved harness components."
